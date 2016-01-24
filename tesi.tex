@@ -10,7 +10,7 @@
 \begin{document}
 \chapter{nome?}
 \section{RNNLM}
-La rete neurale utilzzata e' RNNLM. L'architettura utilizzata nel toolkit e' mostrata in _fig1 viene solitamente chiamata rete di Elman o semplicemente RNN. Il layer di input usa una rappresentazione 1-a-N delle 
+La rete neurale utilzzata e' RNNLM. L'architettura utilizzata nel toolkit e' mostrata in \_fig1 viene solitamente chiamata rete di Elman o semplicemente RNN. Il layer di input usa una rappresentazione 1-a-N delle 
 parole precedenti \textbf{w(t)} concatenate con il precedente stato dell'hidden layer \textbf{s(t - 1)}.
 I neurani dell'hidden layer \textbf{s(t)} usano una sigmoid activation function (todo).
 L'output layer \textbf{y(t)} ha le stesse dimensioni di \textbf{w(t)}, dopo che alla rete e' stato fatto training,
@@ -28,12 +28,52 @@ fine linea al termine di ogni frase.
 Una volta specificato il corpus di test, il vocabolario viene costruito automaticamente e viene salvato come parte
 del file di modello della RNN.
 Nel caso si voglia limitare il vocabolario il file di input deve essere processato esternamente sostituendo
-tutte le parole da eliminare con un token speciale (per esempio \textbf{\<unk\>}.
+tutte le parole da eliminare con un token speciale (per esempio \textbf{<unk>}.
 Una volta che viene generato il vocabolario inizia la parte di training. Oltre al corpus e' atteso anche un
 file di validazioni dati per controllare il numero di training epochs e  il learning rate.
 E' possibile fare training di modelli senza utilizzare un file di validazione utilizzando l'opzione \textbf{-one-iter}
 \subsection{Fase di test}
-Durante la fase di test il m
+Una volta che e' stato fatto training sul modello puo' essere valutato su i dati di test, la perplexity e la 
+probabilita' $\log_{10}$ viene mostrata come output.
+E' possibile effettuare una interpolazione lineare delle probabilita' delle parole dato il modello. L'input atteso
+da RNNLM e' un file contenente una lista di frasi su cui effettuare lo scoring, ognuna anteposta con un identificatore
+numerico univoco.
+\section{Word2Vec}
+La rappresentazione di una rappresentazione di parole in uno spazio vettoriale puo' aumentare le porformance
+di un task di analisi del linguaggio naturale, per esempio, creando gruppi di parole simili. Una delle prime
+applicazioni della rappresentazione in parole e' datata al 1986 con il lavoro di Rumelharth, Hinton and Williams.
+Questa idea e' stata ampiamente utilizzata e ha trovato applicazione in modelli di ricognizione del parlato,
+e di traduzione automatica, nonche' di numerosi altri tasks quali etc.
+
+Recementemente, Mikolov et al. hanno introdotto il modello skip-gram \_fig2, un metodo efficente per ottenere
+rappresentazioni vettoriali di parole provenienti da un grande numero di dati testuali non strutturati.
+Al contrario della maggioranza delle reti neurali utilizzate per la creazioni di vettori di parole, 
+il training utilizzando un modello Skip-gram non utilizza moltiplicazioni tra matrici dense.
+In questo modo il training diventa estremamente efficiente: una singola macchina puo' calcolare vettori
+partendo da un testo contenente piu' di 100 miliardi di parole in meno di un giorno.
+
+\subsection{Modello Skip-gram}
+Obiettivo di training nel modello Skig-gram e' quello di creare una rappresentazione di parole che
+puo' essere utilizzate per predire le parole attorno ad una frase o ad un documento. Piu' formalmente,
+data una seguenza di parole $w_1,w_2,w_3,\dot{},w_T$ l'obbiettivo delle parole e' quella di aumentare la
+probabilita' di log
+\begin{equation}
+	\frac{1}{T} \sum_{t=1}^{T} \sum_{-c\leq j\leq c,j\neq0} \log p(w_t+j|w_t)
+	\label{eq:prob log}
+\end{equation}
+Dove $c$ e' la dimensione del contesto di training (che puo' essere una funzione della parola centrale $w_t$).
+Utilizzare un $c$ piu' grande porta ad avere una precisione maggiore, in questo modo, pero', si aumenta anche il 
+tempo di training. La formulazione standard del modello Skip-gram definisce $p(w_t+j|w_t)$ usando la funzione
+softmax:
+\begin{equation}
+	p(w_O|w_I) = \frac{\exp(v_{w_O} v_{w_I}}{\sum_{w=1}^{W}\exp(v_w v_{w_I}}
+	\label{eq:softmax}
+\end{equation}
+
+dove $v_w$ and $v'_w$ sono la rappresentazione vettoriale di ``input'' e ``output'' di $w$ e $W$ e' il numero
+di parole nel vocabolario.
+Questa formualzione, pero', non e' utilizzabile perche' il costo per il calcolo di $\nabla\log p(w_O|w_I)$
+e' proporzionale a W, che e' spesso e' molto grande $(10^5-10^7 termini)$.
 \chapter{Introduzione}
 TODO
 
