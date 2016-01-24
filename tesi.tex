@@ -39,6 +39,18 @@ E' possibile effettuare una interpolazione lineare delle probabilita' delle paro
 da RNNLM e' un file contenente una lista di frasi su cui effettuare lo scoring, ognuna anteposta con un identificatore
 numerico univoco.
 \section{Word2Vec}
+Storicamente i sistemi di natural language processing trattano le parole come simboli atomici e discreti,
+per esempio la parola ``gatto'' puo' essere rappresentata da \textbf{Id123} e ``cane'' come \textbf{Id453}.
+Questa codifica e' arbitraria e non fornisce alcuna informazione al sistema riguardo la relazione
+che piu' esistere tra due differenti simboli.
+Questo significa che il nostro sistema non puo' utilizzare praticamente nulla di quello che ha imparato
+riguardo il ``gatto'' quando sta processando i dati riguradanti il ``cane'' (per esempio il fatto che siano
+entrambi animali, che abbiano quattro zampe, etc.).
+Inoltre rappresentare le parole sotto forma di identificatifi univoci porta ad avere una base dati sparsa
+e questo significa che spesso occer ottenere un maggior numero di dati per riusciare a creare un modello
+statistico rappresentativo.
+L'utilizzo della rappresentazione tramite vettori risolve diversi di questi ostacoli.
+
 La rappresentazione di una rappresentazione di parole in uno spazio vettoriale puo' aumentare le porformance
 di un task di analisi del linguaggio naturale, per esempio, creando gruppi di parole simili. Una delle prime
 applicazioni della rappresentazione in parole e' datata al 1986 con il lavoro di Rumelharth, Hinton and Williams.
@@ -74,6 +86,25 @@ dove $v_w$ and $v'_w$ sono la rappresentazione vettoriale di ``input'' e ``outpu
 di parole nel vocabolario.
 Questa formualzione, pero', non e' utilizzabile perche' il costo per il calcolo di $\nabla\log p(w_O|w_I)$
 e' proporzionale a W, che e' spesso e' molto grande $(10^5-10^7 termini)$.
+
+\subsection{Hierarchical Softmax}
+Una approssimazione del softmax che e' computalmente piu' efficente e' il softmax gerarchico. Questo algoritmo
+e' stato introdotto nell'analisi del linguaggio dei modelli da Morin e Bengio; il vantaggio principale
+e' quello di non dover valutare $W$ nodi di output della rete neurale per ottenere una distribuzione
+di probabilita' ma solo quella di $\log_2(W)$ nodi.
+
+Il softmax gerarchico utilizza una rappresentazione ad albero binario per il layer di output dove, come foglie,
+troviamo le $W$ parole e, in ogni nodo, sono rappresentate le probabilita' dei nodi figli.
+Questo definisce un random walk per assegniare la probabilita' alle parole.
+
+TODO formulazione matematica della probabilita' del softmax
+
+La struttura dell'albero utilizzato a una influenza notevole sulle prestazioni dell'algoritmo, nello specifico
+in word2vec e' stato utilizzato un albero binario di Huffmann, poiche' assegna codici di dimensioni piu' piccole
+alle parole usate con maggior frequenza risultando in un training piu' rapido.
+Inoltre e' stato osservato che rappgruppare le parole utilizzando la loro frequenza funziona molto
+bene come tecnica per aumentare la velocita' di calcolo.
+
 \chapter{Introduzione}
 TODO
 
