@@ -8,8 +8,35 @@
 \newtheorem{es}{Esempio}[section]
 
 \begin{document}
+\chapter{nome?}
+\section{RNNLM}
+La rete neurale utilzzata e' RNNLM. L'architettura utilizzata nel toolkit e' mostrata in _fig1 viene solitamente chiamata rete di Elman o semplicemente RNN. Il layer di input usa una rappresentazione 1-a-N delle 
+parole precedenti \textbf{w(t)} concatenate con il precedente stato dell'hidden layer \textbf{s(t - 1)}.
+I neurani dell'hidden layer \textbf{s(t)} usano una sigmoid activation function (todo).
+L'output layer \textbf{y(t)} ha le stesse dimensioni di \textbf{w(t)}, dopo che alla rete e' stato fatto training,
+rappresenta la probabilita' della distribuzione della parola successiva data la parola precendete 
+e lo stato dell'hidden layer nel precedente istante di tempo.
+Un class layer \textbf{c(t)} puo' essere usato per ridurre la complessita' del modello ma con un piccola
+diminuzione della precisione.
+Il training e' viene svolto utilizzando un stochastic gradient descent algorithm, e la matrice \textbf{W}
+che rappresenta il recurrent weights viene calcolata utilizzando la backpropagation throught time algorithm (BPTT).
+Specificatamente, su RNNLM, viene utilizzato un truncate BPTT, la rete viene processata solo per uno specifico
+numero di time steps.
+\subsection{Fase di training}
+I dati in input attesi sono sotto forma di un semplice file ASCII, con spazi tra le parole e il carattere di
+fine linea al termine di ogni frase.
+Una volta specificato il corpus di test, il vocabolario viene costruito automaticamente e viene salvato come parte
+del file di modello della RNN.
+Nel caso si voglia limitare il vocabolario il file di input deve essere processato esternamente sostituendo
+tutte le parole da eliminare con un token speciale (per esempio \textbf{\<unk\>}.
+Una volta che viene generato il vocabolario inizia la parte di training. Oltre al corpus e' atteso anche un
+file di validazioni dati per controllare il numero di training epochs e  il learning rate.
+E' possibile fare training di modelli senza utilizzare un file di validazione utilizzando l'opzione \textbf{-one-iter}
+\subsection{Fase di test}
+Durante la fase di test il m
 \chapter{Introduzione}
 TODO
+
 \chapter{Raccolta dati}
 La raccolta dati e' stata svolta svolta partendo dal primo Gennaio 2015, i dati raccolti provengono da dodici canali twitch scelti in modo che rappresentassero un parte omogenea di informazioni.
 In particolare sono stati scelti i due canali con maggiore audience dei quattro giochi con maggiore numero di spettatori della piattaforma Twitch.tv.
