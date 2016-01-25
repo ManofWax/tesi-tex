@@ -4,14 +4,88 @@
 \usepackage{pdflscape}
 \usepackage{afterpage}
 \usepackage{amsthm}
+\usepackage{graphicx}
 \theoremstyle{definition}
 \newtheorem{es}{Esempio}[section]
 
 \begin{document}
 \chapter{nome?}
+\section{Sentiment Analisys}
+\emph{Sentiment analysis} e \emph{opinion minig} e' il campo degli studi
+che analizzano le opinioni delle persone, i sentimenti, le valutazione e le
+emozioni del linguaggio scritto.
+E' uno delle aree di ricerca piu' attive nel campo dell'analisi del linguaggio
+naturale ma allo stesso modo si estende anche nel campo del \emph{data mining} e
+\emph{text mining} cioe' nei campi riguardati l'estrazione di un sapere o di una conoscenza a partire da grandi quantità di dati.
+Di fatto, questo tipo di ricerca si e' diffuso largamente
+oltre il campo dell'informatica raggiungendo la scienza sociale,
+l'economia, le aziende e multinazionali nonche' l'intera societa' che ci circonda.
+
+Questa enorme diffusione della \emph{sentiment analysis} conicide con la 
+crescita dei cosidetti \emph{social media} quali recensioni di prodotti,
+discussioni su forum, blog, micro-blog, Twitter e i vari \emph{social network}.
+Per la prima volta abbiamo accesso a questa enorme quantita' di dati sotto forma
+digitale in modo da poter effettuare un'analisi approfondite.
+
+I sistemi di \emph{sentiment analysis} possono venir utilizzati in quasi tutti
+le attivta' del cosidetto dominio sociale perche' le opinioni sono il centro
+di quasi tutte le attivita umane e sono la chiave che influenza il nostro 
+comportamento.
+Quello su cui crediamo e la percezione della realta', le scielte che facciamo,
+sono ampiamente condizionate su come gli altri vedono e esprimono giudizi
+riguardo l'amibente che ci circonda. Per questo motivo, quando abbiamo bisogno
+di effetuare una decisione spesso cerchiamo il consenso altrui.
+Questo comportamento e' vero non solo per i singoli individui ma lo vediamo
+applicato anche alle singole organizzazioni. Quindi e' facile dedurre 
+come questo tipo di analisi possa avere una grande influenza nel mondo che 
+ci circonda.
+
+Nonostante la linguistica e l'analisi del linguaggio naturale (NLP) abbiano una lunga
+storia, praticamente nessuna ricerca riguardo le opinioni e i sentimenti e' stata
+svolta prima dell'anno 2000. Da quel momento questo campo e' diventato un'area
+di ricerca estremamente attiva. Ci sono numerose ragioni: inanzitutto le applicazioni
+di questo tipo di ricerca possono essere utilizzate in un ampio raggio di applicazioni
+e in quasi tutti i domini. Una ulteriore spinta e' stata data dall'industria che
+circonda e che fa uso della \emph{sentiment analysis}, la prolificazione di applicazioni
+commerciali hanno contribuito enormemente e finanziato la ricerca in questo campo oltre
+che amuntare la motivazione dietro a questo tipo di ricerche. Non e' da meno anche il
+fatto che questo campo offre una sfida continua nella ricerca e nella soluzione di problemi
+che spesso sono enormemente complessi ma soprattuto che non sono mai stati studiati prima.
+Infine la crescita esponenziale dell'ultimo decennio e' dovuta anche all'enorme 
+quantita' di dati fornita dal web, dove per la prima volta nella storia, e' stato possibile
+raccogliore milioni di dati riguardati opinioni, sentimenti e pareri delle persone.
+Senza questa mole di dati e' facile pensare che la maggior parte delle ricerche non
+siano state possibile.
+
+\subsection{Applicazioni della Sentiment Analysis}
+Le opinioni e i pareri sono la base di tutte le attivita sociali perche' sono la chiave
+che influenza il nostro comportamento.
+Ogni qualvolta ci troviamo a dover fare una decisione abbiamo bisogno di un confronto e delle
+opinioni altrui. Nel mondo reale, aziende e multinazionali sono costantemente alla 
+ricerca dei giudizi e pareri, riguardo i loro prodotti, da parte dei consumatori.
+Allo stesso modo il consumatore vuole avere informazioni riguardo ai prodotti che vuole
+acquistare, pareri riguardo un determinato film o un nuovo album musicale.
+In passato quando un'azienda necessitava di un parere del consumatore, effettuava sondaggi
+d'opinione o gruppi di discussione. Ottenere questo tipo di dati e' stato per lungo
+tempo un grande business per il marketing, le pubbliche relazioni e le compagnie pubblicitarie.
+
+Al giorno d'oggi chiunque voglia comprare un prodotto, non e' piu' limitato a dover chiedere
+ad amici o famigliare perche' puo' trovare centinaia di recensioni o discussioni online.
+Allo stesso modo per un'azienda non e' piu' necessario codurre sondaggi, o analisi di mercato
+visto l'enorme diffusione dei dati disponibili, tuttavia la ricerca, l'estrazione di questi dati e l'annotazione e' un compito di una complessita non indifferente.
+Basti pensare alla quantita' di informazioni scritte in un post di un blog o in un forum,
+perfino una persona ha difficolta' nel riassumere ed estrarre le informazioni utili da questo
+tipo di testo.
+
+
 \section{RNNLM}
 La rete neurale utilzzata e' RNNLM. L'architettura utilizzata nel toolkit e' mostrata in \_fig1 viene solitamente chiamata rete di Elman o semplicemente RNN. Il layer di input usa una rappresentazione 1-a-N delle 
 parole precedenti \textbf{w(t)} concatenate con il precedente stato dell'hidden layer \textbf{s(t - 1)}.
+\begin{figure}[h]
+  \centering
+      \includegraphics[width=0.5\textwidth]{Immagini/rnnlm_rete.png}
+      \caption{Esempio di rete neurale ricorsiva}
+\end{figure}
 I neurani dell'hidden layer \textbf{s(t)} usano una sigmoid activation function (todo).
 L'output layer \textbf{y(t)} ha le stesse dimensioni di \textbf{w(t)}, dopo che alla rete e' stato fatto training,
 rappresenta la probabilita' della distribuzione della parola successiva data la parola precendete 
@@ -65,6 +139,8 @@ e di traduzione automatica, nonche' di numerosi altri tasks quali etc.
 
 Recementemente, Mikolov et al. hanno introdotto il modello skip-gram \_fig2, un metodo efficente per ottenere
 rappresentazioni vettoriali di parole provenienti da un grande numero di dati testuali non strutturati.
+
+
 Al contrario della maggioranza delle reti neurali utilizzate per la creazioni di vettori di parole, 
 il training utilizzando un modello Skip-gram non utilizza moltiplicazioni tra matrici dense.
 In questo modo il training diventa estremamente efficiente: una singola macchina puo' calcolare vettori
