@@ -196,6 +196,31 @@ alle parole usate con maggior frequenza risultando in un training piu' rapido.
 Inoltre e' stato osservato che rappgruppare le parole utilizzando la loro frequenza funziona molto
 bene come tecnica per aumentare la velocita' di calcolo.
 
+\section{Classificatori lineari}
+Un classificatore lineare, nel campo dell'apprendimento automatico, l'obiettivo della 
+classificazione statistica è di usare le caratteristiche degli oggetti per identificare
+a quale classe (o gruppo) appartengono. 
+Una classificazione lineare raggiunge questo scopo facendo una decisione sulla classificazione basata sul valore di una combinazione lineare di caratteristiche. Le caratteristiche di un oggetto sono anche conosciute come \emph{feature value} e nella macchina sono rappresentati solitamente come un vettore chiamato vettore delle caratteristiche.
+
+Questi classificatori funzionano molto bene in probelmi pratici quali la classificazione di 
+documenti e piu' in generale in problemi che utilizzano un numero molto elevato di \emph{features}
+
+\begin{equation}
+	y=f(w^\rightarrow \cdot x^\rightarrow = f (\sum_j w_jx_j)
+	\label{output score}
+\end{equation}
+
+dove $w^\rightarrow$ e' un vettore reale pesato e $f$ e' una funzione che converte il prodotto scalare di due
+vettori nell'input desiderato.
+Il \emph{weight vector} viene creato da un inseme di esempi di training. Spesso $f$ e' una semplice funzione
+che effettua il mapping di tutti i valori sopra una certa soglia nella prima classe e gli altri valori nella
+seconda classe. Una versione piu' complessa di $f$ potrebbe fornire una probabilita' con cui un particolare
+oggetto appartiene ad una certa classe.
+
+L'utilizzo dei classificatori lineari e' spesso utilizzata in situazioni dove la velocita' di classificazione
+e' rilevante, specialmente quando $x^\rightarrow$ e' sparso.
+
+
 \chapter{Introduzione}
 TODO
 
