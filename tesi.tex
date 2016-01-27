@@ -21,63 +21,65 @@ TODO
 In questo capitolo viene introdotta la \emph{Sentiment analisys}, di cosa si occupa e
 il motivo per cui si sta diffondendo in maniera cosi rapida.
 Successivamente vengono descritti, in maniera generale, i vari strumenti utilizzati
-in questa tesi in particolare \emph{RNNLM}, \emph{word2vec} e \emph{Liblinear}.
+in questa tesi, in particolare \emph{RNNLM}, \emph{word2vec} e \emph{Liblinear}.
 
 \section{Sentiment Analisys}
-Con il termine \emph{Sentiment analysis} e \emph{opinion minig}, si intende uno studio 
-che analizza le opinioni, i sentimenti, le valutazione e le
+Con il termine \emph{Sentiment analysis}, o \emph{opinion minig}, si intende uno studio 
+che analizza le opinioni, i sentimenti, le valutazioni e le
 emozioni del linguaggio scritto utilizzato dalle persone.
-E' una delle aree di ricerca più attive nel campo dell'analisi del linguaggio
-naturale ma allo stesso modo si estende anche nell'ambito del \emph{data mining} e
-\emph{text mining} ossia quella branca di ricerca riguardante l'estrazione di un sapere o di una conoscenza a partire da grandi quantità di dati.
-Di fatto, questo tipo di ricerca, nato nell'ambito dell'informatica si è diffusa
+Nel campo dell'analisi del linguaggio
+naturale e' una delle aree di ricerca più attive e allo stesso modo si estende anche nell'ambito del \emph{data mining} e
+\emph{text mining}, ossia quella branca di ricerca riguardante l'estrazione di un sapere o 
+di una conoscenza a partire da grandi quantità di dati.
+Questo tipo di ricerca, nata nell'ambito dell'informatica, si è diffusa
 ampiamente in rami diversi come ad esempio: la scienza sociale,
-l'economia, le aziende e multinazionali nonchè l'intera società che ci circonda.
+l'economia, le aziende e multinazionali nonché l'intera società che ci circonda.
 
-Questa enorme diffusione della \emph{sentiment analysis} conicide con la 
-crescita dei cosidetti \emph{social media}: siti di commercio e recensioni di prodotti,
-discussioni su forum, blog, micro-blog, Twitter e i vari \emph{social network}.
-Per la prima volta nella storia  è stato possibile disporre di una
+Questa enorme diffusione della \emph{sentiment analysis} coincide con la 
+crescita dei cosiddetti \emph{social media}: siti di commercio e recensioni di prodotti,
+forum di discussione, blog, micro-blog e i vari \emph{social network}.
+Per la prima volta nella storia è possibile disporre di una
 enorme quantità dati digitalizzati da manipolare, analizzare e studiare in maniera
-estremamente approfondita, al fine di estrapolare ed ottenere un'analisi
+estremamente approfondita al fine di estrapolare ed ottenere un'analisi
 ampiamente sfaccetta e particolareggiata.
 
-I sistemi di \emph{sentiment analysis} sono utilizzati in quasi tutti
-le attività del cosidetto dominio sociale poiché le opinioni e i pareri sono il centro
-di quasi tutte le attivita umane e anche la chiave che influenza il nostro 
-comportamento.
-Quello in cui crediamo, la percezione della realtà, le scelte che facciamo,
+Gli studi di \emph{sentiment analysis} sono applicabili in quasi tutte
+le attività del cosiddetto dominio sociale, infatti le opinioni e i pareri sono il centro
+di quasi tutte le attività umane nonche' la chiave che influenza il nostro 
+comportamento: quello in cui crediamo, la percezione della realtà, le scelte che facciamo,
 sono condizionate dai giudizi degli altri
-riguardo noi stessi e dall'ambiente che ci circonda. 
+riguardo noi stessi e dall'ambiente che ci circonda.
 Per questo motivo, quando abbiamo bisogno
 di prendere una decisione, spesso cerchiamo il parere e il consenso altrui.
-Infine, possiamo notare, che questo comportamento è vero non solo 
-per i singoli individui ma allo stesso modo lo vediamo
+Questo comportamento è vero non solo 
+per i singoli individui, ma allo stesso modo lo vediamo
 applicato ad organizzazioni, aziende e grandi multinazionali.
 Da tutti questi aspetti è facile dedurre 
 come questo tipo di analisi possa avere una grande influenza nel mondo che 
 ci circonda sia dal punto di vista economico che sociale.
 
-La linguistica e l'analisi del linguaggio naturale (NLP) hanno una lunga
-storia, mentre per quel che riguarda la \emph{sentiment analysis} le prime ricerca
-è sono state svolte a partire dell'anno 2000; da quel momento questo campo è diventato un'area
-di ricerca estremamente attiva. 
-Le ragioni che hanno portato \emph{sentiment analysis}
-crescita cosi immediata e su cosi larga scala sono: per prima cosa le applicazioni
-di cui dispone questo tipo di ricerca, possono essere utilizzate in un ampio raggio di 
-situazioni e domini differenti. Ciò ha generato un aumento di interessi
-con un relativo stanziamento di finanziamenti verso questo tipo di ricerca che ha portato ad una prolificazione di 
-applicazioni commerciali e ad una costante ricerca alla soluzione di problemi
+Nonostante la linguistica e l'analisi del linguaggio naturale (NLP) abbiano una lunga
+storia, la \emph{sentiment analysis} e' relativamente recente: le prime ricerche
+sono state svolte a partire dall'anno 2000. Nonostante questo campo di ricerca sia cosi' giovane è un'area
+estremamente attiva e i principali motivi che hanno portato la ricerca nel campo della \emph{sentiment analysis} ad una 
+crescita cosi immediata e su cosi larga scala sono molteplici.
+Per prima cosa le applicazioni pratiche 
+di questo tipo di ricerca sono molteplici e possono essere utilizzate in un ampio raggio di 
+situazioni e domini differenti. Ciò ha generato un aumento di interesse notevole da parteze di
+aziende e grandi multinazionali (sia del campo dell'informatica che non)
+con un relativo stanziamento di finanziamenti per questo campo di ricerca.
+In secondo luogo questo interesse da parte del mercato ha portato ad una proliferazione di 
+applicazioni commerciali e ad una costante ricerca della soluzione di problemi
 che fino ad ora non erano stati ancora studiati.
-Infine la crescita esponenziale dell'ultimo decennio è dovuta all'enorme 
+Infine, la crescita esponenziale dell'ultimo decennio è dovuta all'enorme 
 quantità di dati fornita dal web dove, per la prima volta nella storia, è stato possibile
-raccogliore milioni di dati riguardati opinioni, idee e pareri di persone o intere 
-popolazioni.
-Senza questa mole di dati è facile pensare come la maggior parte delle ricerche non
-sarebbero state possibili.
+raccogliere milioni di dati riguardati opinioni, idee e pareri di persone o intere 
+popolazioni. [già detto]
+Senza questa mole di dati è facile pensare che la maggior parte delle ricerche non
+sarebbero state possibili. [bac]
 
 \subsection{Applicazioni della Sentiment Analysis}
-Partendo dal presupposto che le opinioni e i pareri sono la base di tutte le attivita sociali perché sono la chiave
+Partendo dal presupposto che le opinioni e i pareri sono la base di tutte le attività sociali perché sono la chiave
 che influenza il nostro comportamento.
 Nel mondo reale, aziende e multinazionali sono costantemente alla 
 ricerca di giudizi e pareri, riguardo i loro prodotti, da parte dei consumatori.
@@ -91,7 +93,7 @@ Al giorno d'oggi chiunque voglia comprare un prodotto, non è più limitato a do
 ad amici o famigliari perché può trovare centinaia di recensioni o discussioni online.
 Allo stesso modo per un'azienda non è più necessario condurre sondaggi, o analisi di mercato
 visto l'enorme diffusione dei dati disponibili.
-Tuttavia la ricerca, l'estrazione e l'annotazione di questi dati è un compito di una complessita non indifferente.
+Tuttavia la ricerca, l'estrazione e l'annotazione di questi dati è un compito di una complessità non indifferente.
 Basti pensare alla quantità di informazioni scritte in un post di un blog o in un forum,
 perfino una persona ha difficoltà nel riassumere ed estrarre le informazioni utili da questo
 tipo di testo. Ecco perché diventa cosi importante uno studio finalizzato e strutturato in un 
@@ -103,10 +105,10 @@ associa il significato di ogni parola basandosi si quelle lette in precedenza. Q
 definito come la persistenza della memoria.
 
 Le reti neurali tradizionali non funzionano in questo modo ed ignorano gli eventi passati. Per esempio 
-volendo classificare gli eventi che succedono in ogni punto di fuilm non e' chiaro come una rete neurale
+volendo classificare gli eventi che succedono in ogni punto di film non e' chiaro come una rete neurale
 possa utilizzare gli eventi passati per classificare quelli correnti.
 
-Per cercare di risolvere questo problema sono state create le \emph{reccurent neural networks (RNN)},
+Per cercare di risolvere questo problema sono state create le \emph{recurrent neural networks (RNN)},
 a differenza delle reti neurali tradizionali le \emph{RNN} hanno dei cicli interni che permettono
 all'informazione di persistere 
 
@@ -129,8 +131,9 @@ una \emph{RNN} come molteplici copie della stessa rete, ognuna che passa un mess
 \end{figure}
 
 \subsection{RNNLM}
-La rete neurale utilzzata per l'analisi dei dati in questa tesi è il toolkit RNNLM. 
-L'architettura utilizzata nel toolkit è mostrata in \ref{fig:rnnlm} viene solitamente chiamata rete di Elman o semplicemente RNN. Il layer di input usa una rappresentazione $1-a-N$ delle 
+La rete neurale utilizzata per l'analisi dei dati in questa tesi è il toolkit RNNLM. 
+L'architettura utilizzata nel toolkit è mostrata in \ref{fig:rnnlm} viene solitamente chiamata rete di Elman o semplicemente RNN. 
+Il \emph{layer} di input usa una rappresentazione $1-a-N$ delle 
 parole precedenti $w(t)$ concatenate con il precedente stato dell'hidden layer $s(t - 1)$.
 \begin{figure}[h]
   \centering
@@ -139,29 +142,43 @@ parole precedenti $w(t)$ concatenate con il precedente stato dell'hidden layer $
 \label{fig:rnnlm}
 \end{figure}
 
-I neuroni dell'\emph{hidden layer} $s(t)$ usano una sigmoid activation function (todo).
-L'output layer $y(t)$ ha le stesse dimensioni di $w(t)$, dopo che alla rete è stato fatto training,
-rappresenta la probabilità della distribuzione della parola successiva data la parola precendete 
+I neuroni dell'\emph{hidden layer} $s(t)$ usano una funzione sigmoidea, cioe' una funzione matematica
+che produce una curva sigmoide ovvero una curva avente un andamento ad $S$.
+
+\begin{figure}[h]
+  \centering
+      \includegraphics[width=0.5\textwidth]{Immagini/sigmoide.png}
+      \caption{Esempio di grafico di una funzione sigmoidea}
+\label{fig:sigmoide}
+\end{figure}
+
+Questo tipo di funzione viene utilizzata per introdurre una non linearita' nel modello e per
+assicurarsi che determinati  valori rimangano all'interno di specifici intervalli.
+Dopo il training della rete l'output layer $y(t)$, che ha le stesse dimensioni di $w(t)$,
+rappresenta la probabilità della distribuzione della parola $n+1$ partendo dalla parola $n$ 
 e lo stato dell'hidden layer nel precedente istante di tempo.
 Un class layer $c(t)$ può essere usato per ridurre la complessità del modello ma con un piccola
 diminuzione della precisione.
 Il training è viene svolto utilizzando un stochastic gradient descent algorithm, e la matrice $W$
 che rappresenta il recurrent weights viene calcolata utilizzando la backpropagation throught time algorithm (BPTT).
-Specificatamente, su RNNLM, viene utilizzato un truncate BPTT, la rete viene processata solo per uno specifico
-numero di time steps.
+Specificatamente, su RNNLM, viene utilizzato un truncate BPTT ovvero la rete viene processata solo per uno specifico
+numero di instanti di tempo.
 \subsection{Fase di training}
-I dati in input attesi sono sotto forma di un semplice file ASCII, con spazi tra le parole e il carattere di
+Nella fase di training i dati in ingresso sono attesi sotto forma di un semplice file ASCII, ogni parola
+deve essere separata da spazi e deve essere presente il carattere di
 fine linea al termine di ogni frase.
-Una volta specificato il corpus di test, il vocabolario viene costruito automaticamente e viene salvato come parte
-del file di modello della RNN.
-Nel caso si voglia limitare il vocabolario il file di input deve essere processato esternamente sostituendo
+Una volta specificato il corpus di input, il vocabolario viene costruito automaticamente e viene salvato insieme 
+al file di modello di RNNLM.
+Questo significa che, nel caso si voglia limitare il vocabolario, il file di input deve essere modificato in maniera
+preventiva sostituendo
 tutte le parole da eliminare con un token speciale (per esempio \textbf{<unk>}.
-Una volta che viene generato il vocabolario inizia la parte di training. Oltre al corpus è atteso anche un
+Oltre al corpus, per completare la fase di training, è atteso anche un
 file di validazioni dati per controllare il numero di training \emph{epochs} e  il learning rate.
 E' possibile fare training di modelli senza utilizzare un file di validazione utilizzando l'opzione \textbf{-one-iter}
 \subsection{Fase di test}
-Una volta che è stato fatto training sul modello può essere valutato su i dati di test, la perplexity e la 
-probabilità $\log_{10}$ viene mostrata come output.
+Una volta effettuato il training il modello può essere utilizzato per valutare dati di test, l'output di questa valutazione
+e' espressa come perplexity e la 
+probabilità $\log_{10}$.
 E' possibile effettuare una interpolazione lineare delle probabilità delle parole dato il modello. L'input atteso
 da RNNLM è un file contenente una lista di frasi su cui effettuare lo scoring, ognuna anteposta con un identificatore
 numerico univoco.
