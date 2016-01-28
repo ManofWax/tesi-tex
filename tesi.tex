@@ -18,7 +18,7 @@
 TODO
 
 \chapter{Titolo da decidere}
-In questo capitolo viene introdotta la \emph{Sentiment analisys}, che cos'e'
+In questo capitolo viene introdotta la \emph{Sentiment analisys}, che cos'è
 di che cosa si occupa e
 il motivo per cui si sta diffondendo in maniera cosi rapida.
 Successivamente vengono descritti, in maniera generale, i vari strumenti utilizzati
@@ -33,12 +33,12 @@ Spesso il concetto di \emph{sentiment analysis} si estende anche nell'ambito del
 \emph{text mining}, ossia quella branca di ricerca riguardante l'estrazione di un sapere o 
 di una conoscenza a partire da grandi quantità di dati.
 
-La \emph{Sentiment analysis}, nata nell'ambito dell'informatica, e' una delle aree di ricerca più attive 
+La \emph{Sentiment analysis}, nata nell'ambito dell'informatica, è una delle aree di ricerca più attive 
 nel campo dell'analisi del linguaggio naturale e si è diffusa
 ampiamente anche in altri rami scientifici come ad esempio: la scienza sociale,
-l'economia, il marketing. Inoltre questo tipo di ricerca
+l'economia e il marketing. Inoltre questo tipo di ricerca
 ha avuto un grande impatto sia a livello commerciale, per aziende le multinazionali, sia sociologico 
-coinvolgento l'intera società che ci circonda.
+coinvolgendo l'intera società che ci circonda.
 
 L'enorme diffusione della \emph{sentiment analysis} coincide con la 
 crescita dei cosiddetti \emph{social media}: siti di commercio e recensioni di prodotti,
@@ -50,7 +50,7 @@ ampiamente sfaccetta e particolareggiata.
 
 Gli studi di \emph{sentiment analysis} sono applicabili in quasi tutte
 le attività del cosiddetto dominio sociale, infatti le opinioni e i pareri, sono al centro
-di quasi tutte le attività umane. Sono altresi la chiave che influenza il nostro 
+di quasi tutte le attività umane. Sono altresi' la chiave che influenza il nostro 
 comportamento: quello in cui crediamo, la percezione della realtà, le scelte che facciamo,
 sono condizionate dai giudizi degli altri
 riguardo noi stessi e dall'ambiente che ci circonda.
@@ -64,15 +64,15 @@ come, \emph{la sentiment analysis} possa avere una grande influenza nel mondo ch
 ci circonda sia dal punto di vista economico che sociale.
 
 Mentre la linguistica e l'analisi del linguaggio naturale (NLP) hanno una lunga
-storia, la \emph{sentiment analysis} e' relativamente recente: le prime ricerche
+storia, la \emph{sentiment analysis} è relativamente recente: le prime ricerche
 sono state svolte a partire dall'anno 2000. Nonostante questo campo di ricerca sia cosi' giovane 
 si presenta come un'area
 estremamente attiva e i principali motivi che hanno portato la ricerca nel campo della \emph{sentiment analysis} ad una 
 crescita cosi immediata e su cosi larga scala sono molteplici.
 Per prima cosa le applicazioni pratiche 
 di questo tipo di ricerca sono molteplici e possono essere utilizzate in un ampio raggio di 
-situazioni e domini differenti. Ciò ha generato un aumento di interesse notevole da parteze di
-aziende e grandi multinazionali (sia del campo dell'informatica che non)
+situazioni e domini differenti. Ciò ha generato un aumento di interesse notevole da parte di
+aziende e grandi multinazionali, sia del campo dell'informatica che non,
 con un relativo stanziamento di finanziamenti per questo campo di ricerca.
 In secondo luogo questo interesse da parte del mercato ha portato ad una proliferazione di 
 applicazioni commerciali e ad una costante ricerca della soluzione di problemi
@@ -99,18 +99,18 @@ perfino una persona ha difficoltà nel riassumere ed estrarre le informazioni ut
 tipo di testo. Ecco perché diventa cosi importante uno studio finalizzato e strutturato in un 
 determinato ambito.
 
-\section{Recurrent neural Networks}
+\section{Recurrent Neural Networks}
 Gli esseri umani non iniziano a pensare da zero ogni secondo, per esempio il lettore, leggendo questa tesi,
-associa il significato di ogni parola basandosi si quelle lette in precedenza. Questo concetto viene anche 
-definito come la persistenza della memoria.
+associa il significato di ogni parola basandosi su quelle lette in precedenza. Questo concetto viene anche 
+definito come \emph{persistenza della memoria}.
 
-Le reti neurali tradizionali non funzionano in questo modo ma ignorano gli eventi passati. Per esempio 
-volendo classificare gli eventi che succedono in ogni punto di film non e' possibile che una rete neurale
-possa utilizzare gli eventi passati per classificare quelli correnti.
+Purtroppo reti neurali tradizionali non funzionano in questo modo ma ignorano gli eventi passati. Per esempio 
+volendo classificare gli eventi che succedono in ogni istante di film non è possibile utilizzare una rete neurale
+in modo da tenere in considerazione gli eventi passati per classificare quelli correnti.
 
 Per cercare di risolvere questo problema sono state create le \emph{recurrent neural networks (RNN)},
 a differenza delle reti neurali tradizionali le \emph{RNN} hanno dei cicli interni che permettono
-all'informazione di persistere 
+all'informazione di persistere all'interno della rete stessa.
 
 \begin{figure}[ht]
 	\centering
@@ -119,21 +119,21 @@ all'informazione di persistere
 	\label{fig:rnn1}
 \end{figure}
 
-Nella figura \ref{fig:rnn1}, e' rappresentata una rete neurale $A$ riceve in input un valore $x_t$ e genera in output un valore $h_t$.
+Nella figura \ref{fig:rnn1}, è rappresentata una rete neurale $A$ che riceve in input un valore $x_t$ e genera in output un valore $h_t$.
 Un ciclo permette all'informazione di passare da ogni step della rete al successivo. In altro parole possiamo immaginare
 una \emph{RNN} come molteplici copie della stessa rete, ognuna che passa un messaggio alla rete successiva.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.3]{Immagini/rnn2.png}
-	\caption{Esempio di RNN \emph{unfolded}, cioe' senza cicli}
+	\caption{Esempio di RNN \emph{unfolded}, cioè senza cicli}
 	\label{fig:rnn2}
 \end{figure}
 
 In sostanza una \emph{RNN} riceve come input un vettore $x$ e come output un vettore $y$ ma, il cuore della rete,
-e' dato dal fatto che l'output viene influenzato non solo dall'ultimo input acquisito ma anche da tutti gli 
+è dato dal fatto che l'output viene influenzato non solo dall'ultimo input acquisito ma anche da tutti gli 
 input passati. Se volessimo esprimere questo concetto sotto forma di codice avremo una definizione di \emph{RNN}
-che e' la seguente:
+che è la seguente:
 \begin{verbatim}
 rnn = RNN()
 y = rnn.step(x)
@@ -152,11 +152,11 @@ class RNN:
     return y
 \end{verbatim}
 
-Si puo' notare come la \emph{RNN} utilizzi tre parametri \emph{W\_hh, W\_xh, W\_hy}. Lo stato interno e' \emph{self.h}
-e' inizializzato a zero e la funzione \emph{np.tanh} fornisce come output un valore che oscilla tra $[-1,1]$.
+Si può notare come la \emph{RNN} utilizzi tre parametri \emph{W\_hh, W\_xh, W\_hy}. Lo stato interno è \emph{self.h}
+ed è inizializzato a zero mentre la funzione \emph{np.tanh} fornisce come output un valore che oscilla tra $[-1,1]$.
 All'interno di questa funzione notiamo due termini, uno che si basa sullo stato dell'input attuale e uno che 
 rappresenta il valore dello stato interno precedente. I due termini vengono sommati prima di essere processati dalla 
-funzione \emph{tanh}.
+funzione stessa.
 
 \subsection{RNNLM}
 La rete neurale utilizzata per l'analisi dei dati in questa tesi è il toolkit RNNLM. 
@@ -170,7 +170,7 @@ parole precedenti $w(t)$ concatenate con il precedente stato dell'hidden layer $
 \label{fig:rnnlm}
 \end{figure}
 
-I neuroni dell'\emph{hidden layer} $s(t)$ usano una funzione sigmoidea, cioe' una funzione matematica
+I neuroni dell'\emph{hidden layer} $s(t)$ usano una funzione sigmoidea, cioè una funzione matematica
 che produce una curva sigmoide (una curva avente un andamento ad $S$).
 
 \begin{figure}[ht]
@@ -180,14 +180,14 @@ che produce una curva sigmoide (una curva avente un andamento ad $S$).
 \label{fig:sigmoide}
 \end{figure}
 
-Questo tipo di funzione viene utilizzata per introdurre una non linearita' nel modello e per
+Questo tipo di funzione viene utilizzata per introdurre una non linearità nel modello e per
 assicurarsi che determinati  valori rimangano all'interno di specifici intervalli.
 Dopo il training della rete l'output layer $y(t)$, che ha le stesse dimensioni di $w(t)$,
 rappresenta la probabilità della distribuzione della parola $n+1$ partendo dalla parola $n$ 
 e lo stato dell'\emph{hidden layer} nel precedente istante di tempo.
 Un class layer $c(t)$ può essere usato per ridurre la complessità del modello ma con un piccola
 diminuzione della precisione.
-Il training viene svolto utilizzando un \emph{stochastic gradient descent algorithm} cioe' utilizzando
+Il training viene svolto utilizzando un \emph{stochastic gradient descent algorithm} cioè utilizzando
 una funzione di ottimizzazione locale scritta sotto forma di funzioni differenziali. La matrice $W$
 che rappresenta il \emph{recurrent weights} (il peso degli stati passati) viene calcolata utilizzando la 
 \emph{backpropagation throught time algorithm (BPTT)}.
@@ -205,10 +205,10 @@ preventiva sostituendo
 tutte le parole da eliminare con un token speciale (per esempio \textbf{\textless unk \textgreater}.
 Oltre al corpus, per completare la fase di training, è atteso anche un
 file di validazioni dati per regolare il numero di training \emph{epochs} da utilizzare e  il learning rate.
-\`E possibile fare training di modelli senza utilizzare un file di validazione tramite l'opzione \textbf{-one-iter}
+\`E anche possibile fare training di modelli senza utilizzare un file di validazione tramite l'opzione \textbf{-one-iter}
 \subsection{Fase di test}
 Una volta effettuato il training il modello può essere utilizzato per valutare dati di test,
-l'output di questa valutazione e' espressa come \emph{perplexity} (la misura di quanto un modello probabilistico
+l'output di questa valutazione è espressa come \emph{perplexity} (la misura di quanto un modello probabilistico
 si avvicina al valore di test) e la 
 probabilità $\log_{10}$.
 E' possibile effettuare una interpolazione lineare delle probabilità delle parole dato il modello. L'input atteso
@@ -219,36 +219,36 @@ numerico univoco.
 Storicamente i sistemi di \emph{natural language processing} trattano le parole come simboli atomici e discreti,
 per esempio la parola ``gatto'' può essere rappresentata da \textbf{Id123} e ``cane'' come \textbf{Id453}.
 Questa codifica è arbitraria e non fornisce alcuna informazione al sistema riguardo la relazione
-che puo' esistere tra due differenti simboli.
+che può esistere tra due differenti simboli.
 Questo significa che il nostro sistema non può utilizzare praticamente nulla di quello che ha imparato
-riguardo il ``gatto'' quando sta processando i dati riguradanti il ``cane'' (per esempio il fatto che siano
+riguardo il ``gatto'' quando sta processando i dati riguardanti il ``cane'' (per esempio il fatto che siano
 entrambi animali, che abbiano quattro zampe, etc.).
-Inoltre rappresentare le parole sotto forma di identificatoi univoci porta ad avere una base dati sparsa
-con la conseguente necessita' di dover ottenere un maggior numero di dati per riuscire a creare un modello
-statistico rappresentativo, proprio questa base dati sparsa e' il principale problema che la 
+Inoltre rappresentare le parole sotto forma di identificatori univoci porta ad avere una base dati sparsa
+con la conseguente necessità di dover ottenere un maggior numero di dati per riuscire a creare un modello
+statistico rappresentativo, proprio questa base dati sparsa è il principale problema che la 
 rappresentazione tramite vettori risolve.
 
 \subsection{Vectors space model}
-I Vectors space models (VSM) sono rappresentazioni \emph{embedding} di parole in uno spazio vettoriale 
+I \emph{Vectors space models (VSM)} sono rappresentazioni \emph{embedding} di parole in uno spazio vettoriale 
 continuo, ovvero dove le parole
 semanticamente simili sono mappate in punti vicini, questo metodo si basa sulla \emph{distributional hypotesis}, 
 cioè sul fatto che parole che appaiono in 
 un determinato contesto condividono lo stesso significato semantico.
 
-La rappresentazione di parole in uno spazio vettoriale aumenta le porformance
+La rappresentazione di parole in uno spazio vettoriale aumenta le performance
 di un task di analisi del linguaggio naturale e una delle prime
 applicazioni in questo campo è datata al 1986 con il lavoro di Rumelharth, Hinton and Williams. Successivamente
 questa idea è stata ampiamente utilizzata e ha trovato applicazione in modelli di ricognizione del parlato,
-di traduzione automatica, nonchè di numerosi altri tasks quali etc (todo).
+di traduzione automatica, nonché di numerosi altri tasks.
 
-Recementemente, Mikolov et al. hanno introdotto il modello skip-gram 
-un metodo efficente per ottenere
+Recentemente, Mikolov et al. hanno introdotto il modello skip-gram 
+un metodo efficiente per ottenere
 rappresentazioni vettoriali di parole provenienti da un grande numero di dati testuali non strutturati.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.4]{Immagini/skipgram.png}
-	\caption{modello Skipgram. L'obbiettivo e' ottenere vettori di parole capaci di prevedere
+	\caption{modello Skipgram. L'obbiettivo è ottenere vettori di parole capaci di prevedere
 	parole simili}
 	\label{fig:skipgram}
 \end{figure}
@@ -261,7 +261,7 @@ partendo da un testo contenente più di 100 miliardi di parole in meno di un gio
 \subsection{Modello Skip-gram}
 Nel modello Skip-gram l'obiettivo di training è quello di creare una vettore di parole che
 può essere utilizzate per prevedere parole attorno ad una frase o ad un documento. Più formalmente,
-data una sequenza di parole $w_1,w_2,w_3,\dot{},w_T$ definito come training 
+data una sequenza di parole $w_1,w_2,w_3,\dot{},w_T$ definito come training set 
 l'obbiettivo del modello è quella di aumentare la
 probabilità logaritmica:
 \begin{equation}
@@ -279,34 +279,34 @@ softmax:
 
 dove $v_w$ and $v'_w$ sono la rappresentazione vettoriale di ``input'' e ``output'' di $w$ e $W$ è il numero
 di parole nel vocabolario.
-Questa formualzione, però, non e' difficilmente utilizzabile in sistemi reali
+Questa formulazione, però, non è difficilmente utilizzabile in sistemi reali
 perché il costo per il calcolo di $\nabla\log p(w_O|w_I)$
 è proporzionale a $W$, che è spesso è molto grande: $(10^5-10^7 termini)$.
 
 \subsection{Hierarchical Softmax}
-Una approssimazione del softmax che è computalmente più efficente è il softmax gerarchico. Questo algoritmo
+Una approssimazione del softmax che è computazionalmente più efficiente è il softmax gerarchico. Questo algoritmo
 è stato introdotto nell'analisi del linguaggio naturale da Morin e Bengio; il motivo principale
-per cui questo algoritmo e' piu' performante rispetto all'algoritmo classico
+per cui questo algoritmo è più performante rispetto all'algoritmo classico
 è quello di non dover valutare tutti i $W$ nodi di output della rete neurale per ottenere una distribuzione
 di probabilità ma solo un numero $\log_2(W)$ di nodi.
 
 Il softmax gerarchico utilizza una rappresentazione ad albero binario per il \emph{layer} di output dove, come foglie,
 troviamo le $W$ parole e, in ogni nodo, sono rappresentate le probabilità dei nodi figli.
-Questo definisce una \emph{random walk} per assegniare la probabilità alle parole.
+Questo definisce una \emph{random walk} per assegnare la probabilità alle parole.
 
-Piu' precisamente ogni parola $w$ puo' essere raggiunta da un determinato percorso partendo dalla radice
+Più precisamente ogni parola $w$ può essere raggiunta da un determinato percorso partendo dalla radice
 dell'albero. Definiamo $n(w,j)$ come il $j$-esimo nodo nel percorso che parte dalla radice fino a $w$ e $L(w)$ come
 la lunghezza di questo percorso in modo che $n(w,1) = radice$ e $n(w,L(w)) = w$.
-In aggiunta, per ogni nodo interno $n$, definiamo $ch(n)$ come un arbitratio nodo figlio di $n$ e $[x]$ ha il valore $1$ se $x$ e' vero e $-1$ altrimenti.
+In aggiunta, per ogni nodo interno $n$, definiamo $ch(n)$ come un arbitrario nodo figlio di $n$ e $[x]$ ha il valore $1$ se $x$ è vero e $-1$ altrimenti.
 Quindi il softmax gerarchico definisce $p(w_O|w_I)$ come segue:
 \begin{equation}
 	p(w|w_I) = \prod_{j=1}^{L(w)-1}\sigma([n(w,j+1)=ch(n(w,j))]\dot v_{n(w,j)} )
 	\label{eq:hierarchicalSoftmax}
 \end{equation}
 
-dove $\sigma(x) = 1/(1+exp(-x))$. Puo' essere dimostrato che $\sum_{w=1}^W p(w|w_I) = 1$. Questo implica
-che il costo per calcolare $\log p(w_O|w_I)$ e $log p(w_O|w_I)$ e' proporzionale a $L(w_O)$ che in media
-e' piu' piccolo di $\log W$.
+dove $\sigma(x) = 1/(1+exp(-x))$. Può essere dimostrato che $\sum_{w=1}^W p(w|w_I) = 1$. Questo implica
+che il costo per calcolare $\log p(w_O|w_I)$ e $log p(w_O|w_I)$ è proporzionale a $L(w_O)$ che in media
+è più piccolo di $\log W$.
 Inoltre, al contrario della formulazione stardand del softmax dove troviamo due rappresentazioni differenti 
 $v_w e v_w$ per ogni parola $w$, il softmax gerarchico possiede una sola rappresentazione $v_n$ per ogni nodo $n$
 dell'albero binario.
@@ -314,7 +314,7 @@ dell'albero binario.
 Il tipo di albero utilizzato ha una influenza notevole sulle prestazioni dell'algoritmo, nello specifico
 in word2vec è stato utilizzato un albero binario di Huffmann, in questo modo 
 abbiamo codici di dimensioni più piccole per le parole usate con maggior frequenza risultando in un training più rapido.
-Inoltre è stato osservato che rappgruppare le parole utilizzando la loro frequenza funziona molto
+Inoltre è stato osservato che raggruppare le parole utilizzando la loro frequenza funziona molto
 bene come tecnica per aumentare la velocità di calcolo.
 
 \section{Classificatori lineari}
@@ -328,7 +328,7 @@ a quale classe (o gruppo) appartengono.
 Una classificazione lineare raggiunge questo scopo effettuando una decisione sulla classificazione basata sul valore di una combinazione lineare di caratteristiche. 
 Le caratteristiche di un oggetto sono anche conosciute come \emph{features} e nel calcolatore sono rappresentati solitamente come un vettore chiamato vettore delle caratteristiche.
 
-Questi classificatori funzionano molto bene per probelmi pratici quali la classificazione di 
+Questi classificatori funzionano molto bene per problemi pratici quali la classificazione di 
 documenti e più in generale in problemi che utilizzano un numero molto elevato di \emph{features}
 
 Se definiamo un vettore di \emph{features} con l'identificatore $x^\rightarrow$ allora il punteggio di output
@@ -362,12 +362,12 @@ Liblinear è una libreria opensource che implementa algoritmi di classificazione
 per cui è stato scelta come strumento per questa
 tesi è principalmente dovuto la sua estesa documentazione, semplicità
 d'uso, il suo già ampio utilizzo in ricerche simili e infine per la sua velocità nel calco dei risultati. In particolare l'ultimo punto si è rivelato fondamentale
-per ottenere risultati in tempo ragionevole, in un confronto con un risoltuore \emph{SVM} (come \emph{LIBSVM})
+per ottenere risultati in tempo ragionevole, in un confronto con un risolutore \emph{SVM} (come \emph{LIBSVM})
 i tempi di calcolo vengono ridotti di tre ordini di grandezza (da svariate ore a pochi secondi).
 
-Liblinear supporta due popolari cassificatori binari \emph{LR, L2-regularized logistic regressione} e 
+Liblinear supporta due popolari classificatori binari \emph{LR, L2-regularized logistic regression} e 
 \emph{SVM L2-loss linear support vector machine}, dato un inseme di coppie
-indicizzate $(x_i,y_i),i=1,\dot{},l,x_i\in R^n, y_i \in \{-1,+1\}$ entrambi i metodi risolvonolo stesso
+indicizzate $(x_i,y_i),i=1,\dot{},l,x_i\in R^n, y_i \in \{-1,+1\}$ entrambi i metodi risolvono lo stesso
 problema di ottimizzazione senza vincoli ma con differenti \emph{loss functions} $\Xi(w;x_i,y_i)$:
 \begin{equation}
 	min_w \frac{1}{2}w^Tw+C\sum_i=1^l\Xi(w;x_i;y_i)
@@ -376,12 +376,20 @@ problema di ottimizzazione senza vincoli ma con differenti \emph{loss functions}
 
 dove $C > 0$ è il parametro di penalità. Per \emph{SVM} le due \emph{loss functions} sono $max(1-y_iw^Tx_i,0)$ e
 $max(1-y_iw^Tx_i,0)$. Per \emph{LR} invece abbiamo $\log(1+e^{-y_iw^Tx_i}$
-(todo scrivere anche altre robe)
+
+Per quanto riguarda l'utilizzo il toolkit di Liblinear fornisce due diversi eseguibili \emph{train} e 
+\emph{predict}.
+L'eseguibile \emph{train} viene utilizzato per la creazione del modello e acquisisce, come input, un file
+ASCII suddiviso per righe. In particolare, per questa tesi, e' stato usato come algoritmo 
+per il training del modello ottenuto tramite
+logistic regression.
+Utilizzando la regressione lineare e' possibile utilizzare l'eseguibile \emph{predict} in modo 
+che fornisca in output le stima delle probabilita' per ogni riga.
 
 \chapter{Raccolta dati}
 La raccolta dati è stata svolta svolta partendo dal primo Gennaio 2015, i dati raccolti provengono da dodici canali twitch scelti in modo che rappresentassero un parte omogenea di informazioni.
 In particolare sono stati scelti i due canali con maggiore audience dei quattro giochi con maggiore numero di spettatori della piattaforma Twitch.tv.
-I canali sono tutit in lingua inglese e i dati sono stati raccolti modificando logging per IRC  in modo che potesse raccogliere dati attraverso il login e l'utilizzo dell API di twitch.
+I canali sono tutti in lingua inglese e i dati sono stati raccolti modificando logging per IRC  in modo che potesse raccogliere dati attraverso il login e l'utilizzo dell API di twitch.
 Oltre al messaggio di testo sono stati registrati anche l'autore (utente) del messaggio di testo, il timestamp e il canale nel quale il messaggio è stato inserito.
 
 \section{Normalizzazione del corpus}
