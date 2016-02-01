@@ -29,15 +29,15 @@ i classificatori lineari (\emph{Liblinear}).
 Con il termine \emph{Sentiment analysis}, o \emph{opinion minig}, si intende uno studio 
 che analizza le opinioni, i sentimenti, le valutazioni e le
 emozioni del linguaggio scritto utilizzato dalle persone.
-Spesso il concetto di \emph{sentiment analysis} si estende anche nell'ambito del \emph{data mining} e
-\emph{text mining}, ossia quella branca di ricerca riguardante l'estrazione di un sapere o 
+Spesso il concetto di \emph{sentiment analysis} si estende anche all'ambito del \emph{data mining} e
+del \emph{text mining}, ossia quella branca di ricerca riguardante l'estrazione di un sapere o 
 di una conoscenza a partire da grandi quantità di dati.
 
 La \emph{Sentiment analysis}, nata nell'ambito dell'informatica, è una delle aree di ricerca più attive 
 nel campo dell'analisi del linguaggio naturale e si è diffusa
 ampiamente anche in altri rami scientifici come ad esempio: la scienza sociale,
-l'economia il marketing. Inoltre questo tipo di ricerca
-ha avuto un grande impatto sia a livello commerciale, per aziende e multinazionali, sia sociologico 
+l'economia e il marketing. Inoltre questo tipo di ricerca
+ha avuto un grande impatto sia a livello commerciale, per aziende e multinazionali, che sociologico, 
 coinvolgendo l'intera società che ci circonda.
 
 L'enorme diffusione della \emph{sentiment analysis} coincide con la 
@@ -51,9 +51,8 @@ ampiamente sfaccettata e particolareggiata.
 Gli studi di \emph{sentiment analysis} sono applicabili in quasi tutte
 le attività del cosiddetto dominio sociale, le opinioni e i pareri 
 sono infatti al centro della maggior parte delle attività umane e sono 
-altresi la chiave che influenza il nostro comportamento. Sono altresi' la 
-chiave che influenza il nostro 
-comportamento. Cio' in cui crediamo, la percezione della realtà, le scelte che facciamo
+altresì la chiave che influenza il nostro comportamento.
+Ciò in cui crediamo, la percezione della realtà, le scelte che facciamo
 sono condizionate dall’ambiente che ci circonda e dai giudizi 
 degli altri riguardo noi stessi.
 Per questo motivo, quando abbiamo bisogno
@@ -67,21 +66,21 @@ ci circonda sia dal punto di vista economico che sociale.
 
 Mentre la linguistica e l'analisi del linguaggio naturale (NLP) hanno una lunga
 storia, la \emph{sentiment analysis} è relativamente recente: le prime ricerche
-sono state svolte a partire dall'anno 2000. Nonostante questo abito di ricerca sia cosi' giovane 
-si presenta come un'area estremamente attiva 
-la crescita della ricerca nel campo della \emph{sentiment analysis}, avvenuta in maniera così immediata e su larga scala, 
+sono state svolte a partire dall'anno 2000. Nonostante questo ambito di ricerca sia così giovane 
+si presenta come un'area estremamente attiva.
+La crescita della ricerca nel campo della \emph{sentiment analysis}, avvenuta in maniera così immediata e su larga scala, 
 ha molteplici ragioni. 
-Per prima cosa le applicazioni pratiche 
+Per prima cosa, le applicazioni pratiche 
 di questo tipo di ricerca sono svariate e possono essere utilizzate in un ampio raggio di 
 situazioni e domini differenti. Ciò ha generato un aumento di interesse notevole da parte di
 aziende e di grandi multinazionali (non solo in ambito informatico)
 con un relativo stanziamento di finanziamenti specifici per questo campo di ricerca.
-In secondo luogo il grande interesse dimostrato da parte del mercato ha portato ad una proliferazione di 
+In secondo luogo, il grande interesse dimostrato da parte del mercato ha portato ad una proliferazione di 
 applicazioni commerciali e ad una costante ricerca della soluzione di problemi
 che fino ad ora non erano ancora stati studiati.
 
 \subsection{Applicazioni della Sentiment Analysis}
-Partiamo dunque dal presupposto che le opinioni e i pareri sono la base di tutte le attività sociali,
+Partiamo dunque dal presupposto che le opinioni e i pareri siano la base di tutte le attività sociali,
  essendo la chiave che influenza il nostro comportamento. Nel mondo reale, aziende e multinazionali 
  sono costantemente alla ricerca di giudizi e pareri dati dai consumatori  rispetto ai loro prodotti. 
  Allo stesso modo il consumatore vuole avere informazioni che riguardino gli articoli da acquistare, 
@@ -104,7 +103,7 @@ Gli esseri umani non iniziano a pensare da zero: esiste infatti per la mente uma
 associare tra loro informazioni passate e recenti che è stata definita \emph{persistenza della memoria.} 
 Il lettore di questa tesi, ad esempio, assocerà il significato di ogni parola basandosi su quelle 
 lette in passato.
-Le reti neurali tradizionali, al contrario,  ignorano gli eventi passati. Volendo prendere ad esempio 
+Le reti neurali tradizionali, al contrario, ignorano gli eventi passati. Volendo prendere ad esempio 
 la classificazione della successione delle scene di un film, non è possibile che una rete neurale 
 possa utilizzare gli eventi passati per classificare quelli correnti.
 
@@ -121,7 +120,7 @@ all'informazione di persistere.
 
 Nella figura \ref{fig:rnn1}, è rappresentata una rete neurale $A$ che riceve in input un valore $x_t$ e genera in output un valore $h_t$.
 Un ciclo permette all'informazione di passare da ogni step della rete al successivo. 
-In altro parole possiamo immaginare
+In altre parole possiamo immaginare
 una \emph{RNN} come molteplici copie della stessa rete, ognuna delle quali passa un messaggio alla rete successiva.
 
 \begin{figure}[ht]
@@ -131,7 +130,7 @@ una \emph{RNN} come molteplici copie della stessa rete, ognuna delle quali passa
 	\label{fig:rnn2}
 \end{figure}
 
-In sostanza una \emph{RNN} riceve come input un vettore $x$ e come output un vettore $y$ ma il cuore della rete
+In sostanza una \emph{RNN} riceve come input un vettore $x$ e genera come output un vettore $y$ ma il cuore della rete
 è dato dal fatto che l'output viene influenzato non solo dall'ultimo input acquisito ma anche da tutti gli 
 input passati. Se volessimo esprimere questo concetto sotto forma di codice avremo una definizione di \emph{RNN}
 che è la seguente:
@@ -183,7 +182,7 @@ che produce una curva sigmoide (una curva avente un andamento ad $S$).
 
 Questo tipo di funzione viene utilizzata per introdurre una non linearità nel modello e per
 assicurarsi che determinati  valori rimangano all'interno di specifici intervalli.
-Dopo il training della rete l'output layer $y(t)$, che ha le stesse dimensioni di $w(t)$,
+Dopo il training della rete, l'output layer $y(t)$, che ha le stesse dimensioni di $w(t)$,
 rappresenta la probabilità della distribuzione della parola $n+1$ partendo dalla parola $n$ 
 e lo stato dell'\emph{hidden layer} nel precedente istante di tempo.
 Un class layer $c(t)$ può essere usato per ridurre la complessità del modello ma con un piccola
@@ -192,7 +191,7 @@ Il training viene svolto utilizzando un \emph{stochastic gradient descent algori
 una funzione di ottimizzazione locale scritta sotto forma di funzioni differenziali. La matrice $W$
 che rappresenta il \emph{recurrent weights} (il peso degli stati passati) viene calcolata utilizzando la 
 \emph{backpropagation throught time algorithm (BPTT)}.
-Specificatamente, su RNNLM, viene utilizzato un truncate BPTT, la rete cioe' processata solo per uno specifico
+Specificatamente, su RNNLM viene utilizzato un truncate BPTT, la rete cioè processata solo per uno specifico
 numero di istanti di tempo.
 
 \subsection{Fase di training}
@@ -212,7 +211,7 @@ Una volta effettuato il training il modello può essere utilizzato per valutare 
 l'output di questa valutazione è espresso come \emph{perplexity} (la misura di quanto un modello probabilistico
 si avvicina al valore di test) e la 
 probabilità $\log_{10}$.
-Dato il modello e', possibile effettuare una interpolazione lineare delle probabilità delle parole dato il modello. L'input atteso
+Dato il modello, è possibile effettuare una interpolazione lineare delle probabilità delle parole. L'input atteso
 da RNNLM è un file contenente una lista di frasi, ognuna anteposta con un identificatore
 numerico univoco, su cui effettuare lo scoring.
 
@@ -227,7 +226,7 @@ entrambi animali, che abbiano quattro zampe, etc.).
 Inoltre, rappresentare le parole sotto forma di identificatori univoci porta ad avere una base dati sparsa
 con la conseguente necessità di dover ottenere un maggior numero di dati per riuscire a creare un modello
 statistico rappresentativo; proprio questa base dati sparsa è il principale problema 
-ad essere risolto dalla rappresentazione tramite vettori risolve.
+ad essere risolto dalla rappresentazione tramite vettori.
 
 \subsection{Vectors space model}
 I \emph{Vectors space models (VSM)} sono rappresentazioni \emph{embedding} di parole in uno spazio vettoriale 
@@ -286,7 +285,7 @@ perché il costo per il calcolo di $\nabla\log p(w_O|w_I)$
 è proporzionale a $W$, che spesso è molto grande: $(10^5-10^7 termini)$.
 
 \subsection{Hierarchical Softmax}
-Una approssimazione del softmax che è computazionalmente più efficiente è il softmax gerarchico. Questo algoritmo
+Una approssimazione del softmax computazionalmente più efficiente è il softmax gerarchico. Questo algoritmo
 è stato introdotto nell'analisi del linguaggio naturale da Morin e Bengio; il motivo principale
 per cui questo algoritmo è più performante rispetto all'algoritmo classico
 perchè, per ottenere distribuzione di probabilità, non deve valutare tutti i $W$
@@ -365,7 +364,7 @@ L'utilizzo dei classificatori lineari avviene spesso in situazioni in cui la vel
 Liblinear è una libreria opensource che implementa algoritmi di classificazione lineare. Il motivo
 per cui è stata scelta come strumento per questa
 tesi è principalmente dovuto alla sua estesa documentazione, alla semplicità
-d'uso, al suo già ampio utilizzo in ricerche simili e infine per la sua velocità nel calco dei risultati. 
+d'uso, al suo già ampio utilizzo in ricerche simili e infine per la sua velocità nel calcolo dei risultati. 
 In particolare l'ultimo punto si è rivelato fondamentale
 per ottenere risultati in tempo ragionevole: in un confronto con un risolutore \emph{SVM} (come \emph{LIBSVM})
 i tempi di calcolo vengono ridotti di tre ordini di grandezza (da svariate ore a pochi secondi).
@@ -382,27 +381,142 @@ problema di ottimizzazione senza vincoli ma con differenti \emph{loss functions}
 dove $C > 0$ è il parametro di penalità. Per \emph{SVM} le due \emph{loss functions} sono $max(1-y_iw^Tx_i,0)$ e
 $max(1-y_iw^Tx_i,0)$. Per \emph{LR} invece abbiamo $\log(1+e^{-y_iw^Tx_i}$
 
-Per quanto riguarda l'utilizzo il toolkit di Liblinear fornisce due diversi eseguibili \emph{train} e 
+Per quanto riguarda l'utilizzo, il toolkit di Liblinear fornisce due diversi eseguibili: \emph{train} e 
 \emph{predict}.
 L'eseguibile \emph{train} viene utilizzato per la creazione del modello e acquisisce, come input, un file
-ASCII suddiviso per righe. In particolare, per questa tesi, e' stato usato come algoritmo 
+ASCII suddiviso per righe. In particolare, per questa tesi, è stato usato come algoritmo 
 per il training del modello ottenuto tramite \emph{logistic regression}.
-Utilizzando la \emph{regressione lineare} e' possibile utilizzare l'eseguibile \emph{predict} in modo 
-che fornisca in output le stima delle probabilita' per ogni riga.
+Utilizzando la \emph{regressione lineare} è possibile utilizzare l'eseguibile \emph{predict} in modo 
+che fornisca in output le stima delle probabilità per ogni riga.
 
-\chapter{Raccolta dati}
-La raccolta dati è stata svolta svolta partendo dal primo Gennaio 2015, i dati raccolti provengono da dodici canali twitch scelti in modo che rappresentassero un parte omogenea di informazioni.
-In particolare sono stati scelti i due canali con maggiore audience dei quattro giochi con maggiore numero di spettatori della piattaforma Twitch.tv.
-I canali sono tutti in lingua inglese e i dati sono stati raccolti modificando logging per IRC  in modo che potesse raccogliere dati attraverso il login e l'utilizzo dell API di twitch.
-Oltre al messaggio di testo sono stati registrati anche l'autore (utente) del messaggio di testo, il timestamp e il canale nel quale il messaggio è stato inserito.
+\chapter{Capitolo sull'analisi dei dati}
+In questo capitolo verra' descritta inizialmente la raccolta dei dati, la loro normalizzazione e la loro struttura.
+Successivamente verranno applicate le varie tecniche utilizzate per ottenere i vari risultati, in particolare verra' dapprima
+analizzato RNNLM, successivamente word2vec e liblinear infine verranno mostrati i risultati finali applicando
+tutte le tecniche trattate fino ad ora.
+
+\section{Raccolta dati}
+La raccolta dati è stata svolta svolta partendo dal primo Gennaio 2015, i dati raccolti provengono da dodici canali Twitch scelti in modo che rappresentassero un parte omogenea di informazioni:
+in particolare sono stati scelti i canali con maggiore audience (numero medio di spettatori collegati) 
+dei quattro giochi piu' popolari, secondo le statistiche del mese di Gennaio 2015, della piattaforma Twitch.tv.
+
+E' opportuno specificare che i canali e quindi anche i dati raccolti, sono tutti in lingua inglese.
+Questa scelta e' stata principalmente determinata tramite un immediato confronto tra
+la popalarita' dei canali in lingua inglese rispetto a quelli italiani: nel mese di Gennaio 2015
+la media di spettatori per un canale in lingua inglese era di 30.000 persone, mentre
+per un canale italiano si aggirava intorno al centinaio.
+
+La chat presente sulla piattaforma Twitch utilizza il protocollo IRC, Twitch gestisce un server dedicato (server: irc.twitch.tv ). 
+L'accesso al server di chat e' disponibile,
+per gli utenti, tramite interfaccia web direttamente dal sito ufficiale mentre, per eventuali servizi di backend, sono disponibili
+delle API ufficiali che, previa registrazione, offre la possibilita' monitorare e interagire in tempo reale nei vari canali.
+
+Nonostante la piattaforma Twitch fornisca un archivio, sempre accessibile via browser, con tutte le trasmissione 
+passate dei vari canali non e' data la possibilita' di accedere
+ai dati storici delle chat, per questo motivo e' stato necessario l'utilizzo di un bot IRC che monitorasse in modo costante i canali e che provedesse alla registrazione dei vari messaggi.
+
+Per la realizzazione del bot e' stata utilizzato come base il bot opensource Pierc. Il suddetto software e' stato esteso in modo che potesse utilizzare il login e la registrazione al server IRC
+tramite API Twitch; i canali che si vogliono monitorare sono stati gestiti tramite file di configurazione testuale e tutti i messaggi registrati salvati in un database MySQL.
+La struttura del database e' la seguente:
+
+\begin{table}
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		Campo & Tipo & Descrizione \\
+		\hline
+		\hline
+		id & int & Id incrementale \\
+		\hline
+		channel & varchar & Nome canale \\
+		\hline
+		name & varchar & Nome utente \\
+		\hline
+		time & datetime & timestamp \\
+		\hline
+		message & text & messaggio inserito \\
+		\hline
+		type & varchar & tipo di messaggio IRC \\
+		\hline
+	\end{tabular}
+	\caption{Struttura del database}
+	\label{tab:strutturaDB}
+\end{table}
+
+E' opportuno notare come si sia scelto di aggiungere, oltre al testo del messaggio, anche il timestamp e il canale di appartenenza. Questi dati hanno permesso di effettuare analisi
+specifiche considerando solo particolari giornate o dati provenienti solo da un particolare giocatore.
 
 \section{Normalizzazione del corpus}
-Dato il grande numero di dati e il fatto che chiunque può partecipare alla chat di Twitch si è reso necessario l'eliminazione degli eventuali messaggi di spam. Il primo step è stato quello di sostituire tutte gli URL presenti con il token \textbf{URL}. 
-Il secondo step è stato quello di trasformare tutte le emoticons unicode presenti utilizzando il documento TODO LINK sostituendole con i rispettivi tag ASCII. Un'ulteriore step è stato preso in modo da eliminare caratteri unicode non necessari per esempio lettere straniere proveniennti da altri paesi non anglofoni (esempio \o, \oe, etc.).
-Il principale metodo di tokenizzazione è stato fatto utilizzando \textbf{Twoketnizer} (TODO inserire link) un tokenizer sviluppato per tokenizzare testi provenienti da twitter. In particolare è stata utilizzata la sua implementazione in python con alcune modifiche in modo da trattare le emoticons presenti nel corpus di Twitch.
+Uno dei problemi principali incontrati nell'analisi di dati e' stata quella della normalizzazione del corpus,
+inanzitutto, al momento di stesura della tesi, non e' mai stata fatta nessun
+tipo di analisi su questo tipo di dati, quindi
+e' impossibile trovare una metodologia gia' applicata per questo tipo di dati.
+
+Inoltre Twitch e' una piattaforma nata negli ultimi 3 anni ma che e' cresciuta in maniera esponenziale,
+creando una sottocultura di Internet con atteggiamenti, frasi ricorrenti, particolari scherzi
+o giochi di parole e atteggiamenti nuovi.
+Questa cultura si e' talmente estesa fino ad influenzare addirittura altre piattaforme.
+Per esempio alcuni atteggiamenti, o addirittura emoticons, vengono utilizzate su altre 
+piattaforme come per esempio lo streaming su Youtube.
+Questo ha portato alla formazione di particolari tipologie di messaggi, che tramite un analisi effettuata in maniera manuale sono state suddivise in vari modi:
+
+\begin{table}
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		Messaggio & Interpretazione \\
+		\hline
+		\hline
+		todo: inserire l'emoticons & emoticons UTF8 \\
+		\hline
+		todo: inserire la frase  & Frasi fatte in UTF8 \\
+		\hline
+		S U F F E R B O Y S & enfasi \\
+		\hline
+		Kappa Kappa Kappa Kappa & emoticons multiple \\
+		\hline
+	\end{tabular}
+	\caption{Differenti tipi di messaggio su Twitch}
+	\label{tab:messaggiTwitch}
+\end{table}
+
+Fortunatamente, oltre a questi messaggi speciali, sono presenti una gran quantita' di messaggi standard come possiamo vedere nel box sotto:
+\begin{verbatim}
+messaggi standarda blab lab
+aeouue yproet uo ithbaue 
+aebh cxue huebuencausb 
+\end{verbatim}
+
+Per normalizzare il corpus e' stato usato come tokenizzatore Twokenizer, un tokenizzatore sviluppado dalla Carnagie Mellon per gestire dati provenienti da Twitter. 
+Si e' scelto di utilizzare questo Tokenizzatore perche', a parte i casi particolari indicati nella tabella
+\ref{tab:messaggiTwitch} l'unica differenza importante che possiamo trovare tra i messaggi di Twitch e
+quelli di twitter sonon gli
+hashtag, che utilizzati solo in Twitter. 
+
+Twokenizer e' stato oppurtunatamete
+modificato inanzitutto andando a sostituire tutte le emoticons espressi in caratteri UTF8 con un corrispettivo token
+utilizzando una tabella di mapping (una parte di essa e' mostrata nella figura \ref{fig:mappingEmo}. In
+questo modo si e' evitato sia di dover gestire emoticons composte da caratteri multipli sia di gestire
+i caratteri UTF8 non supportati, come vedremo, da word2vec.
+In secondo luogo si e' provveduto nella sostituzione di tutti gli \emph{URL} con il token \emph{url} ed infine
+sono stati ignorati le \emph{#} e trattate come segno di punteggiatura normale dato che su Twitch non
+sono presenti gli hashtag.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.3]{Immagini/emoticonsTable.pdf}
+	\caption{Parte di tabella di mapping per le emoticons UTF8}
+	\label{fig:mappingEmo}
+\end{figure}
+
+Vista la mole dei dati raccolti e' stato necessario modificare anche il metodo di esecuzione del tokenizzatore, 
+che nella sua versione standard, e' stato sviluppato per eseguire in \emph{single thread}.
+E' stato scritto un semplice wrapper che effettua un \emph{preprocessing} del corpus suddividendolo in $n$ parti distinte dove con $n$ e' indicato il numero di processori presenti sulla macchina ed
+eseguendo su ciascuna di esse \emph{Twokenizer} in maniera concorrente.
+Infine il wrapper effettua l'unione di tutti i dati ottenuti mantenendo lo stesso ordinamento del file iniziale.
 
 \section{Analisi Emoticons}
-Sono state scelte per un'analisi più approfondita le seguenti emoticons:
+Partendo da tutte le emoticons utilizzate su Twitch sono state analizzate le emoticons piu' usate tra tutti i canali scelte per un'analisi più approfondita le seguenti emoticons:
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{|c|c|c|}
