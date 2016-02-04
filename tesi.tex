@@ -13,9 +13,10 @@
 \newtheorem{es}{Esempio}[section]
 
 \begin{document}
-
 \chapter{Introduzione}
+\cite{Mik2014} 
 TODO
+\cite{Mik2011}
 
 \chapter{Titolo da decidere}
 Lo scopo di questo capitolo è quello di introdurre e descrivere la 
@@ -494,12 +495,12 @@ quelli di twitter sonon gli
 hashtag, che utilizzati solo in Twitter. 
 
 Twokenizer e' stato oppurtunatamete
-modificato inanzitutto andando a sostituire tutte le emoticons espressi in caratteri UTF8 con un corrispettivo token
-utilizzando una tabella di mapping (una parte di essa e' mostrata nella figura \ref{fig:mappingEmo}. In
+modificato inanzitutto andando a sostituire tutte le emoticons espresse in caratteri UTF8 con un corrispettivo \emph{token}
+utilizzando una tabella di mapping (una parte di essa e' mostrata nella figura \ref{fig:mappingEmo}). In
 questo modo si e' evitato sia di dover gestire emoticons composte da caratteri multipli sia di gestire
 i caratteri UTF8 non supportati, come vedremo, da word2vec.
 In secondo luogo si e' provveduto nella sostituzione di tutti gli \emph{URL} con il token \emph{url} ed infine
-sono stati ignorati le \emph{#} e trattate come segno di punteggiatura normale dato che su Twitch non
+sono stati ignorati i simboli \emph{\#} (che indicano i cosidetti hashtag) e trattate come segno di punteggiatura normale dato che su Twitch non
 sono presenti gli hashtag.
 
 \begin{figure}[ht]
@@ -516,7 +517,23 @@ eseguendo su ciascuna di esse \emph{Twokenizer} in maniera concorrente.
 Infine il wrapper effettua l'unione di tutti i dati ottenuti mantenendo lo stesso ordinamento del file iniziale.
 
 \section{Analisi Emoticons}
-Partendo da tutte le emoticons utilizzate su Twitch sono state analizzate le emoticons piu' usate tra tutti i canali scelte per un'analisi più approfondita le seguenti emoticons:
+Particolare attenzione e' stata posta nell'analisi delle emoticons di \emph{Twitch}: questo tipo di emoticons,
+al contrario di quelle viste nel paragrafo precedente, sono parole normali (Es: \emph{kappa, 4head, biblethump}),
+queste parole sono trattate in maniera speciale da \emph{Twitch} che le renderizza facendole apparire sotto forma di immagine.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.5]{Immagini/TwitchEmotes.jpg}
+	\caption{Screenshot dell'interfaccia browser di Twitch che mostra le emoticons renderizzate
+	come appaiono all'utente finale.}
+	\label{fig:TwitchEmotes}
+\end{figure}
+
+Le emoticons fornite da twitch sono 120, tramite un analisi su tutto il corpus raccolto si e' scelto di fare un analisi
+manuale di solo le 25 emoticons usate con maggior frequenza. Analizzando alcune centinaia di messaggi per ogni emoticon
+si e' data una classificazione alla tipologia di frasi in cui l'emoticons e' utilizzata. Il risultato e'
+quello mostrato nella tabella \ref{tab:emoticons1}.
+
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{|c|c|c|}
@@ -526,7 +543,7 @@ Nome Emoticon & Significato & Polarity \\
 \hline
 4Head & sarcasmo & positiva \\
 \hline
-anele & sarcasmo, in genere riferito alla cultura USA & neutra \\
+anele & sarcasmo, in genere riferito alla cultura americana & neutra \\
 \hline
 babyrage & insofferenza & negativo \\
 \hline
@@ -536,13 +553,13 @@ brokeback & sarcasmo & positiva \\
 \hline
 dansgame & critica & negativo \\
 \hline
-datsheffy & battute sulla polizia (singolo canale) & non considerato \\
+datsheffy & battute sulle forze dell'ordine & non considerato \\
 \hline
 elegiggle & sarcasmo & positiva \\
 \hline
 pogchamp & spam & non considerato \\
 \hline
-residentsleeper & noia & negative \\
+residentsleeper & noia & negativo \\
 \hline
 smorc & tattiche relative ad un particolare gioco & neutra \\
 \hline
@@ -552,11 +569,11 @@ trihard & impegno &  neutro \\
 \hline
 wutface & spam & non considerato \\
 \hline
-failfish & disappunto & negative \\
+failfish & disappunto & negativo \\
 \hline
 frankerz & spam & non considerato \\
 \hline
-heyguys & annunci/saluti & positiva \\
+heyguys & annunci e saluti & positiva \\
 \hline
 kappa & sarcasmo & positiva \\
 \hline
@@ -564,7 +581,7 @@ kappapride & sarcasmo & positiva \\
 \hline
 kreygasm & sarcasmo & positiva \\
 \hline
-mrdestructoid & battute / viewbotting & neutre \\
+mrdestructoid & viewbotting & neutre \\
 \hline
 opieop & commenti sul cibo & neutra \\
 \hline
@@ -580,12 +597,21 @@ pjsalt & disappunto & negative \\
 \label{tab:emoticons1}
 \end{table}
 
-Si può notare che è possibile divedere le emoticons in quattro classi separate, 
+Analizzando la tabella e' facile notare come sia possibile dividere le emoticons in quattro classi separate:
 \begin{itemize}
-\item Positiva: rappresenta frasi ironiche, sarcastiche e che esprimono un apprezzamento sul contenuto del canale.
-\item Negativa: rappresenta un giudizio negativo sul contenuto del canale o su argomenti trattati in chat.
-\item Neutra: sono emoticons che non hanno una polarity definita, in questa classe troviamo emoticons, per esempio opieop, utilizzate in frasi che parlano di cibo "I'm getting an hamburger now opieop" frasi che quindi sono scollegate dall'argomento dello streaming o della chat. In questa classe troviamo anche emoticons come mrdestructdroid che viene utilizzato principalmente per indicare il cosidetto "viewbotting" cioè l'utilizzo di software che crea connessioni fittizie allo streaming in modo da incrementare il numero di visualizzazioni in modo da far salire il ranking dello stream stesso. L'analisi di questo comportamento, anche se molto interessante, esula dagli argomenti trattati in questa tesi pertanto viene ignorato.
-\item Non considerata: in questa classe troviamo le emoticons che non esprimono alcun giudizio, sono utilizzate spesso solo per creare "confusione" nella chat. TODO spiegare meglio
+\item Positiva: rappresenta frasi ironiche, sarcastiche e frasi che esprimono un apprezzamento sul contenuto del canale.
+\item Negativa: rappresenta un giudizio negativo sul contenuto del canale o su gli argomenti trattati in chat.
+\item Neutra: sono emoticons che non hanno una polarita' definita, in questa classe troviamo emoticons, per esempio \emph{opieop}, utilizzate in frasi che parlano di 
+cibo ``I'm getting an hamburger now opieop'' frasi che quindi sono scollegate dall'argomento dello streaming o della chat. 
+In questa classe troviamo anche emoticons come \emph{mrdestructdroid} che viene utilizzato principalmente per indicare il cosidetto ``viewbotting'' 
+cioè l'utilizzo di software che crea connessioni fittizie allo streaming in modo da incrementare il numero di visualizzazioni 
+e quindi il ranking dello stream stesso (andando ad aumentare gli eventuali guadagni provenienti dalle pubblicita'). 
+L'analisi di questo comportamento, anche se molto interessante, esula dagli argomenti trattati in questa tesi pertanto viene ignorato.
+\item Non considerata: in questa classe troviamo le emoticons che non esprimono alcun giudizio, sono utilizzate spesso solo per creare ``confusione'' nella chat.
+Per esempio emoticons come \emph{osrob} o \emph{frankerz} vengono utilizzate in frasi senza significato, spesso contenenti solo la stessa emoticons ripetuta,
+in modo da generare una enorme quantita' di messaggi in chat. Questo comportamento, alla pari di quello che e' possibile trovare nei forum, viene utilizzato 
+soltando per impedire una discussione in chat e per creare disordine e' nel vero senso della parola solo \emph{spam}. Dal punto di vista della tesi
+queste frasi sono state mantenute nel corpus ma non gli e' stata data alcun tipo di polarita': sono considerate frasi neutre.
 \end{itemize}
 
 \begin{table}[h]
@@ -622,6 +648,11 @@ kreygasm &  & keepo \\
 \label{tab:emoticons2}
 \end{table}
 
+Infine una delle caratteristiche emerse da questa prima analisi dei dati e' il fatto che possiamo dividere i messaggi in due diversi gruppi: i messaggi che esprimono un parere
+riguardo eventi accaduti nel video (quindi esprimono un parere su i contenuti) e i \emph{meta}-messaggi cioe' messaggi che esprimono opinioni sullo stream stesso (es: ``la qualita' video
+e' pessima'', ``oggi non si sente l'audio'') oppure su fatti che esulano dai contenuti del video (es. ``sta male, ho preso l'influenza''). Nelle analisi svolte le due categorie
+di messaggi sono state trattate in egual modo e non sono state differenziate.
+  
 \chapter{Rnnlm}
 \label{ch:rnnlm}
 Seguento gli esempi pubblicati da Mikolov dove utilizza dati provenienti da IMDB e dimostra che un  modello generativo creato utilizzando recurrent neural network  può essere utilizzato per fare classificazione. Seguento lo stesso esempio sono creati modelli per ogni emoticons prendendo 15000 righe in modo casuale poi testati su un corpus di test composto da 25000 righe (diverse da quelle utilizzate come train).
@@ -914,4 +945,8 @@ Nei due file successivi \emph{1\_4\_destiny.xlsx} e \emph{1\_7\_massansc.xlsx} v
 \item Analisi della meta-polarità: facendo verifice manuali su i dati finali ottenuti è risultato che si potrebbe fare un'analisi in due livelli: il primo livello rappresenta la polarità del contenuto dello stream, per esempio se nello stream avviene un evento positivo (es. una vittoria) o negativo (es. una sconfitta) la chat reagisce di conseguenza aumentado il numero di commenti positivi o negativi.
 Si è visto che è presente anche un secondo livello, un meta-livello, dove le frasi scritte in chat (quindi anche la polarita) è riferita ad eventi che esulano dai contenuti dello stream, ma l'oggetto della discussione riguarda lo stream stesso (es: ``Stream quality sucks!'' [negativa] oppure ``The song yoùre playing is amazing!'' [positiva], ``you are cheating!'' [negativa] etc.).
 \end{itemize}
+
+\bibliographystyle{apalike}
+\bibliography{bibliografia}
+
 \end{document}
