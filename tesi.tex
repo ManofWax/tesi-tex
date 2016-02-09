@@ -8,25 +8,16 @@
 \usepackage{graphicx}
 \usepackage{indentfirst}
 \usepackage{stmaryrd}
+\usepackage{natbib}
 
 \theoremstyle{definition}
 \newtheorem{es}{Esempio}[section]
 
 \begin{document}
 \chapter{Introduzione}
-\cite{Mik2014} 
-TODO
-\cite{Mik2011}
-
-\chapter{Titolo da decidere}
-Lo scopo di questo capitolo è quello di introdurre e descrivere la 
-\emph{Sentiment analisys}, chiarendone le caratteristiche, l'ambito di applicazione e 
-le peculiarità che ne stanno causando la rapida diffusione. 
-Successivamente saranno descritti gli strumenti che sono stati utilizzati per lo svolgimento di questa tesi,
-ossia le reti neurali ricorrenti (\emph{RNNLM}), i vector space models (\emph{word2vec}) e 
-i classificatori lineari (\emph{Liblinear}).
 
 \section{Sentiment Analisys}
+\cite{sec:sentAnal}
 Con il termine \emph{Sentiment analysis}, o \emph{opinion minig}, si intende uno studio 
 che analizza le opinioni, i sentimenti, le valutazioni e le
 emozioni del linguaggio scritto utilizzato dalle persone.
@@ -98,6 +89,118 @@ scritte nel post di un blog o in un forum, che rendono difficoltosa anche ad un 
 e la sintesi delle informazioni utili: ecco perché diventa cosi importante uno studio finalizzato e 
 strutturato in un determinato ambito.
 
+\chapter{Titolo da decidere}
+
+In questo capitolo vengono analizzate alcune
+ricerche effettuate sulla \emph{sentiment analysis} in particolare
+quelle ricerche nelle quali sono stati presentati gli stessi strumenti utilizzati 
+in questa tesi: le reti neurali ricorrenti (\emph{RNNLM}), la rappresentazione vettoriale di parole \emph{word embedding}
+attraverso (\emph{word2vec}) e 
+i classificatori lineari (\emph{Liblinear}).
+
+Come presentato nel Capitolo \ref{sec:sentAnal} e come posiamo vedere
+dalle ricerche di Pang and Lee (2008) %todo
+la \emph{sentiment classification} e' uno degli aspetti piu' studiati della NLP.
+L'obbiettivo di questo tipo di ricerca e' quello di classificare dei determinati testi in modo da dividerli
+in quelli che esprimono un parere positivo e in quelli che esprimono un parere negativo.
+La ricerca di Liu (2010) %todo
+teorizza i due tipi di formulazione di questo problema: la prima, chiamata \emph{classification}
+categorizza il testo in due valori differenti (es. positivo o negativo) la seconda, definita 
+\emph{regression} invece assegna un punteggio ai testi analizzati (es. un valore da 1 a 5)
+in modo da differenziarli con una granularita' maggiore.
+
+Entrando nello specifico vediamo come il lavoro di Liu et al. (2007) %todo
+propone una \emph{sentiment analisys} per predire le performance di vendita di una particolare
+azienda. Invece, piu' vicine all'argomento trattato in questa tesi,
+sono le numerose ricerche svolte nell'ambito dei social network come per esempio quelle di 
+Yano e Smith (2010) %todo
+dove viene presentato un metodo per predire l'esito di film analizzando dati
+provenineti da forum e dal sito web \emph{Internet Movie Database} o il lavoro di
+Groh and Hauffa (2011) %todo
+dove e' stato analizzato come si evolvono le relazioni sociali tra utenti di Twitter.
+%todo aggiunge robe relative alla polarity}
+
+Come possiamo leggere dalla pubblicazione di \cite{Ens2015}, dove vengono analizzati vari
+approcci di \emph{machine learning} al problema di \emph{sentiment analysis},
+in particolare viene presentato l'approccio tradizionale utilizzando tecniche di
+\emph{bag-of-words} o di \emph{bag-of-ngram} (Pang and Lee, 2008; Wang and Manning, 2012)
+e in dettaglio un approccio piu' complesso che utilizza una \emph{language model} generativo
+insieme a uno discriminativo.
+L'obbiettivo di questo approccio e' il fatto che questi due tipi di modelli sono
+complementari e l'utilizzo simultaneo aumenta la precisione del risultato.
+La logica dietro al modello generativo e' il fatto che, dopo aver effettuato il \emph{training}
+di due modelli su dati che esprimono pareri positivi e dati che esprimono pareri negativi,
+viene utilizzato la percentuale di somiglianza di questi due modelli rispetto ai dati del file di
+test. In questo modo ci si aspetta che, se un testo tra quelli utilizzati come test, esprime un parere positivo
+abbiamo piu' possibilita' di venir generato da un modello creato da un set di dati che esprimono
+pareri positivi rispetto a quelli che esprimono un parere negativo.
+
+Proprio questo approccio, riguardo l'utilizzo di sistema generativo insieme ad uno negativo, e' quello utilizzato in questa
+tesi, in particolare e' stata usata come modello generativo una \emph{recurrent neural networks} in particolare RNNLM
+e come discriminativo\emph{word2vec}.
+
+In particolare, come possiamo leggere anche dalle ricerche di \cite{Miktesi},
+vediamo come gli \emph{statistical language models} sono ampiamente utilizzati
+in diverse applicazioni: per esempio la \emph{speech recognition} o \emph{machine translator}.
+Tradizionalmente le tecniche per la costruzione di questi modelli si basano sull'utilizzo di 
+N-grammi. Nonostante le debolezze del modello ad N-grammi e l'enorme sforzo della
+comunita' di ricerca di numerosi campi (\emph{speech recognition}, neuroscienza, intelligenza
+artificiale) questo tipo di modello e' rimasto per lungo tempo come lo stato dell'arte.
+Ma, come mostrado da \cite{Mik2010} e da \cite{MikEmp},
+recentemente e' stato possibile costruire  \emph{Language Models}(LM) tramite \emph{Recurrent Neural Network}(RNN),
+e' stato anche dimostrato e come questi RNN LM abbiano una qualita' superiore rispetto a tecniche
+che utilzzano \emph{n-grams} al costo, pero', di avere una piu' alta complessita' computazionale.
+
+Proprio questo modello basato su RNN, per la precisione quello
+proposto nel lavoro pubblicato da \cite{MikRNN}, si puo' vedere come sia
+stato possibile ridurre la complessita' di questo tipo di modello di calcolo e 
+come sia stato possibile realizzare RNN LM con
+velocita' superiori (fino a quindici volte) rispetto a RNN base attraverso l'utilizzo
+di un algoritmo di \emph{backpropagation throught time}.
+
+Per quanto riguarda la parte riguardante il modello discriminativo 
+Il lavoro presentato e' basato sulle ricerche effettuate da Mikolov et al (2013) %todo
+dove sono state presentati due differenti modelli di \emph{word embedding}, CBOW e 
+skip-gram trattati piu' approfonditamente nel paragrafo \ref{sec:word2vec}
+entrambi i modelli,
+attraverso l'uso della regressione lineare, predicono la parola target.
+In particolare, come presentato nella ricerca di Le e Mikolov, (2014)%todo
+e' stato utilizzato
+un modello che utilizza i \emph{paraghrap vectors}(PV). Il modello PV si basa sul fatto
+di estendere word2vec in modo da catturare informazioni sintattiche e semantiche 
+provenienti da un frammento di testo (paragrafia, fasi, interi testi etc.).
+Questa estensione del modello e' effetuata inserendo un \emph{token}, un codice fittizio,
+all'inizio del frammento di testo e applicando gli stessi algoritmi utilizzati 
+precedentemente ma considerando l'intero frammento di testo come contesto del \emph{token}.
+Al termine del processo di \emph{training} il vettore di \emph{embedding} corrisponde
+al \emph{token} e' il PV che rappresenta l'intero frammento di testo e puo' essere
+usanto in task di classificazione.
+
+A livello di letteratura possiamo vedere come il lavoro di \cite{Baroni2010}
+presenti come una rappresentazione di parole distribuita, basata sulla \emph{Harris distributional hypotesis}
+abbia giocato un ruolo centrale nel campo dell'analisi del linguaggio naturale (NLP)
+piu' recentemente in vari studi proposti da 
+Bengio et al, Collobert and Weston, Mnih e Mikolov et al. (2011) %todo
+%\cite{Collobert2011} 
+hanno utilizzato vettori densi derivati da RNN. Questi vettori vengono piu' specificatamente
+definiti \emph{word embedding} e sono stati utilizzati in numerosi tasks NLP.
+In particolare e' stato preso in considerazione il lavoro fatto da Mikolov e Le dove hanno
+presentato \cite{Mik2014} un sistema che rappresenta un testo, che puo' essere suddiviso in
+frasi, parole o paragrafi utilizzando un vettore denso per predire parole nel documento.
+
+%Come mostrato da (chi?) utilizzando classificatori lineari come Liblinear \cite{rong2015} presentato da 
+%Rong et al. e' possibile effetuare cosa?
+
+%Il lavoro di tesi si basa dalle ricerche presentate da vari autori: e' stato effettuato i training 
+%della RNN come e' stato presentado da Kalchabrenner et al. (2014) e Kim (2014)%todo
+%dove sono state presentate nuove riceche allo stato dell'arte riguardo il task di 
+%classificazione riguardo la \emph{sentiment analysis}
+%Svariate ricerche, che utilizzano RNN o \emph{deep convulotinal networks} hanno dimostrato
+%che il \emph{training} di tali reti.
+
+
+%\`E opportuno sottolineare che i modelli descritti non utilizzano l'informazione
+%sull'ordinamento delle parole (Qui et al., 2014; Lai et al., 2015; Trask et al., 2015)%todo.
 
 \section{Recurrent Neural Networks}
 Gli esseri umani non iniziano a pensare da zero: esiste infatti per la mente umana una capacità di 
@@ -217,6 +320,7 @@ da RNNLM è un file contenente una lista di frasi, ognuna anteposta con un ident
 numerico univoco, su cui effettuare lo scoring.
 
 \section{Word2Vec}
+\label{sec:word2vec}
 Storicamente i sistemi di \emph{natural language processing} trattano le parole come simboli atomici e discreti:
 per esempio la parola ``gatto'' può essere rappresentata da \textbf{Id123} e la parola ``cane'' come \textbf{Id453}.
 Questa codifica è arbitraria e non fornisce alcuna informazione al sistema riguardo la relazione
