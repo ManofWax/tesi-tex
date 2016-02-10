@@ -17,7 +17,7 @@
 \chapter{Introduzione}
 
 \section{Sentiment Analisys}
-\cite{sec:sentAnal}
+\label{sec:sentAnal}
 Con il termine \emph{Sentiment analysis}, o \emph{opinion minig}, si intende uno studio 
 che analizza le opinioni, i sentimenti, le valutazioni e le
 emozioni del linguaggio scritto utilizzato dalle persone.
@@ -89,110 +89,118 @@ scritte nel post di un blog o in un forum, che rendono difficoltosa anche ad un 
 e la sintesi delle informazioni utili: ecco perché diventa cosi importante uno studio finalizzato e 
 strutturato in un determinato ambito.
 
-\chapter{Titolo da decidere}
+\chapter{Modelli utilizzati}
 
-In questo capitolo vengono analizzate alcune
-ricerche effettuate sulla \emph{sentiment analysis} in particolare
-quelle ricerche nelle quali sono stati presentati gli stessi strumenti utilizzati 
-in questa tesi: le reti neurali ricorrenti (\emph{RNNLM}), la rappresentazione vettoriale di parole \emph{word embedding}
+Lo scopo di questo capitolo è quello di analizzare alcune ricerche effettuate sulla 
+\emph{sentiment analysis}, in particolare quelle in cui sono presenti gli stessi strumenti 
+utilizzati in questa tesi: le reti neurali ricorsive (\emph{RNNLM}), 
+la rappresentazione vettoriale di parole \emph{word embedding}
 attraverso (\emph{word2vec}) e 
 i classificatori lineari (\emph{Liblinear}).
 
-Come presentato nel Capitolo \ref{sec:sentAnal} e come posiamo vedere
-dalle ricerche di Pang and Lee (2008) %todo
-la \emph{sentiment classification} e' uno degli aspetti piu' studiati della NLP.
-L'obbiettivo di questo tipo di ricerca e' quello di classificare dei determinati testi in modo da dividerli
-in quelli che esprimono un parere positivo e in quelli che esprimono un parere negativo.
-La ricerca di Liu (2010) %todo
-teorizza i due tipi di formulazione di questo problema: la prima, chiamata \emph{classification}
-categorizza il testo in due valori differenti (es. positivo o negativo) la seconda, definita 
-\emph{regression} invece assegna un punteggio ai testi analizzati (es. un valore da 1 a 5)
-in modo da differenziarli con una granularita' maggiore.
+Come già esposto nel Capitolo \ref{sec:sentAnal} e come si può desumere
+dalle ricerche effettuate da Pang and Lee (2008) %todo
+la \emph{sentiment classification} è uno degli aspetti più studiati della NLP.
+L’obiettivo che questo tipo di analisi si prefigge è quello di operare una classificazione su determinati testi, suddividendoli in base ai contenuti, positivi oppure negativi, che gli stessi esprimono. 
 
-Entrando nello specifico vediamo come il lavoro di Liu et al. (2007) %todo
-propone una \emph{sentiment analisys} per predire le performance di vendita di una particolare
-azienda. Invece, piu' vicine all'argomento trattato in questa tesi,
-sono le numerose ricerche svolte nell'ambito dei social network come per esempio quelle di 
+Una ricerca condotta da 
+Liu (2010) %todo
+ha portato a teorizzare due diverse modalità per affrontare questo problema: la prima, denominata
+ \emph{classification}
+categorizza il testo in base a due valori differenti (es. positivo o negativo); la seconda, definita 
+\emph{regression}, invece assegna un punteggio ai testi analizzati (es. un valore da 1 a 5)
+in modo tale che la loro differenziazione si basi su un maggior numero di elementi discriminanti.
+
+Entrando nello specifico, possiamo constatare come il lavoro di Liu et al. (2007) %todo
+proponga una \emph{sentiment analisys} per ipotizzare le performance di vendita di una particolare
+azienda. 
+\`E interessante, inoltre, soffermarsi sulle numerose ricerche svolte nell’ambito dei social network, settore che oltretutto è più vicino all’argomento trattato in questa tesi: ricordiamo, in primo luogo,  lo studio 
 Yano e Smith (2010) %todo
-dove viene presentato un metodo per predire l'esito di film analizzando dati
-provenineti da forum e dal sito web \emph{Internet Movie Database} o il lavoro di
+che presenta un metodo per prevedere l'esito di film, analizzando i dati
+provenineti dai forum e dal sito web \emph{Internet Movie Database}; è indicativo, inoltre,
+il lavoro di
 Groh and Hauffa (2011) %todo
-dove e' stato analizzato come si evolvono le relazioni sociali tra utenti di Twitter.
+che analizza l’evolversi delle relazioni sociali tra utenti di Twitter.
 %todo aggiunge robe relative alla polarity}
 
-Come possiamo leggere dalla pubblicazione di \cite{Ens2015}, dove vengono analizzati vari
+Un ulteriore e interessante contributo a questo argomento viene fornito 
+dalla pubblicazione di \cite{Ens2015}, dove vengono esaminati vari
 approcci di \emph{machine learning} al problema di \emph{sentiment analysis},
-in particolare viene presentato l'approccio tradizionale utilizzando tecniche di
+in particolare viene presentato l'approccio tradizionale, che utilizza tecniche di
 \emph{bag-of-words} o di \emph{bag-of-ngram} (Pang and Lee, 2008; Wang and Manning, 2012)
-e in dettaglio un approccio piu' complesso che utilizza una \emph{language model} generativo
-insieme a uno discriminativo.
-L'obbiettivo di questo approccio e' il fatto che questi due tipi di modelli sono
-complementari e l'utilizzo simultaneo aumenta la precisione del risultato.
-La logica dietro al modello generativo e' il fatto che, dopo aver effettuato il \emph{training}
-di due modelli su dati che esprimono pareri positivi e dati che esprimono pareri negativi,
-viene utilizzato la percentuale di somiglianza di questi due modelli rispetto ai dati del file di
-test. In questo modo ci si aspetta che, se un testo tra quelli utilizzati come test, esprime un parere positivo
-abbiamo piu' possibilita' di venir generato da un modello creato da un set di dati che esprimono
-pareri positivi rispetto a quelli che esprimono un parere negativo.
+e, in dettaglio, un approccio più complesso che impiega un \emph{language model} generativo
+abbinandolo ad un sistema discriminativo: 
+l’utilizzo di quest’ultimo metodo, che usa in maniera simultanea due tipi di modelli complementari
+aumenta la precisione del risultato.
+La logica sottesa al modello generativo consiste nel fatto che, dopo aver effettuato il \emph{training}
+di due modelli su dati che esprimono pareri positivi e pareri negativi,
+si utilizza la percentuale di somiglianza di questi due modelli rispetto ai dati del file di
+test. In questo modo 
+possiamo dunque ipotizzare che sia maggiore la possibilità che uno scritto connotato 
+da parere positivo tra quelli utilizzati come test, venga generato da un modello proveniente 
+da un set di dati che esprimono pareri positivi rispetto a quelli che esprimono pareri negativi.
 
-Proprio questo approccio, riguardo l'utilizzo di sistema generativo insieme ad uno negativo, e' quello utilizzato in questa
-tesi, in particolare e' stata usata come modello generativo una \emph{recurrent neural networks} in particolare RNNLM
-e come discriminativo\emph{word2vec}.
 
-In particolare, come possiamo leggere anche dalle ricerche di \cite{Miktesi},
-vediamo come gli \emph{statistical language models} sono ampiamente utilizzati
-in diverse applicazioni: per esempio la \emph{speech recognition} o \emph{machine translator}.
+In questa tesi è stato utilizzato proprio questo approccio, 
+e cioè l’impiego di un sistema generativo in concomitanza con un sistema discriminativo:
+in particolare, come modello generativo  è stata usata una \emph{recurrent neural networks} 
+\- e nello specifico RNNLM \- e, come modello discriminativo \emph{word2vec}.
+
+Alcune ricerche svolte da \cite{Miktesi} sull'argomento ci confermano che 
+gli \emph{statistical language models} sono ampiamente utilizzati
+in diverse applicazioni, come per esempio la \emph{speech recognition} o \emph{machine translator}.
 Tradizionalmente le tecniche per la costruzione di questi modelli si basano sull'utilizzo di 
-N-grammi. Nonostante le debolezze del modello ad N-grammi e l'enorme sforzo della
-comunita' di ricerca di numerosi campi (\emph{speech recognition}, neuroscienza, intelligenza
-artificiale) questo tipo di modello e' rimasto per lungo tempo come lo stato dell'arte.
-Ma, come mostrado da \cite{Mik2010} e da \cite{MikEmp},
-recentemente e' stato possibile costruire  \emph{Language Models}(LM) tramite \emph{Recurrent Neural Network}(RNN),
-e' stato anche dimostrato e come questi RNN LM abbiano una qualita' superiore rispetto a tecniche
-che utilzzano \emph{n-grams} al costo, pero', di avere una piu' alta complessita' computazionale.
+N-grammi che,
+pur avendo evidenziato alcune debolezze e nonostante l'enorme sforzo della
+comunità di ricerca in numerosi campi (\emph{speech recognition}, neuroscienza, intelligenza
+artificiale) per trovare un modello alternativo sono rimasti per lungo tempo come lo stato dell'arte.
+Recentemente, tuttavia, è stato possibile costruire \emph{Language Models}(LM) 
+tramite \emph{Recurrent Neural Network}(RNN), come mostrado da \cite{Mik2010,MikEmp},
+è stato altresì dimostrato come queste RNN LM abbiano una qualità superiore rispetto alle tecniche
+che utilzzano \emph{n-grams} anche se ciò comporta una più alta complessità computazionale.
 
-Proprio questo modello basato su RNN, per la precisione quello
-proposto nel lavoro pubblicato da \cite{MikRNN}, si puo' vedere come sia
-stato possibile ridurre la complessita' di questo tipo di modello di calcolo e 
-come sia stato possibile realizzare RNN LM con
-velocita' superiori (fino a quindici volte) rispetto a RNN base attraverso l'utilizzo
+Proprio analizzando questo modello basato su RNN, per la precisione quello
+proposto nel lavoro pubblicato da \cite{MikRNN}, appare evidente come sia
+stato possibile ridurre la complessità  di calcolo e realizzare RNN LM con
+velocità superiori (anche fino a quindici volte) rispetto a RNN base attraverso l'utilizzo
 di un algoritmo di \emph{backpropagation throught time}.
 
-Per quanto riguarda la parte riguardante il modello discriminativo 
-Il lavoro presentato e' basato sulle ricerche effettuate da Mikolov et al (2013) %todo
-dove sono state presentati due differenti modelli di \emph{word embedding}, CBOW e 
-skip-gram trattati piu' approfonditamente nel paragrafo \ref{sec:word2vec}
-entrambi i modelli,
-attraverso l'uso della regressione lineare, predicono la parola target.
-In particolare, come presentato nella ricerca di Le e Mikolov, (2014)%todo
-e' stato utilizzato
-un modello che utilizza i \emph{paraghrap vectors}(PV). Il modello PV si basa sul fatto
-di estendere word2vec in modo da catturare informazioni sintattiche e semantiche 
-provenienti da un frammento di testo (paragrafia, fasi, interi testi etc.).
-Questa estensione del modello e' effetuata inserendo un \emph{token}, un codice fittizio,
-all'inizio del frammento di testo e applicando gli stessi algoritmi utilizzati 
-precedentemente ma considerando l'intero frammento di testo come contesto del \emph{token}.
-Al termine del processo di \emph{training} il vettore di \emph{embedding} corrisponde
-al \emph{token} e' il PV che rappresenta l'intero frammento di testo e puo' essere
-usanto in task di classificazione.
-
-A livello di letteratura possiamo vedere come il lavoro di \cite{Baroni2010}
-presenti come una rappresentazione di parole distribuita, basata sulla \emph{Harris distributional hypotesis}
+Per quanto riguarda il modello discriminativo, in letteratura possiamo vedere come il lavoro di \cite{Baroni2010}
+dimostri in che modo una rappresentazione di parole distribuita, 
+basata sulla \emph{Harris distributional hypotesis},
 abbia giocato un ruolo centrale nel campo dell'analisi del linguaggio naturale (NLP)
-piu' recentemente in vari studi proposti da 
+più recentemente in vari studi proposti da 
 Bengio et al, Collobert and Weston, Mnih e Mikolov et al. (2011) %todo
 %\cite{Collobert2011} 
-hanno utilizzato vettori densi derivati da RNN. Questi vettori vengono piu' specificatamente
-definiti \emph{word embedding} e sono stati utilizzati in numerosi tasks NLP.
-In particolare e' stato preso in considerazione il lavoro fatto da Mikolov e Le dove hanno
-presentato \cite{Mik2014} un sistema che rappresenta un testo, che puo' essere suddiviso in
-frasi, parole o paragrafi utilizzando un vettore denso per predire parole nel documento.
+sono stati utilizzati vettori densi derivati da RNN. Questi vettori vengono più specificatamente
+definiti \emph{word embedding} e sono stati adottati in numerosi tasks NLP.
+
+Il lavoro presentato è basato sulle ricerche effettuate da Mikolov et al (2013) %todo
+che presentano due differenti modelli di \emph{word embedding}, CBOW e 
+skip-gram trattati più approfonditamente nel paragrafo \ref{sec:word2vec}:
+entrambi i modelli,
+attraverso l'uso della regressione lineare, prevedono la parola target.
+In particolare, come presentato nella ricerca di Le e Mikolov (2014)%todo
+è stato impiegato
+un modello che utilizza i \emph{paraghrap vectors}(PV): il modello PV si basa sul fatto
+di estendere \emph{word2vec} in modo da catturare informazioni sintattiche e semantiche 
+provenienti da un frammento di testo (paragrafi, frasi, interi testi etc.).
+Questa estensione del modello si effettua inserendo un \emph{token}, un codice fittizio,
+all'inizio del frammento di testo e applicando gli stessi algoritmi utilizzati 
+precedentemente, ma considerando l'intero frammento di testo come contesto del \emph{token}.
+Al termine del processo di \emph{training} il vettore di \emph{embedding} corrispondete
+al \emph{token} sarà il PV che rappresenta l'intero frammento di testo e potra'
+essere usato in task di classificazione.
+
+In particolare, è stato preso in considerazione il lavoro effettuato da \cite{Mik2014}:
+is sistema proposto dai due studiosi rappresenta un testo, che può essere suddiviso in
+frasi, parole o paragrafi utilizzando un vettore denso per prevedere parole nel documento.
 
 %Come mostrato da (chi?) utilizzando classificatori lineari come Liblinear \cite{rong2015} presentato da 
-%Rong et al. e' possibile effetuare cosa?
+%Rong et al. è possibile effetuare cosa?
 
-%Il lavoro di tesi si basa dalle ricerche presentate da vari autori: e' stato effettuato i training 
-%della RNN come e' stato presentado da Kalchabrenner et al. (2014) e Kim (2014)%todo
+%Il lavoro di tesi si basa dalle ricerche presentate da vari autori: è stato effettuato i training 
+%della RNN come è stato presentado da Kalchabrenner et al. (2014) e Kim (2014)%todo
 %dove sono state presentate nuove riceche allo stato dell'arte riguardo il task di 
 %classificazione riguardo la \emph{sentiment analysis}
 %Svariate ricerche, che utilizzano RNN o \emph{deep convulotinal networks} hanno dimostrato
@@ -256,11 +264,15 @@ class RNN:
     return y
 \end{verbatim}
 
-Si può notare come la \emph{RNN} utilizzi tre parametri: \emph{W\_hh, W\_xh, W\_hy}, inizializzato a zero
-è \emph{self.h} e la funzione \emph{np.tanh} fornisce come output un valore che oscilla tra $[-1,1]$.
+Si può notare come la \emph{RNN} utilizzi tre matrici: \emph{W\_hh, W\_xh, W\_hy}, l'\emph{hidden state self.h}
+e' inizializzato ome un vettore di zeri e la funzione \emph{np.tanh} fornisce come output un valore che oscilla tra $[-1,1]$.
 All'interno di questa funzione notiamo due termini, uno che si basa sullo stato dell'input attuale e uno che 
 rappresenta il valore dello stato interno precedente. I due termini vengono sommati prima di essere processati dalla 
 funzione stessa.
+Le matrici sono inizializzate con numeri casuali e la maggior parte di tempo speso durante la fase di
+\emph{training} viene utilizzato nella ricerca di valori di queste matrici in modo che 
+la rete si comporti nella modo desiderato, cioe' che restituisca in output l'$y$ che vorremmo avere
+quando forniamo in input la sequenza $x$.
 
 \subsection{RNNLM}
 La rete neurale utilizzata per l'analisi dei dati in questa tesi è il toolkit RNNLM. 
@@ -322,7 +334,7 @@ numerico univoco, su cui effettuare lo scoring.
 \section{Word2Vec}
 \label{sec:word2vec}
 Storicamente i sistemi di \emph{natural language processing} trattano le parole come simboli atomici e discreti:
-per esempio la parola ``gatto'' può essere rappresentata da \textbf{Id123} e la parola ``cane'' come \textbf{Id453}.
+per esempio la parola ``gatt'' può essere rappresentata da \textbf{Id123} e la parola ``cane'' come \textbf{Id453}.
 Questa codifica è arbitraria e non fornisce alcuna informazione al sistema riguardo la relazione
 che può esistere tra due differenti simboli.
 Questo significa che il nostro sistema non può utilizzare praticamente nulla di quello che ha imparato
@@ -333,8 +345,8 @@ con la conseguente necessità di dover ottenere un maggior numero di dati per ri
 statistico rappresentativo; proprio questa base dati sparsa è il principale problema 
 ad essere risolto dalla rappresentazione tramite vettori.
 
-\subsection{Vectors space model}
-I \emph{Vectors space models (VSM)} sono rappresentazioni \emph{embedding} di parole in uno spazio vettoriale 
+\subsection{Word embedding}
+Con il termine \emph{word embedding} intendiamo una rappresentazione di parole in uno spazio vettoriale 
 continuo, ovvero un'area in cui le parole
 semanticamente simili sono mappate in punti vicini: questo metodo si basa sulla \emph{distributional hypotesis}, 
 cioè sul fatto che parole che appaiono in 
@@ -347,7 +359,7 @@ Questa idea è stata successivamente utilizzata in maniera diffusa, trovando amp
 applicazione in modelli di ricognizione del parlato,
 di traduzione automatica, nonché di numerosi altri tasks.
 
-Recentemente, Mikolov et al. hanno introdotto il modello skip-gram 
+Recentemente, Mikolov et al. hanno introdotto il modello skip-gram: 
 un metodo efficiente per ottenere
 rappresentazioni vettoriali di parole provenienti da un grande numero di dati testuali non strutturati.
 
@@ -367,7 +379,7 @@ calcolare vettori partendo da un testo contenente più di 100 miliardi di parole
 \subsection{Modello Skip-gram}
 Nel modello Skip-gram l'obiettivo di training è quello di creare un vettore di parole che
 può essere utilizzato per prevedere vocaboli attorno ad una frase o ad un documento. Più formalmente,
-data una sequenza di parole $w_1,w_2,w_3,\dot{},w_T$ definita come training set, 
+data una sequenza di parole $w_1,w_2,w_3,\ldots,w_T$ definita come training set, 
 l'obbiettivo del modello è quello di aumentare la
 probabilità logaritmica:
 \begin{equation}
@@ -379,7 +391,7 @@ Utilizzare un $c$ più grande porta ad avere una precisione maggiore. In questo 
 tempo di calcolo. La formulazione standard del modello Skip-gram definisce $p(w_t+j|w_t)$ usando la funzione
 softmax:
 \begin{equation}
-	p(w_O|w_I) = \frac{\exp(v_{w_O} v_{w_I}}{\sum_{w=1}^{W}\exp(v_w v_{w_I}}
+	p(w_O|w_I) = \frac{\exp(v_{w_O} v_{w_I})}{\sum_{w=1}^{W}\exp(v_w v_{w_I})}
 	\label{eq:softmax}
 \end{equation}
 
@@ -407,7 +419,7 @@ la lunghezza di questo percorso in modo che $n(w,1) = radice$ e $n(w,L(w)) = w$.
 In aggiunta, per ogni nodo interno $n$, definiamo $ch(n)$ come un arbitrario nodo figlio di $n$ e $[x]$ ha il valore $1$ se $x$ è vero e $-1$ altrimenti.
 Quindi il softmax gerarchico definisce $p(w_O|w_I)$ come segue:
 \begin{equation}
-	p(w|w_I) = \prod_{j=1}^{L(w)-1}\sigma([n(w,j+1)=ch(n(w,j))]\dot v_{n(w,j)} )
+	p(w|w_I) = \prod_{j=1}^{L(w)-1}\sigma([n(w,j+1)=ch(n(w,j))]\cdot v_{n(w,j)} )
 	\label{eq:hierarchicalSoftmax}
 \end{equation}
 
@@ -477,9 +489,9 @@ i tempi di calcolo vengono ridotti di tre ordini di grandezza (da svariate ore a
 Liblinear supporta due popolari classificatori binari \emph{LR, L2-regularized logistic regression} e 
 \emph{SVM L2-loss linear support vector machine}, dato un inseme di coppie
 indicizzate $(x_i,y_i),i=1,\dot{},l,x_i\in R^n, y_i \in \{-1,+1\}$ entrambi i metodi risolvono lo stesso
-problema di ottimizzazione senza vincoli ma con differenti \emph{loss functions} $\Xi(w;x_i,y_i)$:
+problema di ottimizzazione senza vincoli ma con differenti \emph{loss functions} $\xi(w;x_i,y_i)$:
 \begin{equation}
-	min_w \frac{1}{2}w^Tw+C\sum_i=1^l\Xi(w;x_i;y_i)
+	min_w \frac{1}{2}w^Tw+C\sum_i=1^l\xi(w;x_i;y_i)
 	\label{eqn:liblinear1}
 \end{equation}
 
@@ -495,34 +507,34 @@ Utilizzando la \emph{regressione lineare} è possibile utilizzare l'eseguibile \
 che fornisca in output le stima delle probabilità per ogni riga.
 
 \chapter{Capitolo sull'analisi dei dati}
-In questo capitolo verra' descritta inizialmente la raccolta dei dati, la loro normalizzazione e la loro struttura.
-Successivamente verranno applicate le varie tecniche utilizzate per ottenere i vari risultati, in particolare verra' dapprima
+In questo capitolo verrà descritta inizialmente la raccolta dei dati, la loro normalizzazione e la loro struttura.
+Successivamente verranno applicate le varie tecniche utilizzate per ottenere i vari risultati, in particolare verrà dapprima
 analizzato RNNLM, successivamente word2vec e liblinear infine verranno mostrati i risultati finali applicando
 tutte le tecniche trattate fino ad ora.
 
 \section{Raccolta dati}
 La raccolta dati è stata svolta svolta partendo dal primo Gennaio 2015, i dati raccolti provengono da dodici canali Twitch scelti in modo che rappresentassero un parte omogenea di informazioni:
 in particolare sono stati scelti i canali con maggiore audience (numero medio di spettatori collegati) 
-dei quattro giochi piu' popolari, secondo le statistiche del mese di Gennaio 2015, della piattaforma Twitch.tv.
+dei quattro giochi più popolari, secondo le statistiche del mese di Gennaio 2015, della piattaforma Twitch.tv.
 
 E' opportuno specificare che i canali e quindi anche i dati raccolti, sono tutti in lingua inglese.
-Questa scelta e' stata principalmente determinata tramite un immediato confronto tra
-la popalarita' dei canali in lingua inglese rispetto a quelli italiani: nel mese di Gennaio 2015
+Questa scelta è stata principalmente determinata tramite un immediato confronto tra
+la popalarità dei canali in lingua inglese rispetto a quelli italiani: nel mese di Gennaio 2015
 la media di spettatori per un canale in lingua inglese era di 30.000 persone, mentre
 per un canale italiano si aggirava intorno al centinaio.
 
 La chat presente sulla piattaforma Twitch utilizza il protocollo IRC, Twitch gestisce un server dedicato (server: irc.twitch.tv ). 
-L'accesso al server di chat e' disponibile,
+L'accesso al server di chat è disponibile,
 per gli utenti, tramite interfaccia web direttamente dal sito ufficiale mentre, per eventuali servizi di backend, sono disponibili
-delle API ufficiali che, previa registrazione, offre la possibilita' monitorare e interagire in tempo reale nei vari canali.
+delle API ufficiali che, previa registrazione, offre la possibilità monitorare e interagire in tempo reale nei vari canali.
 
 Nonostante la piattaforma Twitch fornisca un archivio, sempre accessibile via browser, con tutte le trasmissione 
-passate dei vari canali non e' data la possibilita' di accedere
-ai dati storici delle chat, per questo motivo e' stato necessario l'utilizzo di un bot IRC che monitorasse in modo costante i canali e che provedesse alla registrazione dei vari messaggi.
+passate dei vari canali non è data la possibilità di accedere
+ai dati storici delle chat, per questo motivo è stato necessario l'utilizzo di un bot IRC che monitorasse in modo costante i canali e che provedesse alla registrazione dei vari messaggi.
 
-Per la realizzazione del bot e' stata utilizzato come base il bot opensource Pierc. Il suddetto software e' stato esteso in modo che potesse utilizzare il login e la registrazione al server IRC
+Per la realizzazione del bot è stata utilizzato come base il bot opensource Pierc. Il suddetto software è stato esteso in modo che potesse utilizzare il login e la registrazione al server IRC
 tramite API Twitch; i canali che si vogliono monitorare sono stati gestiti tramite file di configurazione testuale e tutti i messaggi registrati salvati in un database MySQL.
-La struttura del database e' la seguente:
+La struttura del database è la seguente:
 
 \begin{table}
 	\centering
@@ -552,15 +564,15 @@ E' opportuno notare come si sia scelto di aggiungere, oltre al testo del messagg
 specifiche considerando solo particolari giornate o dati provenienti solo da un particolare giocatore.
 
 \section{Normalizzazione del corpus}
-Uno dei problemi principali incontrati nell'analisi di dati e' stata quella della normalizzazione del corpus,
-inanzitutto, al momento di stesura della tesi, non e' mai stata fatta nessun
+Uno dei problemi principali incontrati nell'analisi di dati è stata quella della normalizzazione del corpus,
+inanzitutto, al momento di stesura della tesi, non è mai stata fatta nessun
 tipo di analisi su questo tipo di dati, quindi
-e' impossibile trovare una metodologia gia' applicata per questo tipo di dati.
+è impossibile trovare una metodologia già applicata per questo tipo di dati.
 
-Inoltre Twitch e' una piattaforma nata negli ultimi 3 anni ma che e' cresciuta in maniera esponenziale,
+Inoltre Twitch è una piattaforma nata negli ultimi 3 anni ma che è cresciuta in maniera esponenziale,
 creando una sottocultura di Internet con atteggiamenti, frasi ricorrenti, particolari scherzi
 o giochi di parole e atteggiamenti nuovi.
-Questa cultura si e' talmente estesa fino ad influenzare addirittura altre piattaforme.
+Questa cultura si è talmente estesa fino ad influenzare addirittura altre piattaforme.
 Per esempio alcuni atteggiamenti, o addirittura emoticons, vengono utilizzate su altre 
 piattaforme come per esempio lo streaming su Youtube.
 Questo ha portato alla formazione di particolari tipologie di messaggi, che tramite un analisi effettuata in maniera manuale sono state suddivise in vari modi:
@@ -585,25 +597,25 @@ Questo ha portato alla formazione di particolari tipologie di messaggi, che tram
 	\label{tab:messaggiTwitch}
 \end{table}
 
-Fortunatamente, oltre a questi messaggi speciali, sono presenti una gran quantita' di messaggi standard come possiamo vedere nel box sotto:
+Fortunatamente, oltre a questi messaggi speciali, sono presenti una gran quantità di messaggi standard come possiamo vedere nel box sotto:
 \begin{verbatim}
 messaggi standarda blab lab
 aeouue yproet uo ithbaue 
 aebh cxue huebuencausb 
 \end{verbatim}
 
-Per normalizzare il corpus e' stato usato come tokenizzatore Twokenizer, un tokenizzatore sviluppado dalla Carnagie Mellon per gestire dati provenienti da Twitter. 
-Si e' scelto di utilizzare questo Tokenizzatore perche', a parte i casi particolari indicati nella tabella
+Per normalizzare il corpus è stato usato come tokenizzatore Twokenizer, un tokenizzatore sviluppado dalla Carnagie Mellon per gestire dati provenienti da Twitter. 
+Si è scelto di utilizzare questo Tokenizzatore perché, a parte i casi particolari indicati nella tabella
 \ref{tab:messaggiTwitch} l'unica differenza importante che possiamo trovare tra i messaggi di Twitch e
 quelli di twitter sonon gli
 hashtag, che utilizzati solo in Twitter. 
 
-Twokenizer e' stato oppurtunatamete
+Twokenizer è stato oppurtunatamete
 modificato inanzitutto andando a sostituire tutte le emoticons espresse in caratteri UTF8 con un corrispettivo \emph{token}
-utilizzando una tabella di mapping (una parte di essa e' mostrata nella figura \ref{fig:mappingEmo}). In
-questo modo si e' evitato sia di dover gestire emoticons composte da caratteri multipli sia di gestire
+utilizzando una tabella di mapping (una parte di essa è mostrata nella figura \ref{fig:mappingEmo}). In
+questo modo si è evitato sia di dover gestire emoticons composte da caratteri multipli sia di gestire
 i caratteri UTF8 non supportati, come vedremo, da word2vec.
-In secondo luogo si e' provveduto nella sostituzione di tutti gli \emph{URL} con il token \emph{url} ed infine
+In secondo luogo si è provveduto nella sostituzione di tutti gli \emph{URL} con il token \emph{url} ed infine
 sono stati ignorati i simboli \emph{\#} (che indicano i cosidetti hashtag) e trattate come segno di punteggiatura normale dato che su Twitch non
 sono presenti gli hashtag.
 
@@ -614,14 +626,14 @@ sono presenti gli hashtag.
 	\label{fig:mappingEmo}
 \end{figure}
 
-Vista la mole dei dati raccolti e' stato necessario modificare anche il metodo di esecuzione del tokenizzatore, 
-che nella sua versione standard, e' stato sviluppato per eseguire in \emph{single thread}.
-E' stato scritto un semplice wrapper che effettua un \emph{preprocessing} del corpus suddividendolo in $n$ parti distinte dove con $n$ e' indicato il numero di processori presenti sulla macchina ed
+Vista la mole dei dati raccolti è stato necessario modificare anche il metodo di esecuzione del tokenizzatore, 
+che nella sua versione standard, è stato sviluppato per eseguire in \emph{single thread}.
+E' stato scritto un semplice wrapper che effettua un \emph{preprocessing} del corpus suddividendolo in $n$ parti distinte dove con $n$ è indicato il numero di processori presenti sulla macchina ed
 eseguendo su ciascuna di esse \emph{Twokenizer} in maniera concorrente.
 Infine il wrapper effettua l'unione di tutti i dati ottenuti mantenendo lo stesso ordinamento del file iniziale.
 
 \section{Analisi Emoticons}
-Particolare attenzione e' stata posta nell'analisi delle emoticons di \emph{Twitch}: questo tipo di emoticons,
+Particolare attenzione è stata posta nell'analisi delle emoticons di \emph{Twitch}: questo tipo di emoticons,
 al contrario di quelle viste nel paragrafo precedente, sono parole normali (Es: \emph{kappa, 4head, biblethump}),
 queste parole sono trattate in maniera speciale da \emph{Twitch} che le renderizza facendole apparire sotto forma di immagine.
 
@@ -633,9 +645,9 @@ queste parole sono trattate in maniera speciale da \emph{Twitch} che le renderiz
 	\label{fig:TwitchEmotes}
 \end{figure}
 
-Le emoticons fornite da twitch sono 120, tramite un analisi su tutto il corpus raccolto si e' scelto di fare un analisi
+Le emoticons fornite da twitch sono 120, tramite un analisi su tutto il corpus raccolto si è scelto di fare un analisi
 manuale di solo le 25 emoticons usate con maggior frequenza. Analizzando alcune centinaia di messaggi per ogni emoticon
-si e' data una classificazione alla tipologia di frasi in cui l'emoticons e' utilizzata. Il risultato e'
+si è data una classificazione alla tipologia di frasi in cui l'emoticons è utilizzata. Il risultato è
 quello mostrato nella tabella \ref{tab:emoticons1}.
 
 \begin{table}[h]
@@ -701,21 +713,21 @@ pjsalt & disappunto & negative \\
 \label{tab:emoticons1}
 \end{table}
 
-Analizzando la tabella e' facile notare come sia possibile dividere le emoticons in quattro classi separate:
+Analizzando la tabella è facile notare come sia possibile dividere le emoticons in quattro classi separate:
 \begin{itemize}
 \item Positiva: rappresenta frasi ironiche, sarcastiche e frasi che esprimono un apprezzamento sul contenuto del canale.
 \item Negativa: rappresenta un giudizio negativo sul contenuto del canale o su gli argomenti trattati in chat.
-\item Neutra: sono emoticons che non hanno una polarita' definita, in questa classe troviamo emoticons, per esempio \emph{opieop}, utilizzate in frasi che parlano di 
+\item Neutra: sono emoticons che non hanno una polarità definita, in questa classe troviamo emoticons, per esempio \emph{opieop}, utilizzate in frasi che parlano di 
 cibo ``I'm getting an hamburger now opieop'' frasi che quindi sono scollegate dall'argomento dello streaming o della chat. 
 In questa classe troviamo anche emoticons come \emph{mrdestructdroid} che viene utilizzato principalmente per indicare il cosidetto ``viewbotting'' 
 cioè l'utilizzo di software che crea connessioni fittizie allo streaming in modo da incrementare il numero di visualizzazioni 
-e quindi il ranking dello stream stesso (andando ad aumentare gli eventuali guadagni provenienti dalle pubblicita'). 
+e quindi il ranking dello stream stesso (andando ad aumentare gli eventuali guadagni provenienti dalle pubblicità). 
 L'analisi di questo comportamento, anche se molto interessante, esula dagli argomenti trattati in questa tesi pertanto viene ignorato.
-\item Non considerata: in questa classe troviamo le emoticons che non esprimono alcun giudizio, sono utilizzate spesso solo per creare ``confusione'' nella chat.
+\item Non considerata: in questa classe troviamo le emoticons che non esprimono alcun giudizio, sono utilizzate spesso solo per creare ``confusionè' nella chat.
 Per esempio emoticons come \emph{osrob} o \emph{frankerz} vengono utilizzate in frasi senza significato, spesso contenenti solo la stessa emoticons ripetuta,
-in modo da generare una enorme quantita' di messaggi in chat. Questo comportamento, alla pari di quello che e' possibile trovare nei forum, viene utilizzato 
-soltando per impedire una discussione in chat e per creare disordine e' nel vero senso della parola solo \emph{spam}. Dal punto di vista della tesi
-queste frasi sono state mantenute nel corpus ma non gli e' stata data alcun tipo di polarita': sono considerate frasi neutre.
+in modo da generare una enorme quantità di messaggi in chat. Questo comportamento, alla pari di quello che è possibile trovare nei forum, viene utilizzato 
+soltando per impedire una discussione in chat e per creare disordine è nel vero senso della parola solo \emph{spam}. Dal punto di vista della tesi
+queste frasi sono state mantenute nel corpus ma non gli è stata data alcun tipo di polarità: sono considerate frasi neutre.
 \end{itemize}
 
 \begin{table}[h]
@@ -752,9 +764,9 @@ kreygasm &  & keepo \\
 \label{tab:emoticons2}
 \end{table}
 
-Infine una delle caratteristiche emerse da questa prima analisi dei dati e' il fatto che possiamo dividere i messaggi in due diversi gruppi: i messaggi che esprimono un parere
-riguardo eventi accaduti nel video (quindi esprimono un parere su i contenuti) e i \emph{meta}-messaggi cioe' messaggi che esprimono opinioni sullo stream stesso (es: ``la qualita' video
-e' pessima'', ``oggi non si sente l'audio'') oppure su fatti che esulano dai contenuti del video (es. ``sta male, ho preso l'influenza''). Nelle analisi svolte le due categorie
+Infine una delle caratteristiche emerse da questa prima analisi dei dati è il fatto che possiamo dividere i messaggi in due diversi gruppi: i messaggi che esprimono un parere
+riguardo eventi accaduti nel video (quindi esprimono un parere su i contenuti) e i \emph{meta}-messaggi cioè messaggi che esprimono opinioni sullo stream stesso (es: ``la qualità video
+è pessimà', ``oggi non si sente l'audiò') oppure su fatti che esulano dai contenuti del video (es. ``sta male, ho preso l'influenzà'). Nelle analisi svolte le due categorie
 di messaggi sono state trattate in egual modo e non sono state differenziate.
   
 \chapter{Rnnlm}
