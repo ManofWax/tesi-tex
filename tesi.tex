@@ -9,7 +9,9 @@
 \usepackage{indentfirst}
 \usepackage{stmaryrd}
 \usepackage{natbib}
+\usepackage{float}
 \usepackage{fancyhdr}
+\usepackage{url}
 
 \theoremstyle{definition}
 \newtheorem{es}{Esempio}[section]
@@ -38,7 +40,7 @@
 \makeatother
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\linespread{1.1}                        %comando per impostare l'interlinea
+\linespread{1.2}                        %comando per impostare l'interlinea
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%definisce nuovi comandi
 
 \begin{document}
@@ -141,14 +143,15 @@ strutturato in un determinato ambito.
 Lo scopo di questo capitolo è quello di analizzare alcune ricerche effettuate sulla 
 \emph{sentiment analysis}, in particolare quelle in cui sono presenti gli stessi strumenti 
 utilizzati in questa tesi: le reti neurali ricorsive (\emph{RNNLM}), 
-la rappresentazione vettoriale di parole \emph{word embedding}
-attraverso (\emph{word2vec}) e 
+la rappresentazione vettoriale di parole (\emph{word embedding})
+con (\emph{word2vec}) e 
 i classificatori lineari (\emph{Liblinear}).
 
 Come già esposto nel Capitolo \ref{sec:sentAnal} e come si può desumere
 dalle ricerche effettuate da Pang and Lee (2008) %todo
 la \emph{sentiment classification} è uno degli aspetti più studiati della NLP.
-L’obiettivo che questo tipo di analisi si prefigge è quello di operare una classificazione su determinati testi, suddividendoli in base ai contenuti, positivi oppure negativi, che gli stessi esprimono. 
+L’obiettivo che questo tipo di analisi si prefigge è quello di operare una classificazione su determinati testi, 
+suddividendoli in base ai contenuti, positivi oppure negativi, che gli stessi esprimono. 
 
 Una ricerca condotta da 
 Liu (2010) %todo
@@ -161,10 +164,11 @@ in modo tale che la loro differenziazione si basi su un maggior numero di elemen
 Entrando nello specifico, possiamo constatare come il lavoro di Liu et al. (2007) %todo
 proponga una \emph{sentiment analisys} per ipotizzare le performance di vendita di una particolare
 azienda. 
-\`E interessante, inoltre, soffermarsi sulle numerose ricerche svolte nell’ambito dei social network, settore che oltretutto è più vicino all’argomento trattato in questa tesi: ricordiamo, in primo luogo,  lo studio 
+\`E interessante, inoltre, soffermarsi sulle numerose ricerche svolte nell’ambito dei social network, 
+settore che oltretutto è più vicino all’argomento trattato in questa tesi: ricordiamo, in primo luogo,  lo studio 
 Yano e Smith (2010) %todo
 che presenta un metodo per prevedere l'esito di film, analizzando i dati
-provenineti dai forum e dal sito web \emph{Internet Movie Database}; è indicativo, inoltre,
+provenienti dai forum e dal sito web \emph{Internet Movie Database}; è indicativo, inoltre,
 il lavoro di
 Groh and Hauffa (2011) %todo
 che analizza l’evolversi delle relazioni sociali tra utenti di Twitter.
@@ -187,7 +191,6 @@ possiamo dunque ipotizzare che sia maggiore la possibilità che uno scritto conn
 da parere positivo tra quelli utilizzati come test, venga generato da un modello proveniente 
 da un set di dati che esprimono pareri positivi rispetto a quelli che esprimono pareri negativi.
 
-
 In questa tesi è stato utilizzato proprio questo approccio, 
 e cioè l’impiego di un sistema generativo in concomitanza con un sistema discriminativo:
 in particolare, come modello generativo  è stata usata una \emph{recurrent neural networks} 
@@ -204,7 +207,7 @@ artificiale) per trovare un modello alternativo sono rimasti per lungo tempo com
 Recentemente, tuttavia, è stato possibile costruire \emph{Language Models}(LM) 
 tramite \emph{Recurrent Neural Network}(RNN), come mostrado da \cite{Mik2010,MikEmp},
 è stato altresì dimostrato come queste RNN LM abbiano una qualità superiore rispetto alle tecniche
-che utilzzano \emph{n-grams} anche se ciò comporta una più alta complessità computazionale.
+che utilzzano \emph{n\-grams} anche se ciò comporta una più alta complessità computazionale.
 
 Proprio analizzando questo modello basato su RNN, per la precisione quello
 proposto nel lavoro pubblicato da \cite{MikRNN}, appare evidente come sia
@@ -239,9 +242,9 @@ Al termine del processo di \emph{training} il vettore di \emph{embedding} corris
 al \emph{token} sarà il PV che rappresenta l'intero frammento di testo e potra'
 essere usato in task di classificazione.
 
-In particolare, è stato preso in considerazione il lavoro effettuato da \cite{Mik2014}:
-is sistema proposto dai due studiosi rappresenta un testo, che può essere suddiviso in
-frasi, parole o paragrafi utilizzando un vettore denso per prevedere parole nel documento.
+%In particolare, è stato preso in considerazione il lavoro effettuato da \cite{Mik2014}:
+%il sistema proposto dai due studiosi rappresenta un testo, che può essere suddiviso in
+%frasi, parole o paragrafi utilizzando un vettore denso per prevedere parole nel documento.
 
 %Come mostrato da (chi?) utilizzando classificatori lineari come Liblinear \cite{rong2015} presentato da 
 %Rong et al. è possibile effetuare cosa?
@@ -553,41 +556,52 @@ per il training del modello ottenuto tramite \emph{logistic regression}.
 Utilizzando la \emph{regressione lineare} è possibile utilizzare l'eseguibile \emph{predict} in modo 
 che fornisca in output le stima delle probabilità per ogni riga.
 
-\chapter{Capitolo sull'analisi dei dati}
-In questo capitolo verrà descritta inizialmente la raccolta dei dati, la loro normalizzazione e la loro struttura.
-Successivamente verranno applicate le varie tecniche utilizzate per ottenere i vari risultati, in particolare verrà dapprima
-analizzato RNNLM, successivamente word2vec e liblinear infine verranno mostrati i risultati finali applicando
-tutte le tecniche trattate fino ad ora.
+\chapter{Analisi dei dati}
+In questo capitolo verranno descritte inizialmente la raccolta dei dati, 
+la loro normalizzazione e la loro struttura. 
+Successivamente verranno presentate le tecniche utilizzate per ottenere i risultati.
+ Verrà analizzato per primo i risultati ottenuti con \emph{RNNLM}, 
+ e a seguire \emph{word2vec} e \emph{Lliblinear}.
+ In conclusione verranno mostrati i risultati finali, ottenuti applicando le suddette tecniche.
 
 \section{Raccolta dati}
-La raccolta dati è stata svolta svolta partendo dal primo Gennaio 2015, i dati raccolti provengono da dodici canali Twitch scelti in modo che rappresentassero un parte omogenea di informazioni:
-in particolare sono stati scelti i canali con maggiore audience (numero medio di spettatori collegati) 
-dei quattro giochi più popolari, secondo le statistiche del mese di Gennaio 2015, della piattaforma Twitch.tv.
+La raccolta dati è iniziata dal primo Gennaio 2015; i dati raccolti provengono da dodici canali 
+Twitch, scelti in modo tale da rappresentare un parte omogenea di informazioni: in particolare sono stati scelti i canali con 
+maggiore audience (numero medio di spettatori collegati) dei quattro giochi più popolari, 
+secondo le statistiche del mese di Gennaio 2015, della piattaforma Twitch.tv.
 
-E' opportuno specificare che i canali e quindi anche i dati raccolti, sono tutti in lingua inglese.
-Questa scelta è stata principalmente determinata tramite un immediato confronto tra
-la popalarità dei canali in lingua inglese rispetto a quelli italiani: nel mese di Gennaio 2015
-la media di spettatori per un canale in lingua inglese era di 30.000 persone, mentre
-per un canale italiano si aggirava intorno al centinaio.
+È opportuno specificare che i canali, e quindi anche i dati raccolti, 
+sono tutti in lingua inglese. Questa scelta è stata determinata dalla 
+differenza di popolarità, evidenziata da confronto tra i canali in lingua 
+inglese e quelli in lingua italiana: nel mese di Gennaio 2015 la media di 
+spettatori per un canale in lingua inglese era di 30.000 persone, 
+mentre per un canale italiano si aggirava intorno al centinaio di presenze.
 
-La chat presente sulla piattaforma Twitch utilizza il protocollo IRC, Twitch gestisce un server dedicato (server: irc.twitch.tv ). 
-L'accesso al server di chat è disponibile,
-per gli utenti, tramite interfaccia web direttamente dal sito ufficiale mentre, per eventuali servizi di backend, sono disponibili
-delle API ufficiali che, previa registrazione, offre la possibilità monitorare e interagire in tempo reale nei vari canali.
+La chat presente sulla piattaforma Twitch utilizza il protocollo IRC, 
+per cui Twitch gestisce un server dedicato \footnote{\url{irc://irc.twitch.tv}}. 
+Per gli utenti, l’accesso al server di chat è disponibile tramite interfaccia web, 
+direttamente dal sito ufficiale. Per eventuali servizi di \emph{backend}
+e integrazione, sono disponibili 
+delle API ufficiali che offrono la possibilità monitorare e interagire in tempo reale 
+con i vari canali, previa registrazione.
 
-Nonostante la piattaforma Twitch fornisca un archivio, sempre accessibile via browser, con tutte le trasmissione 
-passate dei vari canali non è data la possibilità di accedere
-ai dati storici delle chat, per questo motivo è stato necessario l'utilizzo di un bot IRC che monitorasse in modo costante i canali e che provedesse alla registrazione dei vari messaggi.
+Nonostante la piattaforma Twitch fornisca un archivio, accessibile via browser, 
+con tutte le trasmissione passate dei suoi canali, 
+non è data la possibilità di accedere ai dati storici delle chat. 
+Per questo motivo è stato necessario l’utilizzo di un bot IRC che monitorasse in 
+modo costante i canali e che provvedesse alla registrazione dei messaggi.
 
-Per la realizzazione del bot è stata utilizzato come base il bot opensource Pierc. Il suddetto software è stato esteso in modo che potesse utilizzare il login e la registrazione al server IRC
-tramite API Twitch; i canali che si vogliono monitorare sono stati gestiti tramite file di configurazione testuale e tutti i messaggi registrati salvati in un database MySQL.
-La struttura del database è la seguente:
+Per la realizzazione del bot è stato utilizzato come base il software opensource Pierc. 
+Il suddetto software è stato esteso per permettergli di utilizzare il login e la registrazione 
+al server IRC tramite API Twitch. I canali che si vogliono monitorare sono stati 
+gestiti tramite file di configurazione testuale e tutti i messaggi registrati salvati 
+in un database \emph{MySQL}. La struttura del database è mostrata nella tabella \ref{tab:strutturaDB}
 
-\begin{table}
+\begin{table}[h]
 	\centering
 	\begin{tabular}{|c|c|c|}
 		\hline
-		Campo & Tipo & Descrizione \\
+		\textbf{Campo} &\textbf{ Tipo} & \textbf{Descrizione} \\
 		\hline
 		\hline
 		id & int & Id incrementale \\
@@ -607,64 +621,72 @@ La struttura del database è la seguente:
 	\label{tab:strutturaDB}
 \end{table}
 
-E' opportuno notare come si sia scelto di aggiungere, oltre al testo del messaggio, anche il timestamp e il canale di appartenenza. Questi dati hanno permesso di effettuare analisi
+E' opportuno notare come si sia scelto di aggiungere, oltre al testo del messaggio, anche 
+il timestamp e il canale di appartenenza. Questi dati hanno permesso di effettuare analisi
 specifiche considerando solo particolari giornate o dati provenienti solo da un particolare giocatore.
 
 \section{Normalizzazione del corpus}
-Uno dei problemi principali incontrati nell'analisi di dati è stata quella della normalizzazione del corpus,
-inanzitutto, al momento di stesura della tesi, non è mai stata fatta nessun
-tipo di analisi su questo tipo di dati, quindi
-è impossibile trovare una metodologia già applicata per questo tipo di dati.
+Uno dei problemi principali incontrati durante l’analisi di dati è stata 
+la normalizzazione del corpus. L'analisi di questo tipo di dati non era mai 
+stata affrontata prima, quindi è stato impossibile trovare una metodologia già 
+applicata a questo tipo di dati.
 
-Inoltre Twitch è una piattaforma nata negli ultimi 3 anni ma che è cresciuta in maniera esponenziale,
-creando una sottocultura di Internet con atteggiamenti, frasi ricorrenti, particolari scherzi
-o giochi di parole e atteggiamenti nuovi.
-Questa cultura si è talmente estesa fino ad influenzare addirittura altre piattaforme.
-Per esempio alcuni atteggiamenti, o addirittura emoticons, vengono utilizzate su altre 
-piattaforme come per esempio lo streaming su Youtube.
-Questo ha portato alla formazione di particolari tipologie di messaggi, che tramite un analisi effettuata in maniera manuale sono state suddivise in vari modi:
+Inoltre Twitch è una piattaforma relativamente giovane, sviluppatasi negli ultimi 3 anni, 
+ma è cresciuta in maniera esponenziale, creando una sottocultura di Internet con frasi 
+ricorrenti, giochi di parole e atteggiamenti linguistici nuovi. 
+Questo gergo si è talmente esteso da influenzare addirittura altre piattaforme, 
+come ad esempio lo streaming su Youtube. 
+Questo ha portato alla formazione di particolari tipologie di messaggi, 
+suddivise nei modi indicati dalla tabella \ref{tab:messaggiTwitch}  attraverso un'analisi manuale.
 
-\begin{table}
+\begin{table}[h]
 	\centering
 	\begin{tabular}{|c|c|}
 		\hline
 		Messaggio & Interpretazione \\
 		\hline
 		\hline
-		todo: inserire l'emoticons & emoticons UTF8 \\
+		todo: inserire l'emoticons & emoticon UTF8 \\
 		\hline
-		todo: inserire la frase  & Frasi fatte in UTF8 \\
+		todo: inserire la frase  & Frasi contenenti codici UTF8 \\
 		\hline
 		S U F F E R B O Y S & enfasi \\
 		\hline
-		Kappa Kappa Kappa Kappa & emoticons multiple \\
+		\includegraphics[height=0.4cm, width=0.4cm]{Immagini/Emoticons/kappahd.png} \includegraphics[height=0.4cm, width=0.4cm]{Immagini/Emoticons/kappahd.png} \includegraphics[height=0.4cm, width=0.4cm]{Immagini/Emoticons/kappahd.png} \includegraphics[height=0.4cm, width=0.4cm]{Immagini/Emoticons/kappahd.png} \includegraphics[height=0.4cm, width=0.4cm]{Immagini/Emoticons/kappahd.png} & emoticons multiple \\
 		\hline
 	\end{tabular}
 	\caption{Differenti tipi di messaggio su Twitch}
 	\label{tab:messaggiTwitch}
 \end{table}
 
-Fortunatamente, oltre a questi messaggi speciali, sono presenti una gran quantità di messaggi standard come possiamo vedere nel box sotto:
+Fortunatamente, oltre a questi messaggi speciali, 
+sono presenti una gran quantità di messaggi standard come possiamo vedere nell'esempio seguente:
+
 \begin{verbatim}
-messaggi standarda blab lab
-aeouue yproet uo ithbaue 
-aebh cxue huebuencausb 
+so here I am 18 years old in college
+korena cheese doesnt exist, its part of normal game Kappa
+korean
+and my parents are all like, hey what are you going to do with your life
+those banes
+Moshmonkey seems legit, keep on with the good work bra
+it was a grand explosion of blings in the middle of nowhere
 \end{verbatim}
 
-Per normalizzare il corpus è stato usato come tokenizzatore Twokenizer, un tokenizzatore sviluppado dalla Carnagie Mellon per gestire dati provenienti da Twitter. 
-Si è scelto di utilizzare questo Tokenizzatore perché, a parte i casi particolari indicati nella tabella
+Per normalizzare il corpus è stato usato \emph{Twokenizer}, un tokenizzatore sviluppado dalla Carnagie Mellon per gestire dati provenienti da Twitter. 
+Si è scelto di utilizzare questo Tokenizzatore perché, a parte i casi particolari indicati 
+nella tabella
 \ref{tab:messaggiTwitch} l'unica differenza importante che possiamo trovare tra i messaggi di Twitch e
-quelli di twitter sonon gli
-hashtag, che utilizzati solo in Twitter. 
+quelli di Twitter sonon gli
+hashtag, utilizzati solo in Twitter. 
 
 Twokenizer è stato oppurtunatamete
-modificato inanzitutto andando a sostituire tutte le emoticons espresse in caratteri UTF8 con un corrispettivo \emph{token}
-utilizzando una tabella di mapping (una parte di essa è mostrata nella figura \ref{fig:mappingEmo}). In
+modificato andando a sostituire tutte le emoticons espresse in caratteri UTF8 con un corrispettivo \emph{token}
+tramite una tabella di mapping (una parte di essa è mostrata nella figura \ref{fig:mappingEmo}). In
 questo modo si è evitato sia di dover gestire emoticons composte da caratteri multipli sia di gestire
 i caratteri UTF8 non supportati, come vedremo, da word2vec.
-In secondo luogo si è provveduto nella sostituzione di tutti gli \emph{URL} con il token \emph{url} ed infine
-sono stati ignorati i simboli \emph{\#} (che indicano i cosidetti hashtag) e trattate come segno di punteggiatura normale dato che su Twitch non
-sono presenti gli hashtag.
+In secondo luogo si è provveduto nella sostituzione di tutti gli \emph{URL} con il token \textbf{URL} ed infine
+sono stati ignorati i simboli \emph{\#} (che indicano i cosidetti hashtag, non presenti su Twitch),
+andandoli a trattare come normale segno di punteggiatura.
 
 \begin{figure}[ht]
 	\centering
@@ -674,15 +696,23 @@ sono presenti gli hashtag.
 \end{figure}
 
 Vista la mole dei dati raccolti è stato necessario modificare anche il metodo di esecuzione del tokenizzatore, 
-che nella sua versione standard, è stato sviluppato per eseguire in \emph{single thread}.
-E' stato scritto un semplice wrapper che effettua un \emph{preprocessing} del corpus suddividendolo in $n$ parti distinte dove con $n$ è indicato il numero di processori presenti sulla macchina ed
+che nella sua versione standard, è stato sviluppato per una elaborazione \emph{single thread}.
+\`E stato scritto un semplice wrapper per effettuare un \emph{preprocessing} del corpus, 
+suddividendolo in $n$ parti distinte, dove con $n$ è indicato il numero di processori presenti 
+sulla macchina ed
 eseguendo su ciascuna di esse \emph{Twokenizer} in maniera concorrente.
-Infine il wrapper effettua l'unione di tutti i dati ottenuti mantenendo lo stesso ordinamento del file iniziale.
+Infine il wrapper effettua l'unione di tutti i dati ottenuti mantenendo lo stesso 
+ordinamento del file iniziale.
 
 \section{Analisi Emoticons}
 Particolare attenzione è stata posta nell'analisi delle emoticons di \emph{Twitch}: questo tipo di emoticons,
 al contrario di quelle viste nel paragrafo precedente, sono parole normali (Es: \emph{kappa, 4head, biblethump}),
 queste parole sono trattate in maniera speciale da \emph{Twitch} che le renderizza facendole apparire sotto forma di immagine.
+Per esempio la parola \emph{kappa} viene sostituita con 
+\includegraphics[height=0.4cm, width=0.4cm]{Immagini/Emoticons/kappahd.png}, 
+\emph{4head} con \includegraphics[height=0.4cm, width=0.4cm]{Immagini/Emoticons/4head.png} e 
+\emph{biblethump} con
+\includegraphics[height=0.4cm, width=0.4cm]{Immagini/Emoticons/biblethump.png} 
 
 \begin{figure}[ht]
 	\centering
@@ -693,11 +723,12 @@ queste parole sono trattate in maniera speciale da \emph{Twitch} che le renderiz
 \end{figure}
 
 Le emoticons fornite da twitch sono 120, tramite un analisi su tutto il corpus raccolto si è scelto di fare un analisi
-manuale di solo le 25 emoticons usate con maggior frequenza. Analizzando alcune centinaia di messaggi per ogni emoticon
+manuale di solo le 25 emoticons usate con maggior frequenza. Analizzando alcune centinaia di messaggi 
+per ogni emoticon
 si è data una classificazione alla tipologia di frasi in cui l'emoticons è utilizzata. Il risultato è
 quello mostrato nella tabella \ref{tab:emoticons1}.
 
-\begin{table}[h]
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{|c|c|c|}
 \hline
@@ -706,7 +737,7 @@ Nome Emoticon & Significato & Polarity \\
 \hline
 4Head & sarcasmo & positiva \\
 \hline
-anele & sarcasmo, in genere riferito alla cultura americana & neutra \\
+anele & argomenti riguardati gli USA & neutra \\
 \hline
 babyrage & insofferenza & negativo \\
 \hline
@@ -724,7 +755,7 @@ pogchamp & spam & non considerato \\
 \hline
 residentsleeper & noia & negativo \\
 \hline
-smorc & tattiche relative ad un particolare gioco & neutra \\
+smorc & frasi incentrate su un particolare gioco & neutra \\
 \hline
 swiftrage & rabbia & negativo \\
 \hline
@@ -762,22 +793,23 @@ pjsalt & disappunto & negative \\
 
 Analizzando la tabella è facile notare come sia possibile dividere le emoticons in quattro classi separate:
 \begin{itemize}
-\item Positiva: rappresenta frasi ironiche, sarcastiche e frasi che esprimono un apprezzamento sul contenuto del canale.
-\item Negativa: rappresenta un giudizio negativo sul contenuto del canale o su gli argomenti trattati in chat.
-\item Neutra: sono emoticons che non hanno una polarità definita, in questa classe troviamo emoticons, per esempio \emph{opieop}, utilizzate in frasi che parlano di 
-cibo ``I'm getting an hamburger now opieop'' frasi che quindi sono scollegate dall'argomento dello streaming o della chat. 
-In questa classe troviamo anche emoticons come \emph{mrdestructdroid} che viene utilizzato principalmente per indicare il cosidetto ``viewbotting'' 
+\item \textbf{Positiva}: rappresenta frasi ironiche, sarcastiche e frasi che esprimono un apprezzamento sul contenuto del canale.
+\item \textbf{Negativa}: rappresenta un giudizio negativo sul contenuto del canale o su gli argomenti trattati in chat.
+\item \textbf{Neutra}: non hanno una polarità definita, in questa classe troviamo emoticons, per esempio \emph{opieop}, utilizzate in frasi che parlano di 
+cibo ``I'm getting an hamburger now opieop'', frasi che quindi sono scollegate dall'argomento dello streaming o della chat. 
+In questa classe troviamo anche emoticons come \emph{mrdestructdroid}, che viene utilizzato principalmente per indicare il cosidetto ``viewbotting'' 
 cioè l'utilizzo di software che crea connessioni fittizie allo streaming in modo da incrementare il numero di visualizzazioni 
 e quindi il ranking dello stream stesso (andando ad aumentare gli eventuali guadagni provenienti dalle pubblicità). 
 L'analisi di questo comportamento, anche se molto interessante, esula dagli argomenti trattati in questa tesi pertanto viene ignorato.
-\item Non considerata: in questa classe troviamo le emoticons che non esprimono alcun giudizio, sono utilizzate spesso solo per creare ``confusionè' nella chat.
+\item \textbf{Non considerata}: in questa classe troviamo le emoticons che non esprimono alcun giudizio, sono utilizzate spesso solo per creare ``confusione'' nella chat.
 Per esempio emoticons come \emph{osrob} o \emph{frankerz} vengono utilizzate in frasi senza significato, spesso contenenti solo la stessa emoticons ripetuta,
-in modo da generare una enorme quantità di messaggi in chat. Questo comportamento, alla pari di quello che è possibile trovare nei forum, viene utilizzato 
-soltando per impedire una discussione in chat e per creare disordine è nel vero senso della parola solo \emph{spam}. Dal punto di vista della tesi
-queste frasi sono state mantenute nel corpus ma non gli è stata data alcun tipo di polarità: sono considerate frasi neutre.
+in modo da generare una enorme quantità di messaggi in chat. Questo comportamento, come avviene talvolta anche nei forum, viene utilizzato 
+soltanto per impedire una discussione in chat e per creare disordine: è nel vero senso della parola solo \emph{spam}. 
+Per quanto concerne la presente tesi,
+queste frasi sono state mantenute nel corpus, ma non gli è stata data alcun tipo di polarità: sono considerate frasi neutre.
 \end{itemize}
 
-\begin{table}[h]
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{|c|c|c|}
 \hline
@@ -813,27 +845,80 @@ kreygasm &  & keepo \\
 
 Infine una delle caratteristiche emerse da questa prima analisi dei dati è il fatto che possiamo dividere i messaggi in due diversi gruppi: i messaggi che esprimono un parere
 riguardo eventi accaduti nel video (quindi esprimono un parere su i contenuti) e i \emph{meta}-messaggi cioè messaggi che esprimono opinioni sullo stream stesso (es: ``la qualità video
-è pessimà', ``oggi non si sente l'audiò') oppure su fatti che esulano dai contenuti del video (es. ``sta male, ho preso l'influenzà'). Nelle analisi svolte le due categorie
+è pessima'', ``oggi non si sente l'audio'') oppure su fatti che esulano dai contenuti del video (es. ``sto male, ho preso l'influenza''). Nelle analisi svolte le due categorie
 di messaggi sono state trattate in egual modo e non sono state differenziate.
   
-\chapter{Rnnlm}
-\label{ch:rnnlm}
-Seguento gli esempi pubblicati da Mikolov dove utilizza dati provenienti da IMDB e dimostra che un  modello generativo creato utilizzando recurrent neural network  può essere utilizzato per fare classificazione. Seguento lo stesso esempio sono creati modelli per ogni emoticons prendendo 15000 righe in modo casuale poi testati su un corpus di test composto da 25000 righe (diverse da quelle utilizzate come train).
-Sono state prese 4 emoticons normalmente usate per esprimere un parere positivo e 6 per esmprimere un parere negativo e confrontate fra loro. Nelle tabelle sono rappresentate le percentuali di accurancy ottenuto sul file di test
-\begin{table}[h]
+\section{Strumenti di analisi}
+Per lo svolgimento della tesi sono stati utilizzati i vari strumenti descritti nel capitolo precedente,
+nel dettagglio e' stata utilizzato \textbf{RNNLM} versione 0.4b \footnote{\url{https://goo.gl/e9AxGR}}, 
+\textbf{word2vec} revision 42 \footnote{\url{http://goo.gl/IWUQoE}}
+a cui e' stata applicata la patch per i \emph{paragraph vectors}, \textbf{Liblinear} versione 2.1 \footnote{\url{http://goo.gl/4daeR3}}.
+
+Per automatizzare e integrare il processo di test, training, analisi e integrazione tra i vari strumenti
+sono stati sviluppati diversi programmi e script utilizzando svariati linguaggi: \emph{BASH, Python} (sia 
+la versione 2.7 che 3.3) e \emph{C\#}.
+
+Tutto il software scritto per questa tesi e' disponibile nel \emph{repository Git} al seguente indirizzo:
+\footnote{\url{https://github.com/ManofWax}}.
+
+\subsection{RNNLM}
+\label{sss:rnnlm}
+Seguento le ricerche di Mikolov (2014) %todo
+e' stato suddiviso il corpus utilizzando come elemento discriminante le 25 emoticons individuate in precedenza.
+In questo modo
+sono stati creati 25 file differenti, in ogni file sono presenti tutte le frasi in cui e' contenuta una determinata
+emoticons, nei file e' stata mantenuta la stesso ordinamento delle frasi originali.
+Nel caso in cui, in una stessa frase, sia presente piu' di una emoticon essa e' stata inserito in due o piu' file
+differenti.
+
+Effettuata questa prima suddivisione sono state rimosse tutte le emoticon dai file ottenuti, ed e' stata effettuata 
+una ulteriore divisone in quelli che possiamo definire come file di \emph{train} e di \emph{test}.
+I file di \emph{train} contengono 25000 righe selezionate in maniera casuale tra tutte quelle del file originale,
+il file di test, invece, e' composto da 15000 righe sempre selezionate casualmente tra quelle del file originale.
+Particolare attenzione e' stata posta nell'evitare che righe selezionate per il file di \emph{train}
+non vengano utilizzate anche in quello di \emph{test}.
+
+Il modello, per ogni file, e' stato generato utilizzando la seguente configurazione:
+
+\begin{verbatim}
+head -n 24800 $dir > $dir.train
+tail -n 200 $dir > $dir.valid
+
+./rnnlm -rnnlm $dir.model -train $dir.train -valid $dir.valid \
+        -hidden 50 -direct-order 3 -direct 200 -class 100 -bptt 4 \
+        -bptt-block 10 -binary
+\end{verbatim}
+
+Successivamente sono state prese 4 emoticons normalmente usate per esprimere un parere positivo e 6 per esmprimere un parere negativo e confrontate fra loro.
+Il confronto e' stato effettuato prendendo i modelli generati da i file di \emph{train}
+delle due differenti emoticon e i due file di \emph{test}. I file di \emph{test}
+vengono uniti in modo da avere un file di test unico e utilizzando la funzione \textbf{n-best scoring} di RNNLM
+su questo file vengono gerenati due file risultati differenti, uno basato sul
+modello positivo e uno sul modello negativo.
+\begin{verbatim}
+awk 'BEGIN{a=0;}{print a " " $0; a++;}' < test.txt > test-id.txt
+./rnnlm -rnnlm model-pos -test test-id.txt -nbest > pos-score
+./rnnlm -rnnlm model-neg -test test-id.txt -nbest > neg-score
+\end{verbatim}
+
+Infine vengono uniti e processati i due file dei risultati, se il rapporto tra il risultato ottenuto
+dal modello negativo con quello positivo e' maggiore di $1$ allora alla frase viene attribuito
+un valore positivo altrimenti gli viene assegnato un valore negativo.
+
+Nelle tabelle sono rappresentate le percentuali di \emph{accuracy} ottenute:
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-pos/neg & Babyrage & Biblethump & Dansgame & Failfish & notlikethis & wutface \\
+\textbf{pos/neg} & Babyrage & Biblethump & Dansgame & Failfish & notlikethis & wutface \\
 \hline
+4Head & 80.016 &  78.322 & 76.432 & 77.985 & 80.543 & 78.202 \\
 \hline
-4Head & 82.01 &  79.322 & 78 & 77 & 82.5 & 80.202 \\
+Elegiggle & 81.372 & 80.696 & 78.794 & 77.454 & 80.768 & 81.288 \\
 \hline
-Elegiggle & 84.372 & 83.696 & 80.794 & 77.454 & 84.7 & 84.288 \\
+Kappa & 80.394 & 78.548 & 78.906 & 78.12 & 82.162 & 81.373 \\
 \hline
-Kappa & 83.394 & 79.548 & 79.906 & 78.12 & 84.162 & 83.37 \\
-\hline
-Kreygasm & 84.944 & 81.964 & 80.388 & 82.228 & 84.608 & 81.114 \\
+Kreygasm & 82.944 & 80.964 & 78.388 & 80.228 & 82.608 & 81.114 \\
 \hline
 \end{tabular}
 \end{center}
@@ -841,8 +926,8 @@ Kreygasm & 84.944 & 81.964 & 80.388 & 82.228 & 84.608 & 81.114 \\
 \label{tab:rnnlmTest1}
 \end{table}
 
-Nello steso modo sono state confrontate le emoticon positive fra di loro
-\begin{table}[h]
+Nello steso modo sono state confrontate alcune emoticon positive fra di loro:
+\begin{table}[H]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -860,58 +945,82 @@ Kreygasm & 77.41 & 82.8 & 79.178 & 49.62 \\
 \end{tabular}
 \end{center}
 \caption{Confronto emoticons positive}
-\label{tab:rnnlmTest2 }
+\label{tab:rnnlmTest2}
 \end{table}
 
-Successivamente sono stati svolti i confronti tra tutte le emoticons positive e tutte quelle negative:
-\afterpage{
-\clearpage
-\thispagestyle{empty}
-\begin{landscape}
-\centering
-\begin{table}[h]
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
- & 4head & anele & babyrage & biblethump & brokeback & dansgame & datsheffy & elegiggle & failfish & frankerz & heyguys & kappapride & kappa & keepo & kreygasm & mrdestructoid & opieop & osbury & osrob & pjsalt & pogchamp & residentsleeper & smorc & swiftrage & trihard & wutface \\
-4head &  49.638\% &  85.668\% &  82.05\% &  79.074\% &  76.462\% &  77.964\% &  90.016\% &  71.952\% &  77.076\% &  85.644\% &  85.906\% &  76.828\% &  74.556\% &  73.956\% &  77.214\% &  87.244\% &  79.09\% &  97.264\% &  94.782\% &  81.212\% &  73.688\% &  82.892\% &  &  &  & \\
-anele &  &  49.962\% &  90.482\% &  88.012\% &  87.132\% &  88.236\% &  92.522\% &  88.9\% &  89.868\% &  87.402\% &  91.008\% &  85.584\% &  85.946\% &  85.866\% &  86.542\% &  90.804\% &  85.872\% &  97.146\% &  97.204\% &  89.542\% &  87.364\% &  91.866\% &  88.7\% &  90.362\% &  85.904\% &  88.028\%\\
-babyrage &  &  &  50.094\% &  82.066\% &  84.308\% &  84.884\% &  93.334\% &  84.246\% &  84.112\% &  88.434\% &  90.384\% &  84.706\% &  83.196\% &  83.19\% &  84.616\% &  90.81\% &  85.408\% &  97.682\% &  96.252\% &  87.872\% &  83.644\% &  88.4\% &  87.298\% &  85.03\% &  89.026\% &  86.298\%\\
-biblethump &  &  &  &  50.022\% &  83.162\% &  81.068\% &  91.722\% &  83.44\% &  82.318\% &  85.338\% &  88.02\% &  80.874\% &  79.278\% &  79.388\% &  81.566\% &  88.616\% &  82.164\% &  97.3\% &  95.134\% &  86.636\% &  80.894\% &  86.444\% &  86.02\% &  83.218\% &  86.318\% &  80.704\%\\
-brokeback &  &  &  &  &  50.212\% &  80.112\% &  91.712\% &  79.862\% &  77.534\% &  87.13\% &  87.156\% &  80.892\% &  79.338\% &  78.786\% &  78.338\% &  89.308\% &  81.09\% &  96.934\% &  96.326\% &  84.73\% &  79.886\% &  84.766\% &  83.618\% &  86.012\% &  84.808\% &  81.72\%\\
-dansgame &  &  &  &  &  &  50.188\% &  91.97\% &  81.268\% &  76.622\% &  87.676\% &  88.26\% &  81.818\% &  80.72\% &  80.136\% &  79.93\% &  89.924\% &  82.37\% &  97.694\% &  94.892\% &  86.99\% &  78.464\% &  85.474\% &  85.972\% &  82.058\% &  86.12\% &  76.998\%\\
-datsheffy &  &  &  &  &  &  &  49.976\% &  90.514\% &  92.098\% &  92.186\% &  93.822\% &  91.234\% &  90.942\% &  90.406\% &  91.39\% &  93.002\% &  89.964\% &  98.184\% &  97.336\% &  93.192\% &  90.792\% &  93.486\% &  92.362\% &  92.488\% &  91.832\% &  92.448\% \\
-elegiggle &  &  &  &  &  &  &  &  49.942\% &  78.47\% &  89.74\% &  89.276\% &  82.63\% &  79.42\% &  79.698\% &  82.324\% &  89.884\% &  82.878\% &  97.276\% &  94.734\% &  85.352\% &  79.718\% &  85.376\% &  86.694\% &  85.15\% &  87.324\% &  84.292\%\\
-failfish &  &  &  &  &  &  &  &  &  49.9\% &  89.344\% &  89.636\% &  83.634\% &  78.926\% &  78.448\% &  81.096\% &  90.666\% &  83.182\% &  97.756\% &  95.738\% &  86.544\% &  80.558\% &  84.358\% &  84.07\% &  85.022\% &  87.616\% &  81.916\%\\
-frankerz &  &  &  &  &  &  &  &  &  &  49.89\% &  89.774\% &  83.898\% &  85.302\% &  82.472\% &  87.604\% &  89.27\% &  84.768\% &  97.106\% &  97.068\% &  86.454\% &  87.176\% &  90.716\% &  88.694\% &  90.114\% &  86.466\% &  88.002\%\\
-heyguys &  &  &  &  &  &  &  &  &  &  &  49.85\% &  86.042\% &  87.862\% &  86.734\% &  85.712\% &  92.036\% &  87.23\% &  97.426\% &  97.166\% &  90.164\% &  86.326\% &  91.948\% &  91.41\% &  91.314\% &  89.478\% &  88.52\%\\
-kappapride &  &  &  &  &  &  &  &  &  &  &  &  50.264\% &  &  75.91\% &  79.28\% &  88.798\% &  80.438\% &  97.046\% &  95.992\% &  84.532\% &  79.836\% &  87.022\% &  85.314\% &  85.18\% &  84.066\% &  82.592\%\\
-kappa &  &  &  &  &  &  &  &  &  &  &  &  76.268\% &  49.902\% &  71.292\% &  78.71\% &  87.22\% &  78.298\% &  97.572\% &  95.2\% &  84.958\% &  77.112\% &  84.758\% &  82.486\% &  84.074\% &  84.852\% &  82.796\%\\
-keepo &  &  &  &  &  &  &  &  &  &  &  &  &  &  50.368\% &  78.54\% &  87.052\% &  77.286\% &  97.492\% &  96.352\% &  83.93\% &  78.416\% &  85.408\% &  82.802\% &  84.166\% &  83.648\% &  82.418\%\\
-kreygasm &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  50.004\% &  87.99\% &  81.662\% &  97.566\% &  95.404\% &  85.918\% &  71.374\% &  85.754\% &  84.664\% &  83.842\% &  83.504\% &  81.59\%\\
-mrdestructoid &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  49.868\% &  89.116\% &  97.898\% &  97.268\% &  91.098\% &  89.688\% &  91.228\% &  90.71\% &  90.454\% &  89.44\% &  90.524\%\\
-opieop &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  49.73\% &  97.68\% &  95.226\% &  86.306\% &  80.384\% &  87.346\% &  85.158\% &  87.116\% &  83.586\% &  84.342\%\\
-osbury &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  49.96\% &  98.856\% &  97.538\% &  97.518\% &  98.064\% &  97.954\% &  97.672\% &  97.298\% &  97.424\%\\
-osrob &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  49.988\% &  96.822\% &  96.118\% &  97.134\% &  95.87\% &  96.11\% &  96.548\% &  96.582\%\\
-pjsalt &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  50.068\% &  85.194\% &  89.502\% &  88.208\% &  89.998\% &  87.598\% &  87.048\%\\
-pogchamp &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  50.348\% &  85.058\% &  84.184\% &  81.532\% &  85.13\% &  80.16\%\\
-residentsleeper &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  50.17\% &  88.79\% &  88.07\% &  89.22\% &  87.948\%\\
-smorc &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  49.91\% &  86.068\% &  87.62\% &  86.966\%\\
-swiftrage &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  49.776\% &  89.082\% &  85.906\%\\
-trihard &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  50.014\% &  84.77\%\\
-wutface &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  49.804\%\\
-\end{tabular}
-\caption{Confronto emoticon globale}
-\label{tab:rnnlmTest3 }
-\end{table}
-\end{landscape}
-\clearpage
-}
+In questo modo è facile notare che non solo RNNLM riesce a distinguere con alta probabilita'  tra frasi provenienti da emoticons positive e quelle da emoticons negative. 
+Ma riesce anche a distinguere con elevata precisione le differenze tra due diverse emoticons positive.
 
-In questo modo è facile notare che non solo rnnlm riesce a distinguere con alta probabilita  tra frasi provenienti da emoticons positive e quelle da emoticons negative. Ma riesce anche a distinguere con elevata precisione anche le differenze tra due diverse emoticons positive.
-\chapter{Liblinear}
-\label{ch:liblinear}
-Per generare i risultati attraverso liblinear è stato utilizzato word2vec con la patch di Mikolov per i sentence vectors. Similmente da come è stato effettuato con rnnlm sono stati creati file di training e test partendo dalle frasi derivate da due differenti emoticons, una positiva e un'altra negative contenenti 12500 righe ciascuno. Successivamente sono stati creati i file di test di lunghezza 25000 righe. Nonostante nei test sia stato utilizzato un sottoinsieme dei dati i vettori sono stati creati utilizzando l'intero corpus.
-Sono state effettuate alcune prove cambiando la lunghezza dei vettori (da 100 a 300 elementi) e anche utilizzando sia l'algoritmo c-bow che continous skipgram. Non sono state osservate particolari differenze nei risultati, per questo motivo si è scelto di utilizzare vettori da 100 elementi e l'algoritmo skipgram.
-Come effettuato nel Capitolo 2 sono state effettuati i confronti tra coppie di emoticons positive e negative:
+%\afterpage{
+%\clearpage
+%\thispagestyle{empty}
+%\begin{landscape}
+%\centering
+%\begin{table}[h]
+%\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+% & 4head & anele & babyrage & biblethump & brokeback & dansgame & datsheffy & elegiggle & failfish & frankerz & heyguys & kappapride & kappa & keepo & kreygasm & mrdestructoid & opieop & osbury & osrob & pjsalt & pogchamp & residentsleeper & smorc & swiftrage & trihard & wutface \\
+%4head &  49.638\% &  85.668\% &  82.05\% &  79.074\% &  76.462\% &  77.964\% &  90.016\% &  71.952\% &  77.076\% &  85.644\% &  85.906\% &  76.828\% &  74.556\% &  73.956\% &  77.214\% &  87.244\% &  79.09\% &  97.264\% &  94.782\% &  81.212\% &  73.688\% &  82.892\% &  &  &  & \\
+%anele &  &  49.962\% &  90.482\% &  88.012\% &  87.132\% &  88.236\% &  92.522\% &  88.9\% &  89.868\% &  87.402\% &  91.008\% &  85.584\% &  85.946\% &  85.866\% &  86.542\% &  90.804\% &  85.872\% &  97.146\% &  97.204\% &  89.542\% &  87.364\% &  91.866\% &  88.7\% &  90.362\% &  85.904\% &  88.028\%\\
+%babyrage &  &  &  50.094\% &  82.066\% &  84.308\% &  84.884\% &  93.334\% &  84.246\% &  84.112\% &  88.434\% &  90.384\% &  84.706\% &  83.196\% &  83.19\% &  84.616\% &  90.81\% &  85.408\% &  97.682\% &  96.252\% &  87.872\% &  83.644\% &  88.4\% &  87.298\% &  85.03\% &  89.026\% &  86.298\%\\
+%biblethump &  &  &  &  50.022\% &  83.162\% &  81.068\% &  91.722\% &  83.44\% &  82.318\% &  85.338\% &  88.02\% &  80.874\% &  79.278\% &  79.388\% &  81.566\% &  88.616\% &  82.164\% &  97.3\% &  95.134\% &  86.636\% &  80.894\% &  86.444\% &  86.02\% &  83.218\% &  86.318\% &  80.704\%\\
+%brokeback &  &  &  &  &  50.212\% &  80.112\% &  91.712\% &  79.862\% &  77.534\% &  87.13\% &  87.156\% &  80.892\% &  79.338\% &  78.786\% &  78.338\% &  89.308\% &  81.09\% &  96.934\% &  96.326\% &  84.73\% &  79.886\% &  84.766\% &  83.618\% &  86.012\% &  84.808\% &  81.72\%\\
+%dansgame &  &  &  &  &  &  50.188\% &  91.97\% &  81.268\% &  76.622\% &  87.676\% &  88.26\% &  81.818\% &  80.72\% &  80.136\% &  79.93\% &  89.924\% &  82.37\% &  97.694\% &  94.892\% &  86.99\% &  78.464\% &  85.474\% &  85.972\% &  82.058\% &  86.12\% &  76.998\%\\
+%datsheffy &  &  &  &  &  &  &  49.976\% &  90.514\% &  92.098\% &  92.186\% &  93.822\% &  91.234\% &  90.942\% &  90.406\% &  91.39\% &  93.002\% &  89.964\% &  98.184\% &  97.336\% &  93.192\% &  90.792\% &  93.486\% &  92.362\% &  92.488\% &  91.832\% &  92.448\% \\
+%elegiggle &  &  &  &  &  &  &  &  49.942\% &  78.47\% &  89.74\% &  89.276\% &  82.63\% &  79.42\% &  79.698\% &  82.324\% &  89.884\% &  82.878\% &  97.276\% &  94.734\% &  85.352\% &  79.718\% &  85.376\% &  86.694\% &  85.15\% &  87.324\% &  84.292\%\\
+%failfish &  &  &  &  &  &  &  &  &  49.9\% &  89.344\% &  89.636\% &  83.634\% &  78.926\% &  78.448\% &  81.096\% &  90.666\% &  83.182\% &  97.756\% &  95.738\% &  86.544\% &  80.558\% &  84.358\% &  84.07\% &  85.022\% &  87.616\% &  81.916\%\\
+%frankerz &  &  &  &  &  &  &  &  &  &  49.89\% &  89.774\% &  83.898\% &  85.302\% &  82.472\% &  87.604\% &  89.27\% &  84.768\% &  97.106\% &  97.068\% &  86.454\% &  87.176\% &  90.716\% &  88.694\% &  90.114\% &  86.466\% &  88.002\%\\
+%heyguys &  &  &  &  &  &  &  &  &  &  &  49.85\% &  86.042\% &  87.862\% &  86.734\% &  85.712\% &  92.036\% &  87.23\% &  97.426\% &  97.166\% &  90.164\% &  86.326\% &  91.948\% &  91.41\% &  91.314\% &  89.478\% &  88.52\%\\
+%kappapride &  &  &  &  &  &  &  &  &  &  &  &  50.264\% &  &  75.91\% &  79.28\% &  88.798\% &  80.438\% &  97.046\% &  95.992\% &  84.532\% &  79.836\% &  87.022\% &  85.314\% &  85.18\% &  84.066\% &  82.592\%\\
+%kappa &  &  &  &  &  &  &  &  &  &  &  &  76.268\% &  49.902\% &  71.292\% &  78.71\% &  87.22\% &  78.298\% &  97.572\% &  95.2\% &  84.958\% &  77.112\% &  84.758\% &  82.486\% &  84.074\% &  84.852\% &  82.796\%\\
+%keepo &  &  &  &  &  &  &  &  &  &  &  &  &  &  50.368\% &  78.54\% &  87.052\% &  77.286\% &  97.492\% &  96.352\% &  83.93\% &  78.416\% &  85.408\% &  82.802\% &  84.166\% &  83.648\% &  82.418\%\\
+%kreygasm &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  50.004\% &  87.99\% &  81.662\% &  97.566\% &  95.404\% &  85.918\% &  71.374\% &  85.754\% &  84.664\% &  83.842\% &  83.504\% &  81.59\%\\
+%mrdestructoid &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  49.868\% &  89.116\% &  97.898\% &  97.268\% &  91.098\% &  89.688\% &  91.228\% &  90.71\% &  90.454\% &  89.44\% &  90.524\%\\
+%opieop &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  49.73\% &  97.68\% &  95.226\% &  86.306\% &  80.384\% &  87.346\% &  85.158\% &  87.116\% &  83.586\% &  84.342\%\\
+%osbury &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  49.96\% &  98.856\% &  97.538\% &  97.518\% &  98.064\% &  97.954\% &  97.672\% &  97.298\% &  97.424\%\\
+%osrob &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  49.988\% &  96.822\% &  96.118\% &  97.134\% &  95.87\% &  96.11\% &  96.548\% &  96.582\%\\
+%pjsalt &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  50.068\% &  85.194\% &  89.502\% &  88.208\% &  89.998\% &  87.598\% &  87.048\%\\
+%pogchamp &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  50.348\% &  85.058\% &  84.184\% &  81.532\% &  85.13\% &  80.16\%\\
+%residentsleeper &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  50.17\% &  88.79\% &  88.07\% &  89.22\% &  87.948\%\\
+%smorc &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  49.91\% &  86.068\% &  87.62\% &  86.966\%\\
+%swiftrage &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  49.776\% &  89.082\% &  85.906\%\\
+%trihard &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  50.014\% &  84.77\%\\
+%wutface &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  49.804\%\\
+%\end{tabular}
+%\caption{Confronto emoticon globale}
+%\label{tab:rnnlmTest3 }
+%\end{table}
+%\end{landscape}
+%\clearpage
+%}
+
+\subsection{Word2Vec}
+\label{sss:word2vec}
+Utilizzando lo stesso procedimento effettuato per i test con \emph{RNNLM} sono stati utilizzati i file di \emph{train} e di \emph{test}
+per svolgere gli stessi test di \emph{accurancy} tra le frasi provenienti da due differenti emoticon.
+
+\`E importante sottolineare che, nonostante venga considerato un sottoinsieme dei dati originali, i vettori sono stati generati utilizzando 
+l'intero corpus. I vettori sono stati generati utilizzando il seguente comando:
+
+\begin{verbatim}
+./word2vec -train vec-id.txt -output vectors.txt -cbow 0 \
+           -size 100 -window 10 -negative 5 \
+           -hs 0 -sample 1e-4 -threads 40 -binary 0 \
+           -iter 20 -min-count 1 -sentence-vectors 1
+\end{verbatim}
+
+Sono state effettuate alcune prove cambiando la lunghezza dei vettori: sono stati utilizzati vettori da 100, 200 e 300 elementi e anche prove
+utilizzando sia l'algoritmo c-bow che skip-gram. 
+Non sono state osservate particolari differenze nei risultati, per questo motivo si è scelto di utilizzare vettori da 100 elementi e l'algoritmo skip-gram.
+
+Per quanto riguarda la valutazione del risultato e' stato utilizzato \emph{Liblinear}, in particolare e' stata usata l'algoritmo
+di \emph{logistic regression} per calcolare l'\emph{accurancy} sul file di \emph{test}:
+
+\begin{verbatim}
+./train -s 0 train.txt model.logreg
+./predict -b 1 test.txt model.logreg out.logreg
+\end{verbatim}
+
+Infine, utilizzando lo stesso set di dati del paragrafo \ref{sss:rnnlm}, e' stata calcolata l'\emph{accurancy} tra coppie di emoticon positive e negative:
 
 \begin{table}[h]
 \begin{center}
@@ -920,7 +1029,7 @@ Come effettuato nel Capitolo 2 sono state effettuati i confronti tra coppie di e
 pos/neg & Babyrage & Biblethump & Dansgame & Failfish & notlikethis & wutface \\
 \hline
 \hline
-4Head & 67.01 &  69.322 & 78 & 67 & 65.5 & 70.202 \\
+4Head & 67.01 &  69.322 & 68 & 67 & 65.5 & 70.202 \\
 \hline
 Elegiggle & 69.37 & 71.696 & 70.74 & 67.54 & 69.7 & 68.28 \\
 \hline
@@ -930,59 +1039,91 @@ Kreygasm & 69.44 & 71.96 & 70.33 & 72.43 & 67.76 & 71.32 \\
 \hline
 \end{tabular}
 \end{center}
-\caption{Confronto emoticons positive e negative}
+\caption{Confronto emoticon positive e negative}
 \label{tab:liblinearTest1}
 \end{table}
 
-Sono stati effettuati anche alcuni test utilizzando tutti i vari algoritmi disponibili da liblinear; questo test è stato svolto utilizzando tutti i parametri di default e testato con tutti gli algoritmi la seconda colonna rappresenta i risulati ottenuti con -c 2
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|l|c|r|}
-\hline
-Algoritmo & c  default & -c 2 \\
-\hline
-\hline
-0 & 66.9 & 66.88\\
-\hline
-1 & 66.93 & 66.95\\
-\hline
-2 & 66.93 & 67.14\\
-\hline
-3 & 67.16 & 67.24\\
-\hline
-4 & 67.15 & 66.93\\
-\hline
-5 & 66.94 & 66.90\\
-\hline
-6 & 66.9 & 66.84\\
-\hline
-7 & 66.90 & 66.89\\
-\hline
-11 & 66.93 & 66.93\\
-\hline
-12 & 66.47 & 66.63\\
-\hline
-13 & 65.188 & 67.02\\
-\hline
-\end{tabular}
-\end{center}
-\caption{test liblinear}
-\label{tab:liblineraTest1}
-\end{table}
+Anche in questo caso, come e' avvenuto con \emph{RNNLM}, possiamo notare come \emph{word2vec} riesca a distinguere tra le varie emoticon con precisione di circa il $70\%$.
+Confrontando i valori si puo' vedere come la precisione sia comunque inferiore di quella calcolata con \emph{RNNLM} di circa 10 punti percentuali.
 
-Il parametro C è stato ricercato utililzzando la funzionalità di liblinear -C: ./train -s 0 -C train.txt . Il risultato ottenuto è stato un c pari a 2. Un ulteriore test utilizzando l'algoritmo 2 e modificando i c da 1 a 4 non ha portato alcuna differenza nei valori di precisione.
+%Sono stati effettuati anche alcuni test utilizzando tutti i vari algoritmi disponibili da liblinear; questo test è stato svolto utilizzando tutti i parametri di default e testato con tutti gli algoritmi la seconda colonna rappresenta i risulati ottenuti con -c 2
+%\begin{table}[h]
+%\begin{center}
+%\begin{tabular}{|l|c|r|}
+%\hline
+%Algoritmo & c  default & -c 2 \\
+%\hline
+%\hline
+%0 & 66.9 & 66.88\\
+%\hline
+%1 & 66.93 & 66.95\\
+%\hline
+%2 & 66.93 & 67.14\\
+%\hline
+%3 & 67.16 & 67.24\\
+%\hline
+%4 & 67.15 & 66.93\\
+%\hline
+%5 & 66.94 & 66.90\\
+%\hline
+%6 & 66.9 & 66.84\\
+%\hline
+%7 & 66.90 & 66.89\\
+%\hline
+%11 & 66.93 & 66.93\\
+%\hline
+%12 & 66.47 & 66.63\\
+%\hline
+%13 & 65.188 & 67.02\\
+%\hline
+%\end{tabular}
+%\end{center}
+%\caption{test liblinear}
+%\label{tab:liblineraTest1}
+%\end{table}
+%
+%Il parametro C è stato ricercato utililzzando la funzionalità di liblinear -C: ./train -s 0 -C train.txt . Il risultato ottenuto è stato un c pari a 2. Un ulteriore test utilizzando l'algoritmo 2 e modificando i c da 1 a 4 non ha portato alcuna differenza nei valori di precisione.
 
-TODO inserire i grafici creati con t-sne per la vicinanza delle emoticons
+Utilizzando l'algoritmo \emph{t-SNE}, cioe' un algoritmo di \emph{Distributed Stochastic Neighbor Embedding }, e' stato possibile
+ridurre le dimensioni dei vettori generati tramite \emph{word2vec} e generare un grafico cartesiano rappresentante la ``distanza''
+tra le varie emoticon.
 
-\chapter{Risultati}
-I test conclusivi per la classificazione di polarità sono stati effettiati eseguendo sia \textbf{rnnlm} e poi successivamente \textbf{word2vec e liblinear} sullo stesso set di dati. Da come è stato possibile leggere nei capitoli precedenti sono stati eseguiti due test: il primo utilizzando i dati della tabella  \ref{tab:rnnlmTest1}, mentre il secondo è stato svolto utililzando tutte le emoticons positive e negative descritte nella tabella \ref{tab:emoticons1}. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{Immagini/tsne.png}
+	\caption{Grafico rappresentante i vettori di parole.}
+	\label{fig:tSNE}
+\end{figure}
+
+\section{Risultati utilizzando entrambi i modelli}
+I test conclusivi per la classificazione di polarità tra due diverse emoticon
+sono stati effettuati eseguendo sia \textbf{RNNLM} e poi successivamente \textbf{word2vec e Liblinear} sullo stesso set di dati.
+
+Come citato nel paper
+%todo
+sono state confrontate le probabilita' logaritmiche di entrambi i modelli utilizzando l'interpolazione lineare.
+Piu' formalmente, e' stata definita la probabilita' complessima come la media geometrica pesata
+dei modelli:
+\begin{equation}
+	p(y=+1|x)=\prod p^k(y=+1|x)^{\alpha_k}, con \alpha_k > 0
+	\label{eq:media}
+\end{equation}
+La ricerca di $\alpha$ e' stata effettuata utilizzando un \emph{brute force grid search}, quantificando
+i valori dei coefficenti nell'intervallo $[0,1]$ in incrementi di $0,1$.
+Questa ricerca viene controllata tramite un corpus di validazione in modo da evitare l'overfitting.
+
+Da come è stato possibile leggere nei capitoli precedenti sono stati eseguiti due test: il primo utilizzando i dati della tabella  \ref{tab:rnnlmTest1}, mentre il secondo è stato svolto utililzando tutte le emoticons positive 
+e negative descritte nella tabella \ref{tab:emoticons1}. 
 I test sono stati sempre svolti con un corpus di training di 12500 righe per file (file positivo e negativo) scelte casualmente tra tutto il corpus e un test di 25000 per file. I sentence vectors sono stati generati utililzando l'intero corpus di emoticons positive, negative e neutre non limitato al numero di righe prese in considerazione per i file di training e test.
+
+Per rapportare i dati ottenuti da \emph{RNNLM} con quelli di \emph{word2vec} e' stato utilizzato lo stesso procedimento
+descritto da 
 I risultati ottenuti sono i seguenti:
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
-& rnnlm & c liblinear & totale \\
+& rnnlm & word2vec & totale \\
 \hline
 no ripetizioni 1 & 72.53 & 66.50 & 75.85  \\
 \hline
@@ -990,11 +1131,11 @@ no ripetizioni 2 & 73.34 & 67.50 & 74.85  \\
 \hline
 no ripetizioni 3 & 72.13 & 66.78 & 75.01  \\
 \hline
-standard 1 & 74.52 & 67.01 & 78.89 \\
+standard 1 & 79.52 & 67.01 & 79.89 \\
 \hline
-standard 2 & 75.33 & 69.23 & 81.01 \\
+standard 2 & 80.33 & 69.23 & 81.01 \\
 \hline
-standard 3 & 74.92 & 68.33 & 79.90 \\
+standard 3 & 78.92 & 68.33 & 80.90 \\
 \hline
 \end{tabular}
 \end{center}
@@ -1007,8 +1148,12 @@ In questo caso sono stati ripetuti 3 volte i test, utilizzando un set di dati di
 Eliminazione di ripetizione: In una frase contenente le seguenti parole:  ``Good Game Kappa Good Game Kappa Good Game Kappa`` è stata ridotta eliminando le parole ripetute ad una frase del tipo ``Good Game Kappa``.
 \end{es}
 
-\section{Analisi di più emoticons}
-E' stato suddiviso il corpus in due parti: una parte contenente tutte le frasi positive: cioè quelle contenenti una delle emoticons citate nella tabella \ref{tab:rnnlmTest1} e quello negativo costriuto in egual modo ma utilizzando le frasi marcate con emoticons negative. Questi due set di dati sono statati randomizzati in modo che le frasi proveninenti dalle differenti emoticons venissero considerate con uguale probabilità. Sono state prese 25000 righe da entrambi i file ed effetuando lo stesso procedimento utilizzato nei capitoli \ref{ch:rnnlm} e \ref{ch:liblinear} è stato fatto il training sia con rnnlm che con liblinear, dopo aver processato i vettori (costruiti con l'intero corpus positivo, negativo e neutro).
+\subsection{Analisi di più emoticons}
+\`E stato suddiviso il corpus in due parti: una parte contenente tutte le frasi positive: cioè quelle contenenti una delle emoticon citate nella tabella \ref{tab:rnnlmTest1} e quello negativo costituto 
+in egual modo ma utilizzando le frasi marcate con emoticon negative. 
+Questi due set di dati sono statati randomizzati in modo che le frasi provenienti dalle differenti emoticon venissero considerate con uguale probabilità. Sono state estratte 25000 righe da entrambi i file ed, 
+effettuando lo stesso procedimento utilizzato nei capitoli \ref{ch:rnnlm} e \ref{ch:liblinear}, è stato fatto il training sia con \emph{RNNLM} che con \emph{Liblinear}, 
+dopo aver processato i vettori (costruiti con l'intero corpus positivo, negativo e neutro).
 I test sono stati effettuati utilizzando altre 25000 righe provenienti da entrambi i file positivi e negativi (tutte frasi differenti da quelle utilizzate per il training). Il risultato ottenuto è riportato nella tabella \ref{tab:test2}.
 \begin{table}[h]
 \begin{center}
@@ -1030,9 +1175,11 @@ Test 3 & 53.20 & 52.01 &  51.89 \\
 \end{table}
 
 I risultati cosi bassi sono dovuti al fatto che, anche se concettualmente le emoticons positive esprimono una polarità positiva in realtà la costruzione delle frasi associate sono molto diverse. 
-In altre parole il sistema si ``confonde`` tra le varie emoticons positive e quelle negative. Come indicato nelle tabelle del capitolo \ref{ch:rnnlm} è facile vedere che l'algoritmo riece a differenziare molto bene anche tra emoticons che esprimono lo stesso giudizio (positivo o negativo). Utilizzando frasi provenienti da tutte queste emoticon il training considera della stessa ``distanza`` sia le eventuali emoticons positive che quelle negative e riesce a distinguere le frasi in maniera molto meno precisa.
+In altre parole il sistema si ``confonde`` tra le varie emoticons positive e quelle negative. Come indicato nelle tabelle del capitolo \ref{ch:rnnlm} è facile vedere come l'algoritmo riecsca a differenziare molto 
+bene anche tra emoticons che esprimono lo stesso giudizio (positivo o negativo). Utilizzando frasi provenienti da tutte queste emoticon il training considera della stessa ``distanza`` 
+sia le eventuali emoticons positive che quelle negative e riesce a distinguere le frasi in maniera molto meno precisa.
 
-\section{Miglioramento risultati analisi con più emoticons}
+\subsection{Miglioramento risultati analisi con più emoticons}
 Sono state fatte numerose prove per migliorare la precisione del risultato, la soluzione utilizzata, cioè quella che ha raggiunto un livello di accurancy più alta è stata la seguente:
 Sono state suddivise le frasi per ogni emoticons considerata: quindi il corpus è stato suddiviso in 7 file positivi e 8 negativi. Prendendo 12500 righe casuali da ognuno di questi file è stato generato un modello per ogni singolo file utilizzando rnnlm e liblinear.(I vettori utilizzati per liblinear sono stati sempre costruiti nel solito modo tenendo conto dell'intero corpus quindi anche delle frasi neutre). In questo modo sono stati ottenuti 8 modelli per le emoticons negative e 7 per le emoticons negative.
 Per il test sono state prese 25000 righe di emoticons positive e altrettante negative in maniera casuale tra tutte quelle delle emoticons positive e negative ed in questo modo è stato creato il file di test. Questo file di test è stato confrontato con ogni combinazione di modelli positivo-negativo generati e sono stati salvati tutti i risultati parziali.
@@ -1088,7 +1235,7 @@ Test 3 & 63.41 \\
 \end{table}
 
 Si può vedere che utilizzando il bow i risultati sono circa di 10 punti percentuali inferiori a quelli ottenuti utilizzando rnnlm, word2vec e liblinear
-\chapter{Analisi dell'andamento giornaliero}
+\section{Analisi dell'andamento giornaliero}
 Sono state analizzate le chat e i video prodotti da alcuni streamer nell'intero arco della giornata. I dati sono stati processati dapprima utilizzando il tokenizzatore e poi rimuovendo le emoticons. L'intera giornata è stata suddivisa in intervalli di 5 minuti, per ogni intervallo sono state calcolate le somme di tutte le frasi positive, negative e neutre. Questo a permesso di ottenere un grafico dell'andamento della giornata.
 E' stato calcolato anche anche uno stesso andamento utilizzando lo stesso corpus, questa volta senza aver eliminato le emoticons utilizzando un semplice algoritmo che considera solo il numero di emoticons presenit in ogni frase. ES: in una frase ci sono 3 emoticons positive e 1 negativa allora assumo che la frase sia positiva.
 Come test iniziale sono stati analizate tre giornate di tre differenti persone:
@@ -1100,7 +1247,7 @@ Vediamo il file \emph{1\_6\_amazhs.xlsx}, durante questa giornata tutti i commen
 
 Nei due file successivi \emph{1\_4\_destiny.xlsx} e \emph{1\_7\_massansc.xlsx} vediamo come l'analisi delle sole emoticons non è più sufficiente. La divergenza è dovuta al fatto che l'utilizzo in chat di emoticons è relativamente basso rispetto al numero di messaggi, la polarity generata con rnnlm/word2vec tiene conto anche dei messaggi senza emoticons. Con un controllo manuale nei vari picchi è risultato che la polarity rilevata da rnnlm/word2vec è effettivamente quella corretta, in più viene rilevata correttamente sia la polarità degli eventi dello stream che dei meta-eventi (disconnessioni, problemi tecnici etc. vedi capitolo \ref{ch:sviluppi}
 
-\chapter{Sviluppi}
+\chapter{Conclusioni e sviluppi futuri}
 \label{ch:sviluppi}
 \begin{itemize}
 \item Nell'analisi delle emoticons multiple invece di fare una semplice ``binary decision`` cioè contare il numero di volte che è stato assegnato un valore positivo e negative e assegnare la polarità a seconda del risultato della differenza tra i due valori si potrebbe utilizzare liblinear per creare un modello intermedio per i 56 risultati usato poi per classificare i risultati generati dal file di test.
