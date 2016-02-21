@@ -12,9 +12,20 @@
 \usepackage{float}
 \usepackage{fancyhdr}
 \usepackage{url}
+\usepackage{array}
+\usepackage{multirow}
 
 \theoremstyle{definition}
 \newtheorem{es}{Esempio}[section]
+\newtheorem{defi}{Definizione}[section]
+
+\newcommand\MyBox[2]{
+  \fbox{\lower0.75cm
+    \vbox to 1.7cm{\vfil
+      \hbox to 1.7cm{\hfil\parbox{1.4cm}{#1\\#2}\hfil}
+      \vfil}%
+  }%
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%comandi per l'impostazione
                                         %   della pagina, vedi il manuale
@@ -138,15 +149,512 @@ scritte nel post di un blog o in un forum, che rendono difficoltosa anche ad un 
 e la sintesi delle informazioni utili: ecco perché diventa cosi importante uno studio finalizzato e 
 strutturato in un determinato ambito.
 
-\chapter{Modelli utilizzati}
+\chapter{Approcci alla sentiment analysis}
 
-Lo scopo di questo capitolo è quello di analizzare alcune ricerche effettuate sulla 
-\emph{sentiment analysis}, in particolare quelle in cui sono presenti gli stessi strumenti 
+Lo scopo di questo capitolo è quello di introdurre i concetti base della \emph{sentiment analysis}, 
+presentare la varie metodologie utilizzate in questo tipo di analisi e descriverle brevemente per poi 
+analizzarle, soffermandoci in particolare su quelle in cui sono presenti gli stessi strumenti 
 utilizzati in questa tesi: le reti neurali ricorsive (\emph{RNNLM}), 
 la rappresentazione vettoriale di parole (\emph{word embedding})
 con (\emph{word2vec}) e 
 i classificatori lineari (\emph{Liblinear}).
 
+\section{Definizione del problema}
+In questo capitolo verranno introdotti i concetti base e le astrazioni necessarie
+per descrivere il l'argomento trattato.
+\'E bene partire dal presupposto che, rispetto alle informazioni oggettive, 
+le opinioni e l'espressione dei sentimenti sono
+soggettive: per questo motivo e' molto importante raccogliere i pareri e le opinioni di piu' persone
+in modo da ottenere un risultato il piu' possibile oggettivo.
+
+Consideriamo, ad esempio, la seguente recensione di un prodotto:
+\begin{quote}
+(1) Ho comprato un computer sei mesi fa. (2) Funziona molto bene. (3) La potenza
+di calcolo e' soddisfacente. (4) Il prezzo e' accettabile. (5) Purtroppo e' troppo pesante.
+\end{quote}
+Analizzandola, possiamo notare che ci troviamo di fronte ad una serie di opinioni: la frase (2) esprime un 
+parere generale sul prodotto, le frasi (3) e (4) esprimono opinioni positive riguardo
+a particolari aspetti del prodotto stesso, la frase (5) esprime una opinione negativa.
+
+Da questa prima analisi risulta evidente come, in una serie di frasi che esprimono un'opinione 
+possiamo trovare due diverse componenti:
+il soggetto su cui verte l'opinione $g$ e l'opinione espressa $s$.
+Questa tipologia di frase, puo' essere rappresentata come una coppia di questi due valori $(g,s)$.
+Il valore $s$ puo' esprimere sia parere positivo, negativo o neutro (definito \emph{polarity}) oppure un valore che 
+esprime l'intensità di questo sentimento (Es: nel caso delle recensioni potrebbe
+essere un valore espresso tra 1 e 5 stelle)
+
+\begin{defi}(opinione): un'opinione e' una quadrupla $(g, s, h, t)$ dove $g$ rappresenta un parere
+(o sentimento) riguardo ad particolare oggetto o persona, $s$ e' il sentimento espresso,
+$h$ e' l'entità che esprime questa opinione e $t$ rappresenta il segmento  di tempo in cui
+l'opinione stessa viene espressa.
+\end{defi}
+
+Anche se questa definizione e' rappresentata in modo molto conciso non e' facile applicarla
+a casi reali: tornando alla recensione sopra citata si puo' notare, ad esempio, che
+la frase (4) comunica che il prezzo del computer acquistato viene ritenuto 
+accettabile. Questa opinione non ha come soggetto il prezzo, ma si riferisce al computer
+citato nella frase (1). Tenendo a mente questa considerazione notiamo come
+sia possibile scomporre il \emph{target} della recensione sotto vari aspetti: possiamo, ad esempio
+definire la coppia (computer, prezzo) e, come proposto da Hu e Liu (2004, 2001), %todo
+assegnare una definizione formale a questo concetto:
+
+\begin{defi}(entita): una entita' $e$ e' un prodotto, servizio, argomento, persona o evento.
+Puo' essere descritto con una coppia $(T,W)$, dove $T$ rappresenta una gerarchia di parti, sottoparti 
+e cosi' via e $W$ rappresenta un insieme di attributi appratenenti ad $e$. Qualsiasi parte o sottoparte puo'
+avere un suo insieme distinto di attributi.
+\end{defi}
+
+Considerando ancora una volta il nostro esempio, possiamo attriburi alla nostra entita' \emph{computer}
+una lista di attributi o caratteristiche: \emph{velocita' di calcolo, peso, costo}. Il nostro computer e' anche composto,
+inoltre, da una serie di parti, per esempio, \emph{lo schermo o la batteria}. Questa parti hanno a loro volta
+una serie di caratteristiche: la batteria, per esempio, possiede gli attributi per esprimere la 
+propria \emph{durata} e il proprio \emph{peso}.
+
+Si puo' facilmente intuire, pertanto, per quale motivo risulti cosi difficile effettuare questo tipo di analisi:
+è estremamente complicato, infatti, definire un’entità tenendo conto di tutte le parti e le caratteristiche che la contraddistinguono, a livelli differenti e in  maniera dettagliata.
+Inoltre e' importante sottolineare che molte applicazioni pratiche non hanno nemmeno bisogno di entrare cosi
+a fondo in tutta questa serie di dettagli.
+In genere, quindi, si utilizza un modello semplificato costituito ad albero, dove la radice dell'albero 
+rappresenta l'entita stessa
+e il secondo livello (il livello delle foglie) rappresenta direttamente le differenti \emph{features} dell'entita'.
+Questo modello e' quello che viene usato comunemente nella \emph{sentiment analysis}.
+
+Seguendo le ricerche presentate da Hu e Liu (2004) e successivamente da Liu (2010) possiamo
+definire cos'e' un'opinione:
+
+\begin{defi}(opinione): Un'opinione e' una quitupla $(e_i, a_ij, s_ijkl, h_k, t_l)$ dove
+$e_i$ e' il nome dell'entita', $a_ij$ e' una \emph{aspect} di $e_i$, $s_ijkl$ e' il
+sentimento del'aspect $a_ij$ dell'entita' $e_i$, $h_k$ e' il soggetto che esprime l'opinione e $t_l$
+rappresenta il momento di tempo nel quale l'opinione viene espressa dal soggetto $h_k$.
+Come gia' detto precedentemente il sentimento $sijkl$ puo' essere positivo, negativo o neutrale o esprimere una intesita',
+per esempio attraverso un valore da 1 a 5.
+\end{defi}
+
+Nella definizione vengono esplicitate chiaramente le corrispondenze tra i vari elementi,
+e questo apsetto e' particolarmente importante da sottolineare perche', 
+qualora tali corrispondenze non vengano rispettate,
+la definizione perde di significato.
+Un altro aspetto rilevante da evidenziare consiste nel fatto che la mancanza di uno di questi elementi rende 
+l'analisi delle opinionioni molto meno specifica, in quanto rimuove una grossa fetta di
+informazioni. Nel caso in cui, ad esempio, venga omesso il fattore tempo, si perdera' il contesto
+temporale dell'opinione, benche' sia diverso il valore tra una opinione espressa ieri rispetto ad una
+formulata due anni fa.
+\`E necessario, infine, specificare come la definizione data sia un modello semplificato del problema
+originale e se cio' rende la gestione di opinioni piu' semplice da trattare,
+comporta d'altro canto anche una perdita di informazioni. Se prendiamo, ad esempio, la seguente definizione:
+``Questa automobile e' troppo piccola per una persona alta''
+noteremo che in essa non viene gestito il contesto dell’opinione: la circostanza che l’auto sia troppo piccola, 
+infatti, è relativa soltanto alle persone alte e non dovrebbe quindi influenzare il giudizio generale.
+
+Possiamo infine raggruppare i vari \emph{task} di \emph{sentiment analysis} nelle seguenti categorie:
+\begin{itemize}
+	\item Categorizzazione ed estrazione delle entita': consiste nell'estrazione di tutte le entita D,
+		e nel raggruppamento delle stesse per categorie o gruppi (\emph{cluster}). Ogni \emph{cluster}
+		rappresenta un'entita $e_i$ univoca.
+	\item Categorizzazione ed estrazione degli \emph{aspect}: riguarda l'estrazione di tutte le espressioni
+		che rappresentano un \emph{aspect} di una particolare entita raggruppandole
+		per categorie o gruppi. Ognuno di questi gruppi rappresenta un \emph{aspect} $a_ij$
+		dell'entita $e_i$
+	\item Categorizzazione ed estrazione del soggetto (\emph{opinion holder}): si tratta dell'estrazione
+		dei soggetti che esprimono le opinioni, e del loro raggruppamento per categorie. Questo \emph{task}
+		e' analogo a quelli appena descritti.
+	\item Estrazione e standardizzazione del tempo: consiste nell'estrazione dei momenti temporali 
+		durate i quali 
+		sono state espresse le opinioni e nell'effettuazione delle opportune conversioni per portare
+		il tempo ad un formato standard. Anche questo \emph{task} e' analogo a quelli visti finora.
+	\item Classificazione degli \emph{aspect}: consiste nella determinazione di una opinione o \emph{aspect} $a_ij$
+		in base ad una valutazione positiva, negativa, neutrale o nell'assegnazione di un valore numerico \emph{rating}.
+	\item Generazione delle quintuple che rappresentano le opinioni: riguarda la costruzione delle quintuple 
+		$(e_i, a_ij, s_ijkl, h_k, t_l)$ definite in precedenza.
+\end{itemize}
+
+\section{Tecniche di Sentiment Classification}
+Gli approcci utilizzati per effettuare \emph{Sentiment Classification}
+si possono dividere in base a tre diverse metodologie: l'approccio tramite
+machine learning (ML), quello basato sul Lexicon e infine un approccio ibrido
+che utilizza ambedue le tecniche.
+
+Il metodo basato sul machine learning si focalizza nell'utilizzo di algoritimi
+gia' impiegati in tale specifico settore, affinandoli, pero', grazie all'uso 
+di informazioni estrapolate dalle features linguistiche.
+L'approccio basato sul lexicon ricorre ad un sentiment lexicon,
+cioe' su un insieme di termini che esprimono informazioni riguardanti un particolare
+\emph{sentiment}, gia' conosciuti ed elaborati prima di iniziare l'analisi.
+Questo tipo di metodologia puo' ricorrere a due diverse tecniche,
+e cioe' di 
+un approccio \emph{dictionary based} e in uno \emph{corpus based}:
+quest'ultimo, in particolare, prevede la valutazione della polarita'
+tramite l'utizillo di metodologie statistiche o
+semantiche.
+L'approccio ibrido, infine, molto diffuso, combina entrambe le metodologia precedentemente
+citate, utilizzando spesso il \emph{sentiment lexicon} come chiave principale per l'analisi.
+
+I sistemi di classificazione che  si servono dell'approccio ML possono essere 
+divisi in due ulteriori categorie, a seconda che usino metodologie supervisionate
+o che si basino su una metodologie non supervisionate. Generalmente, una metodologia
+supervisionata ha risultati migliori rispetto alla seconda che, invece,
+viene spesso usata quando si necessita di una grande mole di dati o quando risulta
+impossibile accedere a dataset etichettati.
+I sistemi basati sul lexicon, invece, sono incentrati sulla ricerca di una opinion lexicon
+che serve per analizzare il testo. I metodi a cui si fa ricorso sono generalmente due:
+il primo e' basato sul dizionario e, utilizzando parole chiave (seed words) di polarita' nota,
+effettua una ricerca dei sinonimi e degli antonimi delle suddette parole tramite il dizionario stesso.
+Il secondo metodo, invece, e' quello definito \emph{corpus based} e, partendo sempre dall'utilizzo di
+\emph{seed words}, ricerca altre parole nel corpus poi utilizzate
+per esprimere context orinetent frasi. %todo spiegare meglio
+\subsection{Approccio basato su Machine Learning}
+L'approccio di Machine learning si serve di algoritmi gia' utilizzati nel ML per risolvere il problema
+di sentiment analysis, rapportandolo ad un problema classico di text classification 
+in cui vengono impiegate
+\emph{features} sintattiche e/o linguistiche.
+%todo introdurre meglio
+\emph{Definizione del problema di classificazione:} Dato un insieme di record di training 
+$D = {X_1, X_2,\ddot{},X_n}$ ad ogni record e' assegnata una particolare etichetta.
+%todo espandere fa schifo com'e' scritto sul paper
+\subsubsection{Supervised learning}
+L’apprendimento basato sul metodo supervisionato ricorre all'uso di documenti etichettati,
+cioe' documenti sui quali e' stata effettuata una annotazione manuale: questi 
+testi sono usati
+per svolgere il training del sistema. L'approccio supervisionato prevede l'utilizzo
+di numerosi tipi di classificatori, i piu' diffusi dei quali vengono di seguito
+presentati brevemente.
+
+\emph{Naive Bayes Classifier (NB)}: il classificatore NB e' il classificatore piu' semplice
+e per questo e' anche quello che viene utilizzato piu' comunemente: questo tipo di classificatore calcola
+la probabilita' a-posteriori di una determinata classe, basandosi sulla distribuzione
+di parole nel documento. L'estrazione delle \emph{feature} dal documento viene fatta
+generalmente 
+tramite \emph{BOW}, sistema che quindi ignora la posizione delle parole, mentre si utilizza il
+teorema di Bayes per calcolare la probabilita' che una determinata \emph{feature}
+appartenga ad una etichetta.
+
+\begin{equation}
+	P(label|feature)=\frac{P(label)\cdot{}P(features|label)}{P(features)}
+	\label{Bayes}
+\end{equation}
+
+Dove $P(label)$ sia la probabilita' a-priori, $P(features|label)$ e'
+la probabilita' a-priori che un una determinata \emph{feature} sia
+classificata con una specifica etichetta, infine $P(feature)$
+e' la probabilita' a-priori che ci sia una occorrenza di una data
+\emph{feature}. Utilizzando l'assunzione Naive possiamo dire che tutte le \emph{features} sono indipendenti
+e l'equazione puo' essere riscritta come segue:
+\begin{equation}
+	P(label|features)=\frac{P(label)\cdot{}(f_1|label)\cdot{}P(fn|label)}{P(features)}
+	\label{Naive Bayes}
+\end{equation}
+
+Nelle ricerche di Kang e Yoo %todo
+possiamo vedere come sia stato implementato un classificatore NB migliorato per risolvere
+la tendenza che l'accuracy della classificazione positiva risulti il 10\% piu' elevata rispetto alla
+all'accuracy di quella negativa.
+
+\emph{Bayesian Network (BN)}: il presupposto da cui parte il sistema di classificazione NB riguarda
+l'indipendenza delle \emph{feature} insieme all'assunto in base al quale tutte le \emph{feature}
+sono completamente indipendenti. Il modello tramite \emph{Bayesian Network}, invece, utilizza
+un grafo aciclico diretto, dove i nodi rappresentano le variabili e i vertici le dipendenze condizionali:
+ questo
+comporta che un BN rappresenti in modo completo le variabili e le loro relazioni.
+Come possiamo leggere da Cruz et al. (2013) la complessita' computazionale di un modello BN 
+e' estremamente
+elevata e questo limita fortemente le applicazioni di questo tipo di classificatore.
+Nonostante cio', Hernandez e Rodriguez %todo
+hanno dimostrato come un metodo semi-supervisionato che utilizza un classificatore BN possa essere
+usato con risultati notevoli su un compito di classificazione multi-dimensionale.
+
+\emph{Maximum Entroy (ME)}: un classificatore ME (conosciuto  anche come un \emph{conditional exponential classifier})
+converte gli insiemi di \emph{feature} in vettori. Questi vettori vengono utilizzati per calcolare i pesi
+di ogni \emph{feature}, i quali, infine, vengono combinati per stabilire come etichettare un determinato
+set di \emph{feature}. Questo classificatore viene parametrizzato con un insieme $X(weights)$ utilizzato per 
+calcolare le \emph{feature} generate dalle stesse attraverso un $X(encoding)$. In 
+particolare l'enconding effettua un \emph{mapping} tra le coppie $C(featureset,label)$ con un vettore. La
+probabilita' di ogni etichetta viene quindi calcolata nel seguente modo:
+\begin{equation}
+	P(fs|label)=\frac{dotprod(weights,encode(fs,label))}{sum(dotprod(weights,encode(fs,l))forlinlabels}
+	\label{ME}
+\end{equation}
+Kaufmann %todo
+dimostra come utilizzare un classificatore ME per effettuare un parallelismo tra frasi di due linguaggi,
+ servendosi
+di un insieme di dati di \emph{training} molto piccolo.
+
+\emph{Support Vector Machines (SVM)}: dato $X=(x_1,\ddot{}, X_n)$ come la frequenza normalizzata delle parole
+in un documento, il vettore $A=(a_1,\ddot{},a_n)$ rappresenta un insieme di coefficienti lineari con la
+stessa dimensione delle \emph{feature}; con il termine $b$ si intende uno scalare, 
+mentre l'output di un classificatore
+lineare e' definito come $p=A.X + b$ e separa l'iperpiano tra differenti classi.
+Nel modello SVM si ricercano questi separatori lineari in modo che vengano separate le diverse classi che si
+vogliono suddividere con la maggior precisione possibile.
+I testi, in genere, si adattano molto bene per una classificazione \emph{SVM}, grazie alla natura sparsa del testo, dove
+alcune \emph{feature} sono irrilevanti ma tendono ad essere correlate fra loro e generalmente organizzate
+in categorie ben separabili.
+Gli utilizzi di questo tipo di classificatore sono numerosi, Chen e Tseng %todo
+dimostrano come servirsi di classificatori SVM per valutare la polarita' di recensioni di prodotti,
+Li e Li %todo
+dimostrano, invece, come' non solo sia possibile effettuare una classificazione binaria sulla polarita' espressa
+dai messaggi di Twitter, ma anche come si possa effettuare un'analisi piu' approfondita
+, assegnando un punteggio
+su quanto sia positivo o negativo un particolare messaggio.
+
+\emph{Neural Networks(NN)}: si tratta di una rete neurale formata da numerosi neuroni, dove con neurone si intende l'unita'
+base della rete. L'input dei neuroni e' denotato con un vettore $\vec{X_i}$ che rappresenta la frequenza
+delle parole in un particolare documento. Ad ogni neurone e' associato un peso $A$ usato nella funzione $f()$
+che processa gli input, e la funzione lineare della rete neurale e' $P_i = A\dot{} \vec{X_i}$ in un problema
+di classificazione binaria il segno della funzione $p_i$ determina a quale classe appartenga l'input.
+Alcune ricerche pubblicate da Moraes e Valiati %todo
+dimostrano come una NN abbia risultati migliori di SVM su numerosi problemi di classificazione: in particolare
+sono stati effettuati test sulla classificazione di commenti su film, recensioni di prodotti elettronici e di libri.
+
+\emph{Rule-Based classifier}: nei classificatori \emph{rule based} i dati vengono modellati come un insieme di regole.
+Il lato sinistro della rapresentazione esprime una condizione sul \emph{feature set} espressa in forma normale
+disgiuntiva, mentre il lato destro assegna un'etichetta.
+Queste regole vengono generate durante la fase di test tramite determinati criteri; i piu' comuni sono
+definiti \emph{support} e \emph{confidence}. Il primo definisce il numero assoluto di 
+istanze nel testo utilizzato
+come \emph{training} rilevanti per una determinata regola; il secondo, invece, definisce la probabilita'
+condizionale che il lato destro della regola sia soddisfatto quando anche il lato sinistro lo sia.
+\subsubsection{Weakly, semi e unsupervised learning}
+L'obiettivo principale della classificazione di un testo e' quello di suddividere un documento in categorie
+predefinite. Come visto finora, per svolgere questo compito si utilizza un numero elevato di documenti di \emph{training},
+ ma spesso la creazione e la raccolta di questi dati etichettati puo' essere particolarmente difficile,
+ mentre
+la ricerca di documenti non etichettati in genere risulta essere estremamente piu' semplice.
+In numerose ricerche, come quelle presentate da Ko e Seo %todo,
+per aggirare queste difficolta' sono stati proposti metodi in cui un testo viene diviso in frasi che vengono categorizzate utilizzando liste
+di \emph{keywords} per ogni categoria ricorrendo alla \emph{similarity} tra le varie frasi.
+Youlan e Zhou %todo, al contrario,
+hanno proposto una strategia di \emph{weak supervision} a  livello di \emph{feature},
+utilizzando un classificatore iniziale contenente informazioni estratte da un \emph{sentiment lexicon} esistente
+in un modello di classificazione. Queste \emph{feature} gia' etichettate vengono utilizzate come vincolo per effettuare
+una previsione sui dati non etichettati impiegando un \emph{generalized expectation criteria}.
+Nel loro lavoro vengono individuate parole che esprimono polarita' in un dominio specifico e viene dimostrato
+come queste parole possano esprimere una diversa polarita' in altri domini.
+\subsection{Approccio basato sul Lexicon}
+Le \emph{opinion words} sono utilizzate in molti \emph{task} di classificazione di sentimenti: queste parole,
+insieme a frasi che esprimono opinioni e idiomi, sono definite \emph{opinion lexicon}. 
+Per la raccolta e la categorizzaione di queste \emph{opinion words} si 
+fa ricorso a tre approcci principali: il primo,
+quello manuale, non viene mai usato da solo poiche' e' molto lento, ma viene impiegato insieme agli
+altri due approcci automatici, il \emph{dictionary-based} e \emph{corpus-based}.
+\subsubsection{Dictionary-based Approach}
+Come possiamo leggere da %todo
+la strategia impiegata in un approccio \emph{dictionary based} e' quella di ottenere e categorizzare
+manualmente un piccolo insieme di \emph{opinion words}; questo insieme
+viene successivamente ampliato, ricercando sinonimi e antonimi di queste parole,
+ricorrendo a corpora quali \emph{WordNet}
+e \emph{Thesaurus}.
+Le nuove parole ottenute in tal modo vengono aggiunte all'insieme di parole iniziali;
+riparte quindi una nuova iterazione, finche' non 
+vengono trovate altre parole da aggiungere all'insieme.
+Il principale svantaggio di questo tipo di approccio e' quello di non riuscire ad ottenere \emph{opinion words}
+riguardanti specifici domini o contesti.
+La ricerca di Qui e HE %todo
+dimostra come questo tipo di metodo sia particolarmente efficace per la ricerca e l'estrazione di parole
+chiave relative alle pubblicita' online e nel generare una strategia pubblicitaria piu' rilevante per il
+consumatore.
+\subsubsection{Corpus-based Approach}
+L'approccio \emph{corpus-based} viene utilizzato per cercare di ottenere \emph{opinion words} relative ad un
+particolare contesto. Vengono usati \emph{pattern} sintattici insieme a delle \emph{seed words} per 
+ricercare in un corpus
+altre \emph{opinion words}.
+Uno di questi metodi e' presentato nelle ricerche di Hatzivassloglou e McKeown %todo
+dove, partendo da una lista di \emph{seed words}, in particolare di aggettivi che esprimono una opinione,
+e' stato utilizzati un insieme di vincoli sintattici, nella forma di connettivi del tipo AND, OR, BUT, etc.
+Per esempio: la congiunzione AND esprime il fatto che gli aggettivi congiunti hanno la stessa polarita'. Questa
+idea e' definita \emph{sentiment consistency}, ma non sempre puo' essere utilizzata in pratica. Allo stesso modo
+le espressione avversative come BUT o HOWEVER definiscono un cambiamento di opinione.
+Un altro approccio, definito come \emph{Conditional Rando Fields (CFR)}, e' quello utilizzato dalla ricerca di Jiaoua e Zhoua: %todo
+tale metodo si basa su un algoritmo di \emph{multi-string matching}
+utilizzato per discriminare la polarita' di una frase ed e' stato usato
+con successo per
+categorizzare varie tipi di recensioni (su auto, hotel e computer).
+Cruz e Troyano %todo
+forniscono un ulteriore approccio che rientra nella classificazione \emph{corpus based}:
+si tratta del metodo tassonomico, in cui le \emph{feature} vengono mappate in una \emph{feature taxonomy}
+che raffigura una rappresentazione semantica delle parti e degli attributi contenenti opinioni
+di un oggetto.
+Il sistema proposto dai due studiosi  e' \emph{domain-oriented}, ed in esso si trovano definite
+le risorse specifiche che vengono utilizzate sul dominio per catturare informazioni sul modo 
+in cui le persone 
+esprimono opinioni al suo interno (in questo caso i domini trattati sono quelli
+delle recensioni di cuffie musicali, hotel e automobili).
+Uno dei principali risultati di questo studio e' stato quello di dimostrare come, in certi ambiti,
+un modello specializzato su particolari domini fornisca risultati migliori di altri
+modelli \emph{domain indipendent}.
+
+\emph{Approcci statistici}: si possono trovare pattern di co-occorrenza o \emph{seed words}
+utilizzando tecniche che si servono di funzionalita' statiche.
+Come proposto da Fahrni e Klenner %todo
+e' possibile utilizzare un insieme di corpus annotati raccolti nel web per la costruzione
+del dizionario: in questo modo si risolve il problema dovuto al fatto che la creazione di un dizionario
+da un solo corpus relativamente alle parole che non vengono utilizzate
+all'interno dello stesso puo' essere difficoltosa (sopratutto se questo corpus e' di dimensioni ridotte).
+La polarita' di queste parole puo' essere ottenuta studiando la frequenza di occorrenza in 
+un corpus annotato di dimensioni adeguate. Se una parola e' presente piu' volte in testi aventi una annotazione
+positiva le verra' attribuito un valore positivo, se invece la frequenza e' negativa il valore
+attribuito sara' a sua volta negativo. Un'altra modalita' utilizzata per determinare la polarita' di una parole
+e' confrontare la co-occorrenza rispetto a parole di polarita' nota:
+se in un contesto una determinata parola si presenta con 
+una notevole frequenza è allora altamente probabile che la polarita' di entrambe coincida. 
+Questi metodi sono utilizzati nelle ricerche di Hu e Bose %todo
+che, analizzando lo stile di scrittura di recensioni ritenuto dagli autori casuale visti e considerati 
+i vari background dei consumatori, attraverso un'analisi statistica sono giunti alla conclusione
+che il 10\% delle recensioni su Amazon sono soggette a manipolazioni.
+
+\emph{Approccio semantico:} l'approccio semantico fornisce un valore di polarita' basandosi sui principi
+di \emph{similarity} tra parole, stabilendo una polarita' simile a parole semanticamente simili.
+\emph{WordNet}, ad esempio, puo' essere utilizzato per ottenere una lista di \emph{sentiment words} effettuando una 
+iterazione in un set di parole iniziale ed espandendo questo insieme: stabilendo la polarita' di parole
+nuove basandosi sul numero di sinonimi e antonimi, una parola avente molti sinonimi
+con polarita' positiva viene percepita anch'essa come positiva.
+Come presentato da Maks e Vossen %todo
+questo metodo viene utilizzato in numerose applicazioni per costruire un \emph{lexicon} che, partendo da verbi,
+nomi e aggettivi, viene poi usato in \emph{task} di \emph{sentiment analysis}. Una applicazione pratica la vediamo nel lavoro
+pubblicato da Zhang e Xu, %todo
+che abbina un approccio semantico ad uno statistico per ricercare le debolezze di particolari prodotti
+partendo dalle recensioni online.
+
+\subsubsection{Lexicon-based e tecniche NLP}
+Tecniche di NLP possono essere utilizzate, in genere insieme ad un approccio basato sul \emph{lexicon}, per 
+trovare la struttura sintattica del documento analizzato e per poter individuare le relazioni semantiche.
+L'approccio proposto da Caro e Grella %todo
+utilizza un \emph{dependency parsing} come passo di preprocessing per un algoritmo definito di \emph{sentiment propagation}.
+I due ricercatori assumono che ogni elemento linguistico - come i nomi, i verbi etc. - abbia un valore intrinseco di
+sentimento, che viene propagato attraverso la struttura sintattica della frase esaminata.
+Il lavoro di Min e Park %todo , invece,
+utilizza l'analisi NLP da una differente prospettiva, usando tecniche per identificare le coniugazioni
+verbali e le espressioni di tempo: in questo modo, grazie anche ad un algortimo di \emph{ranking}, vengono categorizzate
+recensioni di prodotti in differenti periodi di tempo.
+
+Un'analisi effettuata da Asher et al. %todo
+dimostra come le informazioni del discorso possano essere utilizzate per effettuare \emph{sentiment annotation}. In particolare
+sono state individuate cinque tipi di relazioni retoriche, \emph{Contrast, Correction, Support, Result e Continuatum},
+a cui varie informazioni di \emph{sentiment} sono state assegnate per poi essere utilizzate per l'annotazione.
+
+Attraverso la \emph{Rhetorical Structure Tehory (RST)}, che descrive come suddividere il testo in diverse parti, ciascuna
+delle quali rappresenta una parte sensata del testo, Heeschop et al. %todo
+hanno proposto un framework che utilizza questa metodologia  a livello di frase per effettuare una \emph{sentimenta analysis}
+basata a livello di struttura. In questo modo e' stato categorizzato il testo in due classi distinte, la prima
+contenente
+informazioni importati, che verranno utilizzate per esprimere una polarita' nella frase, e l'altra 
+meno importante, contenente una parte di testo che verra'
+invece viene ignorato.
+Questa tecnica viene usata con successo anche da Chenlo et al. %todo
+dove RST viene applicata su post di blog e se ne servono per estrarre frasi relative all'argomento del post. Queste frasi
+vengono poi analizzate in modo da ottenere la polarita' per l'intero testo.
+\subsection{Altre tecniche}
+Esistono altre tecniche che sono tuttavia difficilmente riconducibili ai due grandi insiemi presentati finora (ML e Lexicon-based):
+una di queste, proposta da Wille %todo 
+viene definita \emph{Formal Concet Analysis (FCA)}.
+e consiste in un un approccio matematico basato sulle connessioni
+di Galois, usato per definire la struttura, analizzare e visualizzare i dati.
+Questi dati sono composti da una lista di entita' con le relative \emph{feature} e sono strutturati
+in astrazioni formali chiamte \emph{formal concepts}. Tali strutture formano un reticolo completo 
+parzialmente ordinato, definito come \emph{concept lattice}. Questi reticoli vengono costruiti
+individuando gli oggetti e i rispettivi attributi relativi ad uno specifico dominio, attraverso
+un sistema di analisi che tiene conto anche delle eventuali informazioni non certe o non chiare.
+Il sistema
+fornisce un elenco di relazioni tra i vari oggetti.
+Nell'ambito della \emph{sentiment analysis} la tecnica FCA viene applicata in diversi ambiti,
+come mostrato da Li e Tsai %todo
+che hanno effettuato una classificazione usando \emph{concept} anziche documenti: questa tecnica
+riduce le incertezze e aumenta la precisione dei risultati quando vengono analizzati termini ambigui.
+Dai risultati si evince anche come questa tecnica riduca la sensibilita' alle interferenze presenti nei testi
+e aumenti inoltre l'adattabilità nell'utilizzo di questi sistemi in caso di applicazioni \emph{di cross domain}.
+
+\`E interessante notare come la tecnica FCA e' stata utilizzata con successo
+anche per costruire un modello di dominio ontologico, come dimostrato da uno
+studio di Kontopoulos, %todo
+che presenta
+tecniche basate su ontologie per fornire una analisi piu' accurata relativa ai sentimenti espressi
+su Twitter; per raggiungere tale scopo lo
+sutdioso ricorre alla suddivisone dei Twit in un inseme di \emph{feature} che risultano rilevanti
+rispetto all'argomento cercato.
+
+\section{Valutazione del risultato dei classificatori}
+La valutazione prestazionale dei classificatori di testi e' effettuata sperimentalmente
+piuttosto che analiticamente, in quanto una valutazione di tipo analitico non puo' essere
+formalizzata (a causa della natura soggettiva del problema della classificazione ). La
+valutazione sperimentale di un classificatore solitamente misura la sua efficacia, ovvero
+l’abilita' di prendere la giusta decisione durante il processo di classificazione.
+
+In genere, per valutare il risultato di un classificatore viene utilizzata una \emph{confusion matrix},
+cioe' una particolare matrice che permetta la visualizzazione del risultato di un classificatore. Ogni colonna
+della matrice rappresenta le istanze della classe assegnata dal classificatore,
+mentre le righe rappresentano la classe reale (o viceversa). Il nome di questa matrice deriva 
+dalla sua capacita' di 
+semplificare il compito di valutazione del sistema,
+che evita la possibilita' di confusione fra le due classi annotate
+(assegna, ad esempio, un'etichetta
+ad una classe piuttosto che a un'altra).
+
+%\noindent
+%\renewcommand\arraystretch{1.5}
+%\setlength\tabcolsep{0pt}
+\begin{table}[h]
+	\centering
+\begin{tabular}{c >{\bfseries}r @{\hspace{0.7em}}c @{\hspace{0.4em}}c @{\hspace{0.7em}}l}
+  \multirow{10}{*}{\parbox{1.1cm}{\bfseries\raggedleft Valore \\ reale}} & 
+    & \multicolumn{2}{c}{\bfseries Risultato Previsto} & \\
+  & & \bfseries p & \bfseries n & \bfseries totale \\
+  & p$'$ & \MyBox{True}{Positive} & \MyBox{False}{Negative} & P$'$ \\[2.4em]
+  & n$'$ & \MyBox{False}{Positive} & \MyBox{True}{Negative} & N$'$ \\
+  & totale & P & N &
+\end{tabular}
+\caption{Esempio di \emph{confusion matrix}, si puo' vedere come vengono rappresentati i vari valori rispetto
+al valore reale e a quello previsto dal categorizzatore}
+\end{table}
+
+I valori utilizzati nella \emph{confusion matrix} sono i seguenti:
+\begin{itemize}
+\item True Positive (TP):
+\item True Negative (TN):
+\item False Positive (FP): falso allarme, errore di tipo I
+\item False Negative (FN): mancato riconoscimento, errore di tipo 2
+\end{itemize}
+
+I valori utilizzati per la valutazione del risultato sono l'accuracy:
+\begin{equation}
+Accuracy = \frac{TP+TN}{TP+TN+FP+FN}
+\end{equation}
+La precision:
+\begin{equation}
+Precision = \frac{TP}{TP+FP}
+\end{equation}
+Il recall:
+\begin{equation}
+Recall = \frac{TP}{TP+FN}
+\end{equation}
+e l'F-Score:
+\begin{equation}
+F_1 = 2\cdot\frac{precision \cdot recall}{precision + recall}
+\end{equation}
+
+Questi valori aggiuntivi sono necessari perche' l'accuracy da sola non fornisce un buon metro di paragone
+per la valutazione delle performance. Il valore riportato dall'accuracy, infatti, puo' essere ingannevole
+nel caso in cui l'insieme di dati sia sbilanciato (qualora cioe', il numero di campioni tra le classi analizzate
+sia molto differente): per esempio nel caso voglia classificare un inseme composto da 95 entita' di tipo A
+e 5 di tipo B il classificatore potrebbe funzionare in maniera imparziale e classificare tutte le entita' 
+assegnandogli il tipo A. In questo caso l'accuracy risulterebbe del 95\% mentre il vero valore di riconoscimento
+ sarebbe il 100\% per la classe A e 0\% per la classe B.
+
+In un processo di classificazione statistica, la \emph{precision} per una classe è il numero di 
+veri positivi (il numero di oggetti etichettati correttamente come appartenenti alla classe) 
+diviso il numero totale di elementi etichettati come appartenenti alla classe 
+(ottenuto dalla somma di veri positivi e falsi positivi, 
+questi ultimi consistenti in oggetti etichettati erroneamente 
+come appartenenti alla classe). In questo contesto, il \emph{recall} è definito come il numero 
+di veri positivi diviso il numero totale di elementi che attualmente appartengono alla classe 
+(per esempio la somma di veri positivi e falsi negativi, ovvero oggetti che non 
+sono stati etichettati come appartenenti alla classe ma dovrebbero esserlo).
+
+Infine con il termine \emph{F-score} si intende la misura della precisione del test. Nella sua
+definizione viene considerata sia la \emph{precision} che il recall e il risultato ottenuto rappresenta
+la media pesata di questi due valori. Con il valore $1$ viene rappresenato il valore migliore
+mentre con 0 quello peggiore.
+
+\section{Modelli utilizzati}
 Come già esposto nel Capitolo \ref{sec:sentAnal} e come si può desumere
 dalle ricerche effettuate da Pang and Lee (2008) %todo
 la \emph{sentiment classification} è uno degli aspetti più studiati della NLP.
@@ -384,7 +892,7 @@ numerico univoco, su cui effettuare lo scoring.
 \section{Word2Vec}
 \label{sec:word2vec}
 Storicamente i sistemi di \emph{natural language processing} trattano le parole come simboli atomici e discreti:
-per esempio la parola ``gatt'' può essere rappresentata da \textbf{Id123} e la parola ``cane'' come \textbf{Id453}.
+per esempio la parola ``gatto'' può essere rappresentata da \textbf{Id123} e la parola ``cane'' come \textbf{Id453}.
 Questa codifica è arbitraria e non fornisce alcuna informazione al sistema riguardo la relazione
 che può esistere tra due differenti simboli.
 Questo significa che il nostro sistema non può utilizzare praticamente nulla di quello che ha imparato
@@ -501,14 +1009,14 @@ Le caratteristiche di un oggetto sono anche conosciute come \emph{features} e ne
 Questi classificatori funzionano molto bene per problemi pratici quali la classificazione di 
 documenti e più in generale per problemi che utilizzano un numero molto elevato di \emph{features}
 
-Se definiamo un vettore di \emph{features} con l'identificatore $x^\rightarrow$ allora il punteggio di output
+Se definiamo un vettore di \emph{features} con l'identificatore $\vec{x}$ allora il punteggio di output
 è definito come segue:
 \begin{equation}
-	y=f(w^\rightarrow \cdot x^\rightarrow = f (\sum_j w_jx_j)
+	y=f(\vec{w} \cdot \vec{x} = f (\sum_j w_jx_j)
 	\label{output score}
 \end{equation}
 
-dove $w^\rightarrow$ è un vettore reale pesato (\emph{weight vector}) e $f$ è una 
+dove $\vec{w}$ è un vettore reale pesato (\emph{weight vector}) e $f$ è una 
 funzione che converte il prodotto scalare di due vettori nell'input desiderato.
 Il \emph{weight vector} viene generato partendo da un inseme di esempi utilizzati come training. Solitamente
 la funzione $f$ è una semplice funzione
@@ -538,7 +1046,7 @@ i tempi di calcolo vengono ridotti di tre ordini di grandezza (da svariate ore a
 
 Liblinear supporta due popolari classificatori binari \emph{LR, L2-regularized logistic regression} e 
 \emph{SVM L2-loss linear support vector machine}, dato un inseme di coppie
-indicizzate $(x_i,y_i),i=1,\dot{},l,x_i\in R^n, y_i \in \{-1,+1\}$ entrambi i metodi risolvono lo stesso
+indicizzate $(x_i,y_i),i=1,\dots{},l,x_i\in R^n, y_i \in \{-1,+1\}$ entrambi i metodi risolvono lo stesso
 problema di ottimizzazione senza vincoli ma con differenti \emph{loss functions} $\xi(w;x_i,y_i)$:
 \begin{equation}
 	min_w \frac{1}{2}w^Tw+C\sum_i=1^l\xi(w;x_i;y_i)
@@ -672,7 +1180,8 @@ Moshmonkey seems legit, keep on with the good work bra
 it was a grand explosion of blings in the middle of nowhere
 \end{verbatim}
 
-Per normalizzare il corpus è stato usato \emph{Twokenizer}, un tokenizzatore sviluppado dalla Carnagie Mellon per gestire dati provenienti da Twitter. 
+Per normalizzare il corpus è stato usato \emph{Twokenizer}, un tokenizzatore sviluppado dalla Carnagie Mellon University
+per gestire dati provenienti da Twitter. 
 Si è scelto di utilizzare questo Tokenizzatore perché, a parte i casi particolari indicati 
 nella tabella
 \ref{tab:messaggiTwitch} l'unica differenza importante che possiamo trovare tra i messaggi di Twitch e
@@ -683,7 +1192,7 @@ Twokenizer è stato oppurtunatamete
 modificato andando a sostituire tutte le emoticons espresse in caratteri UTF8 con un corrispettivo \emph{token}
 tramite una tabella di mapping (una parte di essa è mostrata nella figura \ref{fig:mappingEmo}). In
 questo modo si è evitato sia di dover gestire emoticons composte da caratteri multipli sia di gestire
-i caratteri UTF8 non supportati, come vedremo, da word2vec.
+i caratteri UTF8 non supportati, come vedremo, da \emph{word2vec}.
 In secondo luogo si è provveduto nella sostituzione di tutti gli \emph{URL} con il token \textbf{URL} ed infine
 sono stati ignorati i simboli \emph{\#} (che indicano i cosidetti hashtag, non presenti su Twitch),
 andandoli a trattare come normale segno di punteggiatura.
@@ -858,40 +1367,39 @@ Per automatizzare e integrare il processo di test, training, analisi e integrazi
 sono stati sviluppati diversi programmi e script utilizzando svariati linguaggi: \emph{BASH, Python} (sia 
 la versione 2.7 che 3.3) e \emph{C\#}.
 
-Tutto il software scritto per questa tesi e' disponibile nel \emph{repository Git} al seguente indirizzo:
-\footnote{\url{https://github.com/ManofWax}}.
+Infine, tutto il software scritto per questa tesi, e' disponibile in un \emph{repository Git}.
+\footnote{\url{https://github.com/ManofWax}}
 
 \subsection{RNNLM}
 \label{sss:rnnlm}
 Seguento le ricerche di Mikolov (2014) %todo
-e' stato suddiviso il corpus utilizzando come elemento discriminante le 25 emoticons individuate in precedenza.
+e' stato suddiviso il corpus utilizzando come elemento discriminante le 15 emoticon individuate in precedenza.
 In questo modo
-sono stati creati 25 file differenti, in ogni file sono presenti tutte le frasi in cui e' contenuta una determinata
-emoticons, nei file e' stata mantenuta la stesso ordinamento delle frasi originali.
+sono stati creati due file differenti uno contenente tutte le frasi con emoticon positive e un secondo contenente
+tutte le frasi in cui e' contenuta una emoticon negativa nei file e' stata mantenuta la stesso ordinamento delle frasi originali.
 Nel caso in cui, in una stessa frase, sia presente piu' di una emoticon essa e' stata inserito in due o piu' file
 differenti.
 
 Effettuata questa prima suddivisione sono state rimosse tutte le emoticon dai file ottenuti, ed e' stata effettuata 
 una ulteriore divisone in quelli che possiamo definire come file di \emph{train} e di \emph{test}.
-I file di \emph{train} contengono 25000 righe selezionate in maniera casuale tra tutte quelle del file originale,
-il file di test, invece, e' composto da 15000 righe sempre selezionate casualmente tra quelle del file originale.
+I file di \emph{train} utilizzati sono composti da 80.000 frasi selezionate in maniera casuale tra tutte quelle presenti nel file originale,
+il file di test, invece, e' composto da 20.000 frasi sempre selezionate casualmente tra quelle del file originale.
 Particolare attenzione e' stata posta nell'evitare che righe selezionate per il file di \emph{train}
 non vengano utilizzate anche in quello di \emph{test}.
 
 Il modello, per ogni file, e' stato generato utilizzando la seguente configurazione:
 
 \begin{verbatim}
-head -n 24800 $dir > $dir.train
-tail -n 200 $dir > $dir.valid
+head -n 75500 $dir > $dir.train
+tail -n 500 $dir > $dir.valid
 
 ./rnnlm -rnnlm $dir.model -train $dir.train -valid $dir.valid \
         -hidden 50 -direct-order 3 -direct 200 -class 100 -bptt 4 \
         -bptt-block 10 -binary
 \end{verbatim}
 
-Successivamente sono state prese 4 emoticons normalmente usate per esprimere un parere positivo e 6 per esmprimere un parere negativo e confrontate fra loro.
-Il confronto e' stato effettuato prendendo i modelli generati da i file di \emph{train}
-delle due differenti emoticon e i due file di \emph{test}. I file di \emph{test}
+Successivamente sono stati utilizzati i modelli generati da i due file di \emph{train}, quello contenete
+frasi positive e quello contenente frasi negative i due file di \emph{test}. I file di \emph{test}
 vengono uniti in modo da avere un file di test unico e utilizzando la funzione \textbf{n-best scoring} di RNNLM
 su questo file vengono gerenati due file risultati differenti, uno basato sul
 modello positivo e uno sul modello negativo.
@@ -904,7 +1412,47 @@ awk 'BEGIN{a=0;}{print a " " $0; a++;}' < test.txt > test-id.txt
 Infine vengono uniti e processati i due file dei risultati, se il rapporto tra il risultato ottenuto
 dal modello negativo con quello positivo e' maggiore di $1$ allora alla frase viene attribuito
 un valore positivo altrimenti gli viene assegnato un valore negativo.
+Sono stati eseguiti 5 test, ogni volta scegliendo le frasi che utilizzate per il file di \emph{train} e 
+quello di \emph{test} in maniera casuale. I valori ottenuti da una prima analisi sono i seguenti:
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+ & Accuracy & Precision & Recall & F-Score\\
+\hline
+Media 5 run & 96.946 &  0,801 & 0,793 & 0,791 \\
+%\hline
+%Test2 & 96.612 & 0,966 & 0,966 & 0,966\\
+%\hline
+%Test3 & 96.655 & 0,967 & 0,969 & 0,965\\
+%\hline
+%Test4 & 96.98 & 0,969 & 0,968 & 0,970\\
+%\hline
+%Test5 &
+\hline
+\end{tabular}
+\end{center}
+\caption{Confronto emoticons positive e negative}
+\label{tab:rposNeg}
+\end{table}
 
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+ Classificate come: & positiva & negativa \\
+\hline
+Test1 pos & 19365 & 5635 \\
+\hline
+Test1 neg & 3923 & 21077 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Confusion matrix}
+\label{tab:confusion}
+\end{table}
+%questa roba qui non la metto
+\iffalse
 Nelle tabelle sono rappresentate le percentuali di \emph{accuracy} ottenute:
 \begin{table}[H]
 \begin{center}
@@ -950,7 +1498,7 @@ Kreygasm & 77.41 & 82.8 & 79.178 & 49.62 \\
 
 In questo modo è facile notare che non solo RNNLM riesce a distinguere con alta probabilita'  tra frasi provenienti da emoticons positive e quelle da emoticons negative. 
 Ma riesce anche a distinguere con elevata precisione le differenze tra due diverse emoticons positive.
-
+\fi
 %\afterpage{
 %\clearpage
 %\thispagestyle{empty}
@@ -1022,29 +1570,50 @@ di \emph{logistic regression} per calcolare l'\emph{accurancy} sul file di \emph
 
 Infine, utilizzando lo stesso set di dati del paragrafo \ref{sss:rnnlm}, e' stata calcolata l'\emph{accurancy} tra coppie di emoticon positive e negative:
 
-\begin{table}[h]
+\begin{table}[H]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|}
 \hline
-pos/neg & Babyrage & Biblethump & Dansgame & Failfish & notlikethis & wutface \\
+ & Accuracy & Precision & Recall & F-Score\\
 \hline
-\hline
-4Head & 67.01 &  69.322 & 68 & 67 & 65.5 & 70.202 \\
-\hline
-Elegiggle & 69.37 & 71.696 & 70.74 & 67.54 & 69.7 & 68.28 \\
-\hline
-Kappa & 70.94 & 69.548 & 69.906 & 68.12 & 68.162 & 71.37 \\
-\hline
-Kreygasm & 69.44 & 71.96 & 70.33 & 72.43 & 67.76 & 71.32 \\
+Media 5 run & 95.246 &  0,951 & 0,953 & 0,952 \\
+%\hline
+%Test2 & 96.612 & 0,966 & 0,966 & 0,966\\
+%\hline
+%Test3 & 96.655 & 0,967 & 0,969 & 0,965\\
+%\hline
+%Test4 & 96.98 & 0,969 & 0,968 & 0,970\\
+%\hline
+%Test5 &
 \hline
 \end{tabular}
 \end{center}
-\caption{Confronto emoticon positive e negative}
-\label{tab:liblinearTest1}
+\caption{Confronto emoticons positive e negative}
+\label{tab:wposNeg}
+\end{table}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+ Classificate come: & positiva & negativa \\
+\hline
+Test1 pos & 19365 & 5635 \\
+\hline
+Test1 neg & 3923 & 21077 \\
+\hline
+\hline
+Test2 pos & 20892 & 4108 \\
+\hline
+Test2 neg & 5919 & 19081 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Confusion matrix}
+\label{tab:word2vecconfusion}
 \end{table}
 
 Anche in questo caso, come e' avvenuto con \emph{RNNLM}, possiamo notare come \emph{word2vec} riesca a distinguere tra le varie emoticon con precisione di circa il $70\%$.
-Confrontando i valori si puo' vedere come la precisione sia comunque inferiore di quella calcolata con \emph{RNNLM} di circa 10 punti percentuali.
 
 %Sono stati effettuati anche alcuni test utilizzando tutti i vari algoritmi disponibili da liblinear; questo test è stato svolto utilizzando tutti i parametri di default e testato con tutti gli algoritmi la seconda colonna rappresenta i risulati ottenuti con -c 2
 %\begin{table}[h]
@@ -1102,7 +1671,7 @@ sono stati effettuati eseguendo sia \textbf{RNNLM} e poi successivamente \textbf
 Come citato nel paper
 %todo
 sono state confrontate le probabilita' logaritmiche di entrambi i modelli utilizzando l'interpolazione lineare.
-Piu' formalmente, e' stata definita la probabilita' complessima come la media geometrica pesata
+Piu' formalmente, e' stata definita la probabilita' complessiva come la media geometrica pesata
 dei modelli:
 \begin{equation}
 	p(y=+1|x)=\prod p^k(y=+1|x)^{\alpha_k}, con \alpha_k > 0
@@ -1110,14 +1679,13 @@ dei modelli:
 \end{equation}
 La ricerca di $\alpha$ e' stata effettuata utilizzando un \emph{brute force grid search}, quantificando
 i valori dei coefficenti nell'intervallo $[0,1]$ in incrementi di $0,1$.
-Questa ricerca viene controllata tramite un corpus di validazione in modo da evitare l'overfitting.
+Questa ricerca viene controllata tramite un corpus di validazione in modo da evitare l'overfitting, nel particolare
+e' stato usato un testo di valutazione formato da 4.000 frasi pari, cioe', al $20\%$ del file di \emph{test}. 
 
 Da come è stato possibile leggere nei capitoli precedenti sono stati eseguiti due test: il primo utilizzando i dati della tabella  \ref{tab:rnnlmTest1}, mentre il secondo è stato svolto utililzando tutte le emoticons positive 
 e negative descritte nella tabella \ref{tab:emoticons1}. 
-I test sono stati sempre svolti con un corpus di training di 12500 righe per file (file positivo e negativo) scelte casualmente tra tutto il corpus e un test di 25000 per file. I sentence vectors sono stati generati utililzando l'intero corpus di emoticons positive, negative e neutre non limitato al numero di righe prese in considerazione per i file di training e test.
+I test sono stati sempre svolti con un corpus di training di 80000 frasi per file (file positivo e negativo) scelte casualmente tra tutto il corpus e un test composto da 20000 frasi per file. I vectors sono stati generati utililzando l'intero corpus di emoticons positive, negative e neutre non limitato al numero di righe prese in considerazione per i file di training e test.
 
-Per rapportare i dati ottenuti da \emph{RNNLM} con quelli di \emph{word2vec} e' stato utilizzato lo stesso procedimento
-descritto da 
 I risultati ottenuti sono i seguenti:
 \begin{table}[h]
 \begin{center}
@@ -1131,7 +1699,7 @@ no ripetizioni 2 & 73.34 & 67.50 & 74.85  \\
 \hline
 no ripetizioni 3 & 72.13 & 66.78 & 75.01  \\
 \hline
-standard 1 & 79.52 & 67.01 & 79.89 \\
+standard 1 & 80.52 & 69.61 & 82.89 \\
 \hline
 standard 2 & 80.33 & 69.23 & 81.01 \\
 \hline
@@ -1159,7 +1727,7 @@ I test sono stati effettuati utilizzando altre 25000 righe provenienti da entram
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
-& rnnlm & c liblinear & totale \\
+& rnnlm & word2vec & totale \\
 \hline
 \hline
 Test 1 & 54.20 & 52.32 & 53.30 \\
@@ -1178,7 +1746,7 @@ I risultati cosi bassi sono dovuti al fatto che, anche se concettualmente le emo
 In altre parole il sistema si ``confonde`` tra le varie emoticons positive e quelle negative. Come indicato nelle tabelle del capitolo \ref{ch:rnnlm} è facile vedere come l'algoritmo riecsca a differenziare molto 
 bene anche tra emoticons che esprimono lo stesso giudizio (positivo o negativo). Utilizzando frasi provenienti da tutte queste emoticon il training considera della stessa ``distanza`` 
 sia le eventuali emoticons positive che quelle negative e riesce a distinguere le frasi in maniera molto meno precisa.
-
+\iffalse
 \subsection{Miglioramento risultati analisi con più emoticons}
 Sono state fatte numerose prove per migliorare la precisione del risultato, la soluzione utilizzata, cioè quella che ha raggiunto un livello di accurancy più alta è stata la seguente:
 Sono state suddivise le frasi per ogni emoticons considerata: quindi il corpus è stato suddiviso in 7 file positivi e 8 negativi. Prendendo 12500 righe casuali da ognuno di questi file è stato generato un modello per ogni singolo file utilizzando rnnlm e liblinear.(I vettori utilizzati per liblinear sono stati sempre costruiti nel solito modo tenendo conto dell'intero corpus quindi anche delle frasi neutre). In questo modo sono stati ottenuti 8 modelli per le emoticons negative e 7 per le emoticons negative.
@@ -1212,8 +1780,8 @@ Test 3 & 72.52 & 62.01 & 73.89 \\
 \caption{test liblinear}
 \label{tab:test3}
 \end{table}
-
-\section{Baseline}
+\fi
+\subsection{Baseline}
 Come baseline è stato effettuato, sugli stessi dati utilizzati nel test precendente, un BOW utilizzando Weka e processando i risultati utilizzando liblinear con gli stessi parametri utilizzati per per word2vec. I risultati sono indicati nella tabella \ref{tab:baseTest1}
 \begin{table}[h]
 \begin{center}
@@ -1222,11 +1790,11 @@ Come baseline è stato effettuato, sugli stessi dati utilizzati nel test precend
 & risultato  \\
 \hline
 \hline
-Test 1 & 62.22 \\
+Test 1 & 63.22 \\
 \hline
-Test 2 & 63.56 \\
+Test 2 & 64.56 \\
 \hline
-Test 3 & 63.41 \\
+Test 3 & 64.41 \\
 \hline
 \end{tabular}
 \end{center}
