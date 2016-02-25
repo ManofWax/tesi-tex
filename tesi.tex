@@ -15,6 +15,19 @@
 \usepackage{array}
 \usepackage{multirow}
 \usepackage[final]{pdfpages}
+\usepackage[small,bf,labelsep=none]{caption}
+\usepackage{listings}
+\usepackage[bookmarks=true,hyperfootnotes=true]{hyperref}
+\hypersetup{
+			colorlinks=true,
+			linkcolor=black,
+			anchorcolor=black,
+			citecolor=black,
+			urlcolor=black,
+			pdftitle={IntML: algoritmi di sort},
+			pdfauthor={Federico Foschini},
+			pdfkeywords={functional programming, sublinear space, logarithmic space, computational complexity, IntML, space bounded computation}
+}
 
 \theoremstyle{definition}
 \newtheorem{es}{Esempio}[section]
@@ -43,7 +56,7 @@
 \hbox{}
 \vspace*{\fill}
 \begin{center}
-\textit{ }
+\textit{}
 \end{center}
 \vspace{\fill}
 \thispagestyle{empty}
@@ -56,28 +69,26 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%definisce nuovi comandi
 
 \begin{document}
+\pagenumbering{alph}
 \includepdf[noautoscale=true,pages={1,2}]{frontespizio.pdf}
+\pagenumbering{roman}                   %serve per mettere i numeri romani
+
+\begin{titlepage} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%non numera l'ultima pagina sinistra
 \clearpage{\pagestyle{empty}\cleardoublepage}
-\tableofcontents                        %crea l'indice
+\end{titlepage}
+\chapter*{Introduzione}                 %crea l'introduzione (un capitolo
+                                        %   non numerato)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%imposta l'intestazione di pagina
-\rhead[\fancyplain{}{\bfseries\leftmark}]{\fancyplain{}{\bfseries\thepage}}
+\rhead[\fancyplain{}{\bfseries
+Introduzione}]{\fancyplain{}{\bfseries\thepage}}
 \lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\bfseries
-Indice}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%non numera l'ultima pagina sinistra
-%\clearpage{\pagestyle{empty}\cleardoublepage}
-%\listoffigures                          %crea l'elenco delle figure
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%non numera l'ultima pagina sinistra
-%\clearpage{\pagestyle{empty}\cleardoublepage}
-%\listoftables                           %crea l'elenco delle tabelle
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%non numera l'ultima pagina sinistra
-%\clearpage{\pagestyle{empty}\cleardoublepage}
+Introduzione}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%aggiunge la voce Introduzione
+                                        %   nell'indice
+\phantomsection
+\addcontentsline{toc}{chapter}{Introduzione}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%imposta l'intestazione di pagina
-\lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\bfseries\rightmark}}
-
-
-\chapter{Introduzione}
 Il lavoro svolto durante questa tesi mira alla progettazione di un sistema di analisi 
 in grado di rilevare e classificare le opinioni e i sentimenti espressi dagli utenti,
 tramite chat,
@@ -86,7 +97,7 @@ Nella tesi vengono presentati i risultati ottenuti dall'utilizzo di vari modelli
 e termina presentato come il modello utilizzato sia in grado di valutare l'andamento giornaliero
 di una particolare trasmissione attraverso l'analisi dei commenti espressi dagli spettatori.
 
-\section{Sentiment Analysis}
+\section*{Sentiment Analysis}
 \label{sec:sentAnal}
 Con il termine \emph{Sentiment analysis}, o \emph{opinion minig}, si intende uno studio 
 che analizza le opinioni, i sentimenti, le valutazioni e le
@@ -140,7 +151,7 @@ In secondo luogo, il grande interesse dimostrato da parte del mercato ha portato
 applicazioni commerciali e ad una costante ricerca della soluzione di problemi
 che fino ad ora non erano ancora stati studiati.
 
-\subsection{Applicazioni della Sentiment Analysis}
+\subsection*{Applicazioni della Sentiment Analysis}
 Partiamo dunque dal presupposto che le opinioni e i pareri siano la base di tutte le attività sociali,
  essendo la chiave che influenza il nostro comportamento. Nel mondo reale, aziende e multinazionali 
  sono costantemente alla ricerca di giudizi e pareri dati dai consumatori  rispetto ai loro prodotti. 
@@ -158,7 +169,7 @@ scritte nel post di un blog o in un forum, che rendono difficoltosa anche ad un 
 e la sintesi delle informazioni utili: ecco perché diventa cosi importante uno studio finalizzato e 
 strutturato in un determinato ambito.
 
-\section{La piattaforma web Twitch.tv}
+\section*{La piattaforma web Twitch.tv}
 
 La piattaforma web Twitch.tv \footnote{\url{http://wwww.twitch.tv}} è nata del 2011 come uno ramo
 della piattaforma di \emph{streaming} Justin.tv. Il sito ora è stato comprato da Amazon.com e si
@@ -184,23 +195,47 @@ Tramite una chat gli spettatori possono interagire con il \emph{conduttore} e co
 trasmessi, proprio i dati di queste chat sono stati raccolti in questa tesi ed utilizzati per effettuare
 valutazioni e analisi della polarità dei contenuti.
 
-\section{Organizzazione del lavoro}
+\section*{Organizzazione del lavoro}
 Viene presentato una sintesi dei contenuti presenti in questa tesi:
 \begin{itemize}
-\item Capitolo 2: In questo capitolo viene introdotto il tema della \emph{sentiment analysis} e
+\item Capitolo 1: In questo capitolo viene introdotto il tema della \emph{sentiment analysis} e
 viene definito formalmente il problema della \emph{sentiment classification} e vengono presentati vari approcci al problema insieme a ricerche specifiche
 che mostrano i risultati ottenuti.
 Nella seconda
 parte del capitolo vengono analizzati nello specifico i modelli e gli strumenti utilizzati nella tesi.
-\item Capitolo 3: Il terzo capitolo presenta il progetto di tesi. Nella prima parte viene descritto
+\item Capitolo 2: Il terzo capitolo presenta il progetto di tesi. Nella prima parte viene descritto
 la metodologia applicata per la normalizzazione del testo, successivamente vengono applicati i modelli
 descritti e mostrati i risultati ottenuti. Nella parte finale effettuata un analisi sull'andamento
 giornaliero di trasmissioni di alcuni utenti mostrando l'andamento della polarità della chat.
-\item Capitolo 4: In quest'ultimo capitolo si traggono le conclusioni mostrando gli aspetti positivi e negativi
+\item Capitolo 3: In quest'ultimo capitolo si traggono le conclusioni mostrando gli aspetti positivi e negativi
 del sistema utilizzato e viene concluso il lavoro indicando possibili miglioramenti e sviluppi futuri.
-\end{itemize}
+\end{itemize}       %   non numerato)
+%%%%%%%%%%%%%%%% FINE intro 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%non numera l'ultima pagina sinistra
+\clearpage{\pagestyle{empty}\cleardoublepage}
+\tableofcontents                        %crea l'indice
+%\listoffigures
+%\listoftables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%imposta l'intestazione di pagina
+\rhead[\fancyplain{}{\bfseries\leftmark}]{\fancyplain{}{\bfseries\thepage}}
+\lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\bfseries
+Indice}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%non numera l'ultima pagina sinistra
+%\clearpage{\pagestyle{empty}\cleardoublepage}
+%\listoffigures                          %crea l'elenco delle figure
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%non numera l'ultima pagina sinistra
+%\clearpage{\pagestyle{empty}\cleardoublepage}
+%\listoftables                           %crea l'elenco delle tabelle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%non numera l'ultima pagina sinistra
+%\clearpage{\pagestyle{empty}\cleardoublepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%imposta l'intestazione di pagina
+\lhead[\fancyplain{}{\bfseries\thepage}]{\fancyplain{}{\bfseries\rightmark}}
+
 
 \chapter{Approcci alla sentiment analysis}
+\pagenumbering{arabic}
 
 Lo scopo di questo capitolo è quello di introdurre i concetti base della \emph{sentiment analysis}, 
 presentare la varie metodologie utilizzate in questo tipo di analisi e descriverle brevemente per poi 
